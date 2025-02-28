@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
-// import { db } from "../firebase/firebaseConfig"; // If needed for Firestore.
+import { db } from "../firebase/firebaseConfig"; // If needed for Firestore.
 
 export default function SignIn() {
   const [name, setName] = useState("");
@@ -10,9 +10,7 @@ export default function SignIn() {
 
   const handleSignIn = () => {
     if (!name.trim()) return;
-    // Save name to Firebase or global state if you want:
-    // ...
-    router.replace("/Dashboard"); // or push if you want them to be able to go back
+    router.replace("/Dashboard");
   };
 
   return (
