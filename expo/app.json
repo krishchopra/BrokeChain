@@ -1,37 +1,50 @@
 {
-  "expo": {
-    "name": "example",
-    "slug": "example",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.vaibhav0806.okto-rn"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.vaibhav0806.okto_rn"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "cbd44f70-8f16-4fc1-90ea-8fd0826a427c"
-      }
-    }
-  }
+	"expo": {
+		"name": "example",
+		"slug": "example",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.vaibhav0806.okto-rn",
+			"config": {
+				"googleSignIn": {
+					"reservedClientId": "com.googleusercontent.apps.1014198787518-su651hjv6ssra0k974585dk2eos8fgs2"
+				}
+			},
+			"deploymentTarget": "13.0",
+			"infoPlist": {
+				"CFBundleURLTypes": [
+					{
+						"CFBundleURLSchemes": [
+							"com.googleusercontent.apps.1014198787518-su651hjv6ssra0k974585dk2eos8fgs2"
+						]
+					}
+				]
+			}
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"package": "com.vaibhav0806.okto_rn"
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "cbd44f70-8f16-4fc1-90ea-8fd0826a427c"
+			}
+		}
+	}
 }
