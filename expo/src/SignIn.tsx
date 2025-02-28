@@ -38,7 +38,7 @@ export default function SignIn({ onSignIn }: SignInProps) {
 
 	useEffect(() => {
 		handleGoogleLogin();
-	});
+	}, []);
 
-	return <Button title="SignIn" onPress={handleGoogleLogin} />;
+	return <Button title="Sign in with Google" onPress={handleGoogleLogin} />;
 }
