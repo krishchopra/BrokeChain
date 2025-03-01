@@ -7,33 +7,33 @@ import { AnimatePresence, motion } from "framer-motion";
    ICONS
    ===================== */
 const Icons = {
-  Home: () => (
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-      <path
-        d="M3 9L12 2L21 9V20C21 20.5304 
+	Home: () => (
+		<svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+			<path
+				d="M3 9L12 2L21 9V20C21 20.5304 
         20.7893 21.0391 20.4142 21.4142C20.0391 
         21.7893 19.5304 22 19 22H5C4.46957 
         22 3.96086 21.7893 3.58579 
         21.4142C3.21071 21.0391 3 20.5304 
         3 20V9Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 22V12H15V22"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  Audit: () => (
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-      <path
-        d="M9 9H15M9 13H15M9 17H12M5 
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+			<path
+				d="M9 22V12H15V22"
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	),
+	Audit: () => (
+		<svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+			<path
+				d="M9 9H15M9 13H15M9 17H12M5 
         7.8C5 6.11984 5 5.27976 5.32698 
         4.63803C5.6146 4.07354 6.07354 
         3.6146 6.63803 3.32698C7.27976 3 
@@ -49,44 +49,44 @@ const Icons = {
         20.3854 5.6146 19.9265 5.32698 
         19.362C5 18.7202 5 17.8802 
         5 16.2V7.8Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  History: () => (
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-      <path
-        d="M12 8V12L15 
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	),
+	History: () => (
+		<svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+			<path
+				d="M12 8V12L15 
         15M21 12C21 16.9706 16.9706 21 12 
         21C7.02944 21 3 16.9706 3 
         12C3 7.02944 7.02944 3 12 
         3C16.9706 3 21 7.02944 21 
         12Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  Settings: () => (
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-      <path
-        d="M12 15C13.6569 15 15 
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	),
+	Settings: () => (
+		<svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+			<path
+				d="M12 15C13.6569 15 15 
         13.6569 15 12C15 10.3431 13.6569 
         9 12 9C10.3431 9 9 10.3431 9 
         12C9 13.6569 10.3431 15 12 
         15Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M19.4 15C19.2669 15.3016 
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+			<path
+				d="M19.4 15C19.2669 15.3016 
         19.2272 15.6362 19.286 
         15.9606C19.3448 16.285 19.4995 
         16.5843 19.73 16.82L19.79 
@@ -207,33 +207,33 @@ const Icons = {
         14.0966 20.0055 14.2743C19.7372 
         14.452 19.5268 14.7042 19.4 
         15Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  Download: () => (
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-      <path
-        d="M21 15V19C21 19.5304 20.7893 20.0391 
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	),
+	Download: () => (
+		<svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+			<path
+				d="M21 15V19C21 19.5304 20.7893 20.0391 
         20.4142 20.4142C20.0391 20.7893 19.5304 
         21 19 21H5C4.46957 21 3.96086 20.7893 
         3.58579 20.4142C3.21071 20.0391 3 
         19.5304 3 19V15M7 10L12 15M12 15L17 
         10M12 15V3"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  Clear: () => (
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-      <path
-        d="M19 7L18.1327 19.1425C18.0579 
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	),
+	Clear: () => (
+		<svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+			<path
+				d="M19 7L18.1327 19.1425C18.0579 
         20.1891 17.187 21 16.1378 
         21H7.86224C6.81296 21 5.94208 
         20.1891 5.86732 19.1425L5 7M10 
@@ -241,534 +241,562 @@ const Icons = {
         3.44772 14.5523 3 14 3H10C9.44772 
         3 9 3.44772 9 4V7M4 
         7H20"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  Send: () => (
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-      <path
-        d="M22 2L11 13M22 
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	),
+	Send: () => (
+		<svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+			<path
+				d="M22 2L11 13M22 
         2L15 22L11 13M22 
         2L2 9L11 13"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
+				stroke="currentColor"
+				strokeWidth="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	),
 };
 
 /* =====================
    NAV ITEMS
    ===================== */
 const navItems = [
-  { id: "home", label: "Home", icon: <Icons.Home /> },
-  { id: "audit", label: "Audit", icon: <Icons.Audit /> },
-  { id: "history", label: "History", icon: <Icons.History /> },
-  { id: "settings", label: "Settings", icon: <Icons.Settings /> },
+	{ id: "home", label: "Home", icon: <Icons.Home /> },
+	{ id: "audit", label: "Audit", icon: <Icons.Audit /> },
+	{ id: "history", label: "History", icon: <Icons.History /> },
+	{ id: "settings", label: "Settings", icon: <Icons.Settings /> },
 ];
 
 /* =====================
    SIDE DRAWER
    ===================== */
 function SideDrawer({ currentPage, setCurrentPage }) {
-  return (
-    <aside className="side-drawer open">
-      <nav>
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            className={currentPage === item.id ? "active" : ""}
-            onClick={() => setCurrentPage(item.id)}
-          >
-            {item.icon}
-            <span>{item.label}</span>
-          </button>
-        ))}
-      </nav>
-      {/* <div className="drawer-footer">
+	return (
+		<aside className="side-drawer open">
+			<nav>
+				{navItems.map((item) => (
+					<button
+						key={item.id}
+						className={currentPage === item.id ? "active" : ""}
+						onClick={() => setCurrentPage(item.id)}
+					>
+						{item.icon}
+						<span>{item.label}</span>
+					</button>
+				))}
+			</nav>
+			{/* <div className="drawer-footer">
         <p className="version-tag">Version 1.0</p>
       </div> */}
-    </aside>
-  );
+		</aside>
+	);
 }
 
 /* =====================
    CONFIDENCE GAUGE
    ===================== */
 function ConfidenceGauge({ score }) {
-  const radius = 45;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (score / 100) * circumference;
+	const radius = 45;
+	const circumference = 2 * Math.PI * radius;
+	const offset = circumference - (score / 100) * circumference;
 
-  return (
-    <div className="gauge-container">
-      <svg className="gauge">
-        <circle className="gauge-bg" cx="50%" cy="50%" r={radius} />
-        <circle
-          className="gauge-progress"
-          cx="50%"
-          cy="50%"
-          r={radius}
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-        />
-        <text x="50%" y="54%" textAnchor="middle" className="gauge-text">
-          {score}%
-        </text>
-      </svg>
-      <p>Confidence Score</p>
-    </div>
-  );
+	return (
+		<div className="gauge-container">
+			<svg className="gauge">
+				<circle className="gauge-bg" cx="50%" cy="50%" r={radius} />
+				<circle
+					className="gauge-progress"
+					cx="50%"
+					cy="50%"
+					r={radius}
+					strokeDasharray={circumference}
+					strokeDashoffset={offset}
+				/>
+				<text
+					x="50%"
+					y="54%"
+					textAnchor="middle"
+					className="gauge-text"
+				>
+					{score}%
+				</text>
+			</svg>
+			<p>Confidence Score</p>
+		</div>
+	);
 }
 
 /* =====================
    VULNERABILITY CARD
    ===================== */
 function VulnerabilityCard({ vuln, index }) {
-  const [expanded, setExpanded] = useState(false);
+	const [expanded, setExpanded] = useState(false);
 
-  return (
-    <div className="vuln-card">
-      <div className="vuln-header">
-        <h3>
-          {index + 1}. {vuln.type}
-        </h3>
-        <span className={`severity-badge ${vuln.severity.toLowerCase()}`}>
-          {vuln.severity}
-        </span>
-      </div>
-      <div className="vuln-content">
-        <strong>Recommendation:</strong> {vuln.recommendation}
-      </div>
-      {vuln.lineReferences && (
-        <button
-          className="expand-btn"
-          onClick={() => setExpanded((prev) => !prev)}
-        >
-          {expanded ? "Hide Code Snippet" : "View Code Snippet"}
-        </button>
-      )}
-      {expanded && vuln.lineReferences && (
-        <pre className="code-snippet">
-          <code>{vuln.lineReferences}</code>
-        </pre>
-      )}
-    </div>
-  );
+	return (
+		<div className="vuln-card">
+			<div className="vuln-header">
+				<h3>
+					{index + 1}. {vuln.type}
+				</h3>
+				<span
+					className={`severity-badge ${vuln.severity.toLowerCase()}`}
+				>
+					{vuln.severity}
+				</span>
+			</div>
+			<div className="vuln-content">
+				<strong>Recommendation:</strong> {vuln.recommendation}
+			</div>
+			{vuln.lineReferences && (
+				<button
+					className="expand-btn"
+					onClick={() => setExpanded((prev) => !prev)}
+				>
+					{expanded ? "Hide Code Snippet" : "View Code Snippet"}
+				</button>
+			)}
+			{expanded && vuln.lineReferences && (
+				<pre className="code-snippet">
+					<code>{vuln.lineReferences}</code>
+				</pre>
+			)}
+		</div>
+	);
 }
 
 /* =====================
    AUTO-FIX
    ===================== */
 function AutoFixSuggestion({ fixCode }) {
-  if (!fixCode) return null;
-  return (
-    <div className="auto-fix">
-      <h3>AI Auto-Fix Suggestion</h3>
-      <pre className="code-snippet">
-        <code>{fixCode}</code>
-      </pre>
-    </div>
-  );
+	if (!fixCode) return null;
+	return (
+		<div className="auto-fix">
+			<h3>AI Auto-Fix Suggestion</h3>
+			<pre className="code-snippet">
+				<code>{fixCode}</code>
+			</pre>
+		</div>
+	);
 }
 
 /* =====================
    HOME PAGE
    ===================== */
 function Home() {
-  return (
-    <div className="page-content home-page pb-5">
-      <h2>Welcome to the BrokeChain Auditor!</h2>
-      <p>
-        This tool analyzes Solidity code or GitHub repos for vulnerabilities,
-        giving you a confidence score and recommended fixes.
-      </p>
-      <p className>Use the side navigation to get started!</p>
-    </div>
-  );
+	return (
+		<div className="page-content home-page">
+			<h2>Welcome to the BrokeChain Auditor!</h2>
+			<div className="mt-10">
+				<p>
+					This tool analyzes Solidity code or GitHub repos for
+					vulnerabilities, giving you a confidence score and
+					recommended fixes.
+				</p>
+			</div>
+			<div className="mt-5">
+				<p>Use the side navigation to get started!</p>
+			</div>
+		</div>
+	);
 }
 
 /* =====================
    HISTORY
    ===================== */
 function History() {
-  const mockHistory = [
-    { id: 1, date: "2025-02-28", codeSnippet: "contract MyToken {...}" },
-    { id: 2, date: "2025-02-27", codeSnippet: "contract AnotherContract {...}" },
-  ];
+	const mockHistory = [
+		{ id: 1, date: "2025-02-28", codeSnippet: "contract MyToken {...}" },
+		{
+			id: 2,
+			date: "2025-02-27",
+			codeSnippet: "contract AnotherContract {...}",
+		},
+	];
 
-  return (
-    <div className="page-content history-page">
-      <h2>Past Audits</h2>
-      {mockHistory.map((item) => (
-        <div key={item.id} className="history-item vuln-card">
-          <p>
-            <strong>Date:</strong> {item.date}
-          </p>
-          <pre className="code-snippet">
-            <code>{item.codeSnippet}</code>
-          </pre>
-          <hr />
-        </div>
-      ))}
-    </div>
-  );
+	return (
+		<div className="page-content history-page">
+			<h2>Past Audits</h2>
+			{mockHistory.map((item) => (
+				<div key={item.id} className="history-item vuln-card">
+					<p>
+						<strong>Date:</strong> {item.date}
+					</p>
+					<pre className="code-snippet">
+						<code>{item.codeSnippet}</code>
+					</pre>
+					<hr />
+				</div>
+			))}
+		</div>
+	);
 }
 
 /* =====================
    SETTINGS
    ===================== */
 function SettingsOption({ label, description, defaultChecked }) {
-  return (
-    <div className="settings-option">
-      <label className="toggle-switch">
-        <input type="checkbox" defaultChecked={defaultChecked} />
-        <span className="toggle-slider"></span>
-      </label>
-      <div className="settings-label">
-        <p>{label}</p>
-        <span className="settings-description">{description}</span>
-      </div>
-    </div>
-  );
+	return (
+		<div className="settings-option">
+			<label className="toggle-switch">
+				<input type="checkbox" defaultChecked={defaultChecked} />
+				<span className="toggle-slider"></span>
+			</label>
+			<div className="settings-label">
+				<p>{label}</p>
+				<span className="settings-description">{description}</span>
+			</div>
+		</div>
+	);
 }
 
 function Settings() {
-  return (
-    <div className="page-content settings-page">
-      <h2>Settings</h2>
+	return (
+		<div className="page-content settings-page">
+			<h2>Settings</h2>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="settings-section"
-      >
-        <h3>Display Settings</h3>
-        <div className="settings-options">
-          <SettingsOption
-            label="Enable Dark Mode"
-            description="Toggle between light and dark interface"
-            defaultChecked={false}
-          />
-          <SettingsOption
-            label="Animations"
-            description="Enable UI animations"
-            defaultChecked
-          />
-        </div>
-      </motion.div>
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5 }}
+				className="settings-section"
+			>
+				<h3>Display Settings</h3>
+				<div className="settings-options">
+					<SettingsOption
+						label="Enable Dark Mode"
+						description="Toggle between light and dark interface"
+						defaultChecked={false}
+					/>
+					<SettingsOption
+						label="Animations"
+						description="Enable UI animations"
+						defaultChecked
+					/>
+				</div>
+			</motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-        className="settings-section"
-      >
-        <h3>Audit Settings</h3>
-        <div className="settings-options">
-          <SettingsOption
-            label="Auto-Fix Generation"
-            description="Automatically generate fix suggestions"
-            defaultChecked
-          />
-          <SettingsOption
-            label="Extended Analysis"
-            description="Use slower but more comprehensive tools"
-            defaultChecked
-          />
-        </div>
-      </motion.div>
-    </div>
-  );
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ delay: 0.2, duration: 0.5 }}
+				className="settings-section"
+			>
+				<h3>Audit Settings</h3>
+				<div className="settings-options">
+					<SettingsOption
+						label="Auto-Fix Generation"
+						description="Automatically generate fix suggestions"
+						defaultChecked
+					/>
+					<SettingsOption
+						label="Extended Analysis"
+						description="Use slower but more comprehensive tools"
+						defaultChecked
+					/>
+				</div>
+			</motion.div>
+		</div>
+	);
 }
 
 /* =====================
    AUDIT PAGE
    ===================== */
 function Audit() {
-  const [analysisType, setAnalysisType] = useState("solidity");
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [typingMessage, setTypingMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [vulnerabilities, setVulnerabilities] = useState([]);
-  const [confidenceScore, setConfidenceScore] = useState(0);
-  const [autoFixCode, setAutoFixCode] = useState("");
-  const typingIntervalRef = useRef(null);
+	const [analysisType, setAnalysisType] = useState("solidity");
+	const [input, setInput] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [typingMessage, setTypingMessage] = useState("");
+	const [messages, setMessages] = useState([]);
+	const [vulnerabilities, setVulnerabilities] = useState([]);
+	const [confidenceScore, setConfidenceScore] = useState(0);
+	const [autoFixCode, setAutoFixCode] = useState("");
+	const typingIntervalRef = useRef(null);
 
-  const formatReport = (report) => {
-    if (!report?.vulnerabilities?.length) {
-      return "# No vulnerabilities found.\nEverything looks good!";
-    }
-    let md = "# Vulnerability Report\n\n";
-    report.vulnerabilities.forEach((vuln, i) => {
-      md += `## ${i + 1}. ${vuln.type}\n`;
-      md += `**Severity:** ${vuln.severity}\n\n`;
-      md += `**Recommendation:** ${vuln.recommendation}\n\n`;
-    });
-    return md;
-  };
+	const formatReport = (report) => {
+		if (!report?.vulnerabilities?.length) {
+			return "# No vulnerabilities found.\nEverything looks good!";
+		}
+		let md = "# Vulnerability Report\n\n";
+		report.vulnerabilities.forEach((vuln, i) => {
+			md += `## ${i + 1}. ${vuln.type}\n`;
+			md += `**Severity:** ${vuln.severity}\n\n`;
+			md += `**Recommendation:** ${vuln.recommendation}\n\n`;
+		});
+		return md;
+	};
 
-  const startTyping = (finalText) => {
-    let currentIndex = 0;
-    setTypingMessage("");
+	const startTyping = (finalText) => {
+		let currentIndex = 0;
+		setTypingMessage("");
 
-    if (typingIntervalRef.current) {
-      clearInterval(typingIntervalRef.current);
-    }
-    typingIntervalRef.current = setInterval(() => {
-      if (currentIndex < finalText.length) {
-        setTypingMessage((prev) => prev + finalText[currentIndex]);
-        currentIndex++;
-      } else {
-        clearInterval(typingIntervalRef.current);
-        typingIntervalRef.current = null;
-      }
-    }, 5);
-  };
+		if (typingIntervalRef.current) {
+			clearInterval(typingIntervalRef.current);
+		}
+		typingIntervalRef.current = setInterval(() => {
+			if (currentIndex < finalText.length) {
+				setTypingMessage((prev) => prev + finalText[currentIndex]);
+				currentIndex++;
+			} else {
+				clearInterval(typingIntervalRef.current);
+				typingIntervalRef.current = null;
+			}
+		}, 5);
+	};
 
-  // Update bot message with typed text
-  useEffect(() => {
-    if (!messages.length) return;
-    const updated = [...messages];
-    const lastIdx = updated.length - 1;
-    if (updated[lastIdx].sender === "bot") {
-      updated[lastIdx] = { ...updated[lastIdx], text: typingMessage };
-      setMessages(updated);
-    }
-  }, [typingMessage, messages]);
+	// Update bot message with typed text
+	useEffect(() => {
+		if (!messages.length) return;
+		const updated = [...messages];
+		const lastIdx = updated.length - 1;
+		if (updated[lastIdx].sender === "bot") {
+			updated[lastIdx] = { ...updated[lastIdx], text: typingMessage };
+			setMessages(updated);
+		}
+	}, [typingMessage, messages]);
 
-  // *********************
-  // REAL API CALL HERE
-  // *********************
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+	// *********************
+	// REAL API CALL HERE
+	// *********************
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (!input.trim()) return;
 
-    // Add user message
-    setMessages((prev) => [...prev, { sender: "user", text: input }]);
-    setLoading(true);
+		// Add user message
+		setMessages((prev) => [...prev, { sender: "user", text: input }]);
+		setLoading(true);
 
-    try {
-      const apiKey = process.env.REACT_APP_OPENAI_SECRET_KEY;
-      console.log(apiKey);
-      const preTrainedDataText = "No pre-trained data";
-      const payload = {
-        api_key: apiKey,
-        pre_traineddata_text: preTrainedDataText,
-        prompt: input,
-      };
+		try {
+			const apiKey = process.env.REACT_APP_OPENAI_SECRET_KEY;
+			console.log(apiKey);
+			const preTrainedDataText = "No pre-trained data";
+			const payload = {
+				api_key: apiKey,
+				pre_traineddata_text: preTrainedDataText,
+				prompt: input,
+			};
 
-      const response = await fetch(
-        "https://daniyalmoha-solidity-contract-auditor.hf.space/analyze_smart_contract",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+			const response = await fetch(
+				"https://daniyalmoha-solidity-contract-auditor.hf.space/analyze_smart_contract",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(payload),
+				}
+			);
 
-      if (!response.ok) {
-        throw new Error("API request failed.");
-      }
+			if (!response.ok) {
+				throw new Error("API request failed.");
+			}
 
-      const result = await response.json();
+			const result = await response.json();
 
+			console.log(result);
+			const convertedVulnerabilities = (result.vulnerabilities || []).map(
+				(vuln) => ({
+					type: vuln.title,
+					severity:
+						vuln.severity.charAt(0).toUpperCase() +
+						vuln.severity.slice(1),
+					recommendation: vuln.description,
+					lineReferences: vuln.codeSnippet,
+				})
+			);
 
-      console.log(result);
-      const convertedVulnerabilities = (result.vulnerabilities || []).map(
-        (vuln) => ({
-          type: vuln.title,
-          severity: vuln.severity.charAt(0).toUpperCase() + vuln.severity.slice(1),
-          recommendation: vuln.description,
-          lineReferences: vuln.codeSnippet,
-        })
-      );
+			setVulnerabilities(convertedVulnerabilities);
 
-      setVulnerabilities(convertedVulnerabilities);
+			// Hard-coding a confidence score (or you can derive from the result if available)
+			setConfidenceScore(80);
 
-      // Hard-coding a confidence score (or you can derive from the result if available)
-      setConfidenceScore(80);
+			// If your API doesn't return auto-fix, leave it empty
+			setAutoFixCode("");
 
-      // If your API doesn't return auto-fix, leave it empty
-      setAutoFixCode("");
+			// Build a final "report-like" text for chat
+			const finalReport = {
+				vulnerabilities: convertedVulnerabilities,
+			};
+			const finalText = formatReport(finalReport);
 
-      // Build a final "report-like" text for chat
-      const finalReport = {
-        vulnerabilities: convertedVulnerabilities,
-      };
-      const finalText = formatReport(finalReport);
+			// Add a "bot" message and start typed effect
+			setMessages((prev) => [...prev, { sender: "bot", text: "" }]);
+			startTyping(finalText);
+		} catch (err) {
+			console.error(err);
+			setMessages((prev) => [
+				...prev,
+				{ sender: "bot", text: "Error analyzing input." },
+			]);
+		}
 
-      // Add a "bot" message and start typed effect
-      setMessages((prev) => [...prev, { sender: "bot", text: "" }]);
-      startTyping(finalText);
-    } catch (err) {
-      console.error(err);
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: "Error analyzing input." },
-      ]);
-    }
+		setLoading(false);
+		setInput("");
+	};
 
-    setLoading(false);
-    setInput("");
-  };
+	const exportPDF = () => {
+		alert("PDF Export Coming Soon!");
+	};
 
-  const exportPDF = () => {
-    alert("PDF Export Coming Soon!");
-  };
+	const clearChat = () => {
+		setMessages([]);
+		setVulnerabilities([]);
+		setTypingMessage("");
+		setConfidenceScore(0);
+		setAutoFixCode("");
+	};
 
-  const clearChat = () => {
-    setMessages([]);
-    setVulnerabilities([]);
-    setTypingMessage("");
-    setConfidenceScore(0);
-    setAutoFixCode("");
-  };
+	return (
+		<div className="page-content audit-page">
+			<h2>Audit</h2>
 
-  return (
-    <div className="page-content audit-page">
-      <h2>Audit</h2>
+			{confidenceScore > 0 && <ConfidenceGauge score={confidenceScore} />}
 
-      {confidenceScore > 0 && <ConfidenceGauge score={confidenceScore} />}
+			{vulnerabilities.length > 0 && (
+				<div className="summary-bar">
+					<p>
+						<strong>{vulnerabilities.length}</strong>{" "}
+						Vulnerabilities Detected
+					</p>
+					<div className="severity-list">
+						{vulnerabilities.map((vuln, i) => (
+							<span
+								key={i}
+								className={`severity-tag ${vuln.severity.toLowerCase()}`}
+							>
+								{vuln.severity}
+							</span>
+						))}
+					</div>
+				</div>
+			)}
 
-      {vulnerabilities.length > 0 && (
-        <div className="summary-bar">
-          <p>
-            <strong>{vulnerabilities.length}</strong> Vulnerabilities Detected
-          </p>
-          <div className="severity-list">
-            {vulnerabilities.map((vuln, i) => (
-              <span key={i} className={`severity-tag ${vuln.severity.toLowerCase()}`}>
-                {vuln.severity}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+			<div className="chat-container">
+				{loading && (
+					<div className="overlay">
+						<div className="loader"></div>
+						<p>Analyzing...</p>
+					</div>
+				)}
+				<AnimatePresence>
+					{messages.map((msg, idx) => (
+						<motion.div
+							key={idx}
+							initial={{ opacity: 0, y: 8 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 0.3 }}
+							className={`message ${msg.sender}`}
+						>
+							<ReactMarkdown>{msg.text}</ReactMarkdown>
+						</motion.div>
+					))}
+				</AnimatePresence>
+			</div>
 
-      <div className="chat-container">
-        {loading && (
-          <div className="overlay">
-            <div className="loader"></div>
-            <p>Analyzing...</p>
-          </div>
-        )}
-        <AnimatePresence>
-          {messages.map((msg, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`message ${msg.sender}`}
-            >
-              <ReactMarkdown>{msg.text}</ReactMarkdown>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
+			{vulnerabilities.length > 0 && (
+				<motion.div
+					initial={{ opacity: 0, y: 8 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.4 }}
+					className="vuln-list"
+				>
+					{vulnerabilities.map((vuln, i) => (
+						<VulnerabilityCard vuln={vuln} index={i} key={i} />
+					))}
+				</motion.div>
+			)}
 
-      {vulnerabilities.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="vuln-list"
-        >
-          {vulnerabilities.map((vuln, i) => (
-            <VulnerabilityCard vuln={vuln} index={i} key={i} />
-          ))}
-        </motion.div>
-      )}
+			<AutoFixSuggestion fixCode={autoFixCode} />
 
-      <AutoFixSuggestion fixCode={autoFixCode} />
+			<div className="top-row">
+				{vulnerabilities.length > 0 && (
+					<button className="pdf-btn btn" onClick={exportPDF}>
+						<Icons.Download /> Download PDF
+					</button>
+				)}
+				{messages.length > 0 && (
+					<button className="clear-btn btn" onClick={clearChat}>
+						<Icons.Clear /> Clear Chat
+					</button>
+				)}
+			</div>
 
-      <div className="top-row">
-        {vulnerabilities.length > 0 && (
-          <button className="pdf-btn btn" onClick={exportPDF}>
-            <Icons.Download /> Download PDF
-          </button>
-        )}
-        {messages.length > 0 && (
-          <button className="clear-btn btn" onClick={clearChat}>
-            <Icons.Clear /> Clear Chat
-          </button>
-        )}
-      </div>
+			<form onSubmit={handleSubmit} className="input-form">
+				<div className="input-options">
+					<label>
+						<input
+							type="radio"
+							value="solidity"
+							checked={analysisType === "solidity"}
+							onChange={() => setAnalysisType("solidity")}
+						/>
+						Solidity Code
+					</label>
+					<label>
+						<input
+							type="radio"
+							value="github"
+							checked={analysisType === "github"}
+							onChange={() => setAnalysisType("github")}
+						/>
+						GitHub URL
+					</label>
+				</div>
 
-      <form onSubmit={handleSubmit} className="input-form">
-        <div className="input-options">
-          <label>
-            <input
-              type="radio"
-              value="solidity"
-              checked={analysisType === "solidity"}
-              onChange={() => setAnalysisType("solidity")}
-            />
-            Solidity Code
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="github"
-              checked={analysisType === "github"}
-              onChange={() => setAnalysisType("github")}
-            />
-            GitHub URL
-          </label>
-        </div>
+				<textarea
+					placeholder={
+						analysisType === "solidity"
+							? "Paste Solidity code here..."
+							: "Enter GitHub repository URL..."
+					}
+					rows="6"
+					value={input}
+					onChange={(e) => setInput(e.target.value)}
+				/>
 
-        <textarea
-          placeholder={
-            analysisType === "solidity"
-              ? "Paste Solidity code here..."
-              : "Enter GitHub repository URL..."
-          }
-          rows="6"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-
-        <div className="button-row">
-          <button type="submit" className="fab-btn" disabled={loading}>
-            <Icons.Send /> Analyze
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-};
+				<div className="button-row">
+					<button
+						type="submit"
+						className="fab-btn"
+						disabled={loading}
+					>
+						<Icons.Send /> Analyze
+					</button>
+				</div>
+			</form>
+		</div>
+	);
+}
 
 /* =====================
    MAIN APP
    ===================== */
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+	const [currentPage, setCurrentPage] = useState("home");
 
-  const pages = {
-    home: <Home />,
-    audit: <Audit />,
-    history: <History />,
-    settings: <Settings />,
-  };
+	const pages = {
+		home: <Home />,
+		audit: <Audit />,
+		history: <History />,
+		settings: <Settings />,
+	};
 
-  return (
-    <div className="app-layout">
-      <SideDrawer currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <div className="main-container drawer-open">
-        {pages[currentPage] || <Home />}
-      </div>
-    </div>
-  );
+	return (
+		<div className="app-layout">
+			<SideDrawer
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
+			/>
+			<div className="main-container drawer-open">
+				{pages[currentPage] || <Home />}
+			</div>
+		</div>
+	);
 }
