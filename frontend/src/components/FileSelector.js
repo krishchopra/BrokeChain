@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export function FileSelector({ files, onSelectFiles, onCancel }) {
-	const [selectedFiles, setSelectedFiles] = useState([]);
+export function FileSelector({
+	files,
+	onSelectFile,
+	onCancel,
+	singleFileMode = false,
+}) {
+	const [selectedFile, setSelectedFile] = useState(null);
 
-	const toggleFileSelection = (file) => {
-		if (selectedFiles.some((f) => f.path === file.path)) {
-			setSelectedFiles(selectedFiles.filter((f) => f.path !== file.path));
-		} else {
-			setSelectedFiles([...selectedFiles, file]);
-		}
+	const handleFileClick = (file) => {
+		setSelectedFile(file);
 	};
 
 	const handleAnalyze = () => {
-		onSelectFiles(selectedFiles);
+		onSelectFile(selectedFile);
 	};
 
 	return (
@@ -26,7 +27,7 @@ export function FileSelector({ files, onSelectFiles, onCancel }) {
 				transition={{ duration: 0.3 }}
 			>
 				<div className="file-selector-header">
-					<h3>Select Solidity Files to Analyze</h3>
+					<h3>Select a File to Analyze</h3>
 					<div className="file-selector-actions">
 						<button className="secondary-button" onClick={onCancel}>
 							Cancel
@@ -34,44 +35,32 @@ export function FileSelector({ files, onSelectFiles, onCancel }) {
 						<button
 							className="primary-button"
 							onClick={handleAnalyze}
-							disabled={selectedFiles.length === 0}
+							disabled={!selectedFile}
 						>
-							Analyze Selected Files ({selectedFiles.length})
+							Analyze Selected File
 						</button>
 					</div>
 				</div>
-
 				<div className="file-list">
 					{files.length === 0 ? (
-						<p className="no-files-message">
+						<p className="no-files">
 							No files found in this repository.
 						</p>
 					) : (
-						files.map((file) => (
+						files.map((file, index) => (
 							<div
-								key={file.path}
+								key={index}
 								className={`file-item ${
-									selectedFiles.some(
-										(f) => f.path === file.path
-									)
-										? "selected"
-										: ""
+									selectedFile === file ? "selected" : ""
 								}`}
-								onClick={() => toggleFileSelection(file)}
+								onClick={() => handleFileClick(file)}
 							>
-								<div className="file-checkbox">
-									<input
-										type="checkbox"
-										checked={selectedFiles.some(
-											(f) => f.path === file.path
-										)}
-										onChange={() => {}} // Handled by the div click
-									/>
-								</div>
-								<div className="file-info">
-									<span className="file-path">
-										{file.path}
-									</span>
+								{/* <div className="file-icon">
+									{file.path.endsWith(".sol") ? "⚙️" : "📄"}
+								</div> */}
+								<div className="file-details">
+									<div className="file-name">{file.name}</div>
+									<div className="file-path">{file.path}</div>
 								</div>
 							</div>
 						))
