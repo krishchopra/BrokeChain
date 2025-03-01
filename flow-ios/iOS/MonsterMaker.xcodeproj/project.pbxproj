@@ -1,0 +1,712 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1525E940291578CF00F7C63A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 1525E93F291578CF00F7C63A /* Moya */; };
+		1525E943291578EC00F7C63A /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1525E942291578EC00F7C63A /* Network.swift */; };
+		1525E945291579C700F7C63A /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1525E944291579C700F7C63A /* Endpoint.swift */; };
+		1525E94729157A8900F7C63A /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1525E94629157A8900F7C63A /* Request.swift */; };
+		1525E94A29157B8500F7C63A /* MakerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1525E94929157B8500F7C63A /* MakerViewModel.swift */; };
+		1525E94C29157BB900F7C63A /* AnyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1525E94B29157BB900F7C63A /* AnyViewModel.swift */; };
+		1525E94E29157E8100F7C63A /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1525E94D29157E8100F7C63A /* Response.swift */; };
+		1525E9502918AB6400F7C63A /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1525E94F2918AB6400F7C63A /* View.swift */; };
+		1538F120291930C800338FF4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1538F11F291930C800338FF4 /* Launch Screen.storyboard */; };
+		1538F125291C565800338FF4 /* ShareActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538F124291C565800338FF4 /* ShareActivityItemSource.swift */; };
+		1538F127291D3BAD00338FF4 /* NFTListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538F126291D3BAD00338FF4 /* NFTListViewModel.swift */; };
+		1538F129291D3C2B00338FF4 /* MonsterMakerCadence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538F128291D3C2B00338FF4 /* MonsterMakerCadence.swift */; };
+		1538F12B291D3EE000338FF4 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538F12A291D3EE000338FF4 /* SafariView.swift */; };
+		1538F12D291D431900338FF4 /* NFTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1538F12C291D431900338FF4 /* NFTModel.swift */; };
+		1545703C293FBD00004A278E /* FCL in Frameworks */ = {isa = PBXBuildFile; productRef = 1545703B293FBD00004A278E /* FCL */; };
+		1545C196292B91CC00A5B4E5 /* MintHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1545C195292B91CC00A5B4E5 /* MintHelper.swift */; };
+		1588EB32291320390069EAC4 /* FlowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588EB31291320390069EAC4 /* FlowManager.swift */; };
+		1588EB342913327C0069EAC4 /* NFTDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588EB332913327C0069EAC4 /* NFTDetailView.swift */; };
+		1591D27F29109E960001811D /* MonsterMakerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D27E29109E960001811D /* MonsterMakerApp.swift */; };
+		1591D28129109E960001811D /* WelcomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D28029109E960001811D /* WelcomePage.swift */; };
+		1591D28329109E970001811D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1591D28229109E970001811D /* Assets.xcassets */; };
+		1591D28729109E970001811D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1591D28629109E970001811D /* Preview Assets.xcassets */; };
+		1591D2952910CB8F0001811D /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1591D28F2910CB8F0001811D /* Montserrat-SemiBold.ttf */; };
+		1591D2962910CB8F0001811D /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1591D2902910CB8F0001811D /* Montserrat-Regular.ttf */; };
+		1591D2972910CB8F0001811D /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1591D2912910CB8F0001811D /* Montserrat-Bold.ttf */; };
+		1591D2982910CB8F0001811D /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1591D2922910CB8F0001811D /* Montserrat-Light.ttf */; };
+		1591D2992910CB8F0001811D /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1591D2932910CB8F0001811D /* Montserrat-Black.ttf */; };
+		1591D29A2910CB8F0001811D /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1591D2942910CB8F0001811D /* Montserrat-Thin.ttf */; };
+		1591D29D2910CD100001811D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D29C2910CD100001811D /* Style.swift */; };
+		1591D29F2910D15B0001811D /* MakerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D29E2910D15B0001811D /* MakerPage.swift */; };
+		1591D2A32910D1CE0001811D /* ComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2A22910D1CE0001811D /* ComponentView.swift */; };
+		1591D2A52910D7840001811D /* MainTabPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2A42910D7840001811D /* MainTabPage.swift */; };
+		1591D2A72910DCC90001811D /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2A62910DCC90001811D /* TabBarView.swift */; };
+		1591D2AB2910EB610001811D /* NFTListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2AA2910EB610001811D /* NFTListPage.swift */; };
+		1591D2AD2910EB7B0001811D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2AC2910EB7B0001811D /* HeaderView.swift */; };
+		1591D2AF2910ECF20001811D /* NFTLocalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2AE2910ECF20001811D /* NFTLocalView.swift */; };
+		1591D2B22910EF180001811D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2B12910EF180001811D /* Extension.swift */; };
+		1591D2B42910FA4C0001811D /* NFTGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2B32910FA4C0001811D /* NFTGridCell.swift */; };
+		1591D2B72911C2900001811D /* NFTLocalImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591D2B62911C2900001811D /* NFTLocalImage.swift */; };
+		15D1726F29244FE20049A956 /* InitPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D1726E29244FE20049A956 /* InitPage.swift */; };
+		15D17271292450700049A956 /* InitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D17270292450700049A956 /* InitViewModel.swift */; };
+		15D17285292772DF0049A956 /* RefreshableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D17284292772DF0049A956 /* RefreshableScrollView.swift */; };
+		15DC3DD7293F9D870071510F /* FCL in Frameworks */ = {isa = PBXBuildFile; productRef = 15DC3DD6293F9D870071510F /* FCL */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1525E942291578EC00F7C63A /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		1525E944291579C700F7C63A /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		1525E94629157A8900F7C63A /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		1525E94929157B8500F7C63A /* MakerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakerViewModel.swift; sourceTree = "<group>"; };
+		1525E94B29157BB900F7C63A /* AnyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyViewModel.swift; sourceTree = "<group>"; };
+		1525E94D29157E8100F7C63A /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		1525E94F2918AB6400F7C63A /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		1538F11F291930C800338FF4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		1538F124291C565800338FF4 /* ShareActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityItemSource.swift; sourceTree = "<group>"; };
+		1538F126291D3BAD00338FF4 /* NFTListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTListViewModel.swift; sourceTree = "<group>"; };
+		1538F128291D3C2B00338FF4 /* MonsterMakerCadence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterMakerCadence.swift; sourceTree = "<group>"; };
+		1538F12A291D3EE000338FF4 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		1538F12C291D431900338FF4 /* NFTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTModel.swift; sourceTree = "<group>"; };
+		1545C195292B91CC00A5B4E5 /* MintHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MintHelper.swift; sourceTree = "<group>"; };
+		1588EB31291320390069EAC4 /* FlowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowManager.swift; sourceTree = "<group>"; };
+		1588EB332913327C0069EAC4 /* NFTDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTDetailView.swift; sourceTree = "<group>"; };
+		1591D27B29109E960001811D /* MonsterMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonsterMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1591D27E29109E960001811D /* MonsterMakerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterMakerApp.swift; sourceTree = "<group>"; };
+		1591D28029109E960001811D /* WelcomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage.swift; sourceTree = "<group>"; };
+		1591D28229109E970001811D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1591D28429109E970001811D /* MonsterMaker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MonsterMaker.entitlements; sourceTree = "<group>"; };
+		1591D28629109E970001811D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1591D28F2910CB8F0001811D /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		1591D2902910CB8F0001811D /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		1591D2912910CB8F0001811D /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		1591D2922910CB8F0001811D /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		1591D2932910CB8F0001811D /* Montserrat-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Black.ttf"; sourceTree = "<group>"; };
+		1591D2942910CB8F0001811D /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Thin.ttf"; sourceTree = "<group>"; };
+		1591D29B2910CBBE0001811D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1591D29C2910CD100001811D /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		1591D29E2910D15B0001811D /* MakerPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakerPage.swift; sourceTree = "<group>"; };
+		1591D2A22910D1CE0001811D /* ComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
+		1591D2A42910D7840001811D /* MainTabPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabPage.swift; sourceTree = "<group>"; };
+		1591D2A62910DCC90001811D /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		1591D2AA2910EB610001811D /* NFTListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTListPage.swift; sourceTree = "<group>"; };
+		1591D2AC2910EB7B0001811D /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		1591D2AE2910ECF20001811D /* NFTLocalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTLocalView.swift; sourceTree = "<group>"; };
+		1591D2B12910EF180001811D /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		1591D2B32910FA4C0001811D /* NFTGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTGridCell.swift; sourceTree = "<group>"; };
+		1591D2B62911C2900001811D /* NFTLocalImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTLocalImage.swift; sourceTree = "<group>"; };
+		15D1726E29244FE20049A956 /* InitPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitPage.swift; sourceTree = "<group>"; };
+		15D17270292450700049A956 /* InitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitViewModel.swift; sourceTree = "<group>"; };
+		15D17284292772DF0049A956 /* RefreshableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableScrollView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1591D27829109E960001811D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1545703C293FBD00004A278E /* FCL in Frameworks */,
+				15DC3DD7293F9D870071510F /* FCL in Frameworks */,
+				1525E940291578CF00F7C63A /* Moya in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1525E941291578E100F7C63A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1525E942291578EC00F7C63A /* Network.swift */,
+				1525E944291579C700F7C63A /* Endpoint.swift */,
+				1525E94629157A8900F7C63A /* Request.swift */,
+				1525E94D29157E8100F7C63A /* Response.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		1525E94829157B7600F7C63A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				1525E94B29157BB900F7C63A /* AnyViewModel.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		1545704729414863004A278E /* Maker */ = {
+			isa = PBXGroup;
+			children = (
+				1525E94929157B8500F7C63A /* MakerViewModel.swift */,
+				1591D29E2910D15B0001811D /* MakerPage.swift */,
+			);
+			path = Maker;
+			sourceTree = "<group>";
+		};
+		1545704829420D39004A278E /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				1591D28029109E960001811D /* WelcomePage.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		1545704929420D4D004A278E /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				1591D2A42910D7840001811D /* MainTabPage.swift */,
+			);
+			path = MainTab;
+			sourceTree = "<group>";
+		};
+		1545704A29420D5F004A278E /* NFTList */ = {
+			isa = PBXGroup;
+			children = (
+				1538F126291D3BAD00338FF4 /* NFTListViewModel.swift */,
+				1591D2AA2910EB610001811D /* NFTListPage.swift */,
+			);
+			path = NFTList;
+			sourceTree = "<group>";
+		};
+		1545704B29420D6D004A278E /* Init */ = {
+			isa = PBXGroup;
+			children = (
+				15D17270292450700049A956 /* InitViewModel.swift */,
+				15D1726E29244FE20049A956 /* InitPage.swift */,
+			);
+			path = Init;
+			sourceTree = "<group>";
+		};
+		1545704C29420DD2004A278E /* NFTDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1588EB332913327C0069EAC4 /* NFTDetailView.swift */,
+			);
+			path = NFTDetail;
+			sourceTree = "<group>";
+		};
+		1545704E2943693A004A278E /* Page */ = {
+			isa = PBXGroup;
+			children = (
+				1545704C29420DD2004A278E /* NFTDetail */,
+				1545704B29420D6D004A278E /* Init */,
+				1545704A29420D5F004A278E /* NFTList */,
+				1545704929420D4D004A278E /* MainTab */,
+				1545704829420D39004A278E /* Welcome */,
+				1545704729414863004A278E /* Maker */,
+			);
+			path = Page;
+			sourceTree = "<group>";
+		};
+		1588EB302913201E0069EAC4 /* Flow */ = {
+			isa = PBXGroup;
+			children = (
+				1588EB31291320390069EAC4 /* FlowManager.swift */,
+				1538F128291D3C2B00338FF4 /* MonsterMakerCadence.swift */,
+				1545C195292B91CC00A5B4E5 /* MintHelper.swift */,
+			);
+			path = Flow;
+			sourceTree = "<group>";
+		};
+		1591D27229109E960001811D = {
+			isa = PBXGroup;
+			children = (
+				1591D27D29109E960001811D /* MonsterMaker */,
+				1591D27C29109E960001811D /* Products */,
+				15DC3DD5293F9D870071510F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		1591D27C29109E960001811D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1591D27B29109E960001811D /* MonsterMaker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1591D27D29109E960001811D /* MonsterMaker */ = {
+			isa = PBXGroup;
+			children = (
+				1525E941291578E100F7C63A /* Network */,
+				1588EB302913201E0069EAC4 /* Flow */,
+				1591D2B02910EF090001811D /* Util */,
+				1591D2B52911C27F0001811D /* Model */,
+				1591D2A02910D16E0001811D /* UI */,
+				1591D28D2910CB590001811D /* Resources */,
+				1591D27E29109E960001811D /* MonsterMakerApp.swift */,
+				1591D29B2910CBBE0001811D /* Info.plist */,
+				1591D28429109E970001811D /* MonsterMaker.entitlements */,
+				1591D28529109E970001811D /* Preview Content */,
+			);
+			path = MonsterMaker;
+			sourceTree = "<group>";
+		};
+		1591D28529109E970001811D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1591D28629109E970001811D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1591D28D2910CB590001811D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1591D28229109E970001811D /* Assets.xcassets */,
+				1591D28E2910CB670001811D /* Font */,
+				1538F11F291930C800338FF4 /* Launch Screen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1591D28E2910CB670001811D /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				1591D2932910CB8F0001811D /* Montserrat-Black.ttf */,
+				1591D2912910CB8F0001811D /* Montserrat-Bold.ttf */,
+				1591D2922910CB8F0001811D /* Montserrat-Light.ttf */,
+				1591D2902910CB8F0001811D /* Montserrat-Regular.ttf */,
+				1591D28F2910CB8F0001811D /* Montserrat-SemiBold.ttf */,
+				1591D2942910CB8F0001811D /* Montserrat-Thin.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		1591D2A02910D16E0001811D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1545704E2943693A004A278E /* Page */,
+				1525E94829157B7600F7C63A /* Base */,
+				1591D2A12910D1BC0001811D /* Components */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		1591D2A12910D1BC0001811D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				1591D2A22910D1CE0001811D /* ComponentView.swift */,
+				1591D2AE2910ECF20001811D /* NFTLocalView.swift */,
+				1591D2A62910DCC90001811D /* TabBarView.swift */,
+				1591D2AC2910EB7B0001811D /* HeaderView.swift */,
+				1591D2B32910FA4C0001811D /* NFTGridCell.swift */,
+				1538F12A291D3EE000338FF4 /* SafariView.swift */,
+				15D17284292772DF0049A956 /* RefreshableScrollView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		1591D2B02910EF090001811D /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				1538F124291C565800338FF4 /* ShareActivityItemSource.swift */,
+				1591D29C2910CD100001811D /* Style.swift */,
+				1525E94F2918AB6400F7C63A /* View.swift */,
+				1591D2B12910EF180001811D /* Extension.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		1591D2B52911C27F0001811D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1591D2B62911C2900001811D /* NFTLocalImage.swift */,
+				1538F12C291D431900338FF4 /* NFTModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		15DC3DD5293F9D870071510F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1591D27A29109E960001811D /* MonsterMaker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1591D28A29109E970001811D /* Build configuration list for PBXNativeTarget "MonsterMaker" */;
+			buildPhases = (
+				1591D27729109E960001811D /* Sources */,
+				1591D27829109E960001811D /* Frameworks */,
+				1591D27929109E960001811D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MonsterMaker;
+			packageProductDependencies = (
+				1525E93F291578CF00F7C63A /* Moya */,
+				15DC3DD6293F9D870071510F /* FCL */,
+				1545703B293FBD00004A278E /* FCL */,
+			);
+			productName = MonsterMaker;
+			productReference = 1591D27B29109E960001811D /* MonsterMaker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1591D27329109E960001811D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					1591D27A29109E960001811D = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 1591D27629109E960001811D /* Build configuration list for PBXProject "MonsterMaker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1591D27229109E960001811D;
+			packageReferences = (
+				1525E93E291578CF00F7C63A /* XCRemoteSwiftPackageReference "Moya" */,
+				1545703A293FBD00004A278E /* XCRemoteSwiftPackageReference "fcl-swift" */,
+			);
+			productRefGroup = 1591D27C29109E960001811D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1591D27A29109E960001811D /* MonsterMaker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1591D27929109E960001811D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1591D2982910CB8F0001811D /* Montserrat-Light.ttf in Resources */,
+				1591D2992910CB8F0001811D /* Montserrat-Black.ttf in Resources */,
+				1591D2972910CB8F0001811D /* Montserrat-Bold.ttf in Resources */,
+				1538F120291930C800338FF4 /* Launch Screen.storyboard in Resources */,
+				1591D2962910CB8F0001811D /* Montserrat-Regular.ttf in Resources */,
+				1591D2952910CB8F0001811D /* Montserrat-SemiBold.ttf in Resources */,
+				1591D28729109E970001811D /* Preview Assets.xcassets in Resources */,
+				1591D29A2910CB8F0001811D /* Montserrat-Thin.ttf in Resources */,
+				1591D28329109E970001811D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1591D27729109E960001811D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1588EB32291320390069EAC4 /* FlowManager.swift in Sources */,
+				1591D28129109E960001811D /* WelcomePage.swift in Sources */,
+				15D17285292772DF0049A956 /* RefreshableScrollView.swift in Sources */,
+				1591D2A32910D1CE0001811D /* ComponentView.swift in Sources */,
+				1525E94A29157B8500F7C63A /* MakerViewModel.swift in Sources */,
+				1538F125291C565800338FF4 /* ShareActivityItemSource.swift in Sources */,
+				1591D2B72911C2900001811D /* NFTLocalImage.swift in Sources */,
+				15D17271292450700049A956 /* InitViewModel.swift in Sources */,
+				1588EB342913327C0069EAC4 /* NFTDetailView.swift in Sources */,
+				1591D2A72910DCC90001811D /* TabBarView.swift in Sources */,
+				1591D2B42910FA4C0001811D /* NFTGridCell.swift in Sources */,
+				1591D2B22910EF180001811D /* Extension.swift in Sources */,
+				1538F127291D3BAD00338FF4 /* NFTListViewModel.swift in Sources */,
+				1525E9502918AB6400F7C63A /* View.swift in Sources */,
+				1591D29F2910D15B0001811D /* MakerPage.swift in Sources */,
+				1591D2A52910D7840001811D /* MainTabPage.swift in Sources */,
+				1538F129291D3C2B00338FF4 /* MonsterMakerCadence.swift in Sources */,
+				15D1726F29244FE20049A956 /* InitPage.swift in Sources */,
+				1525E94729157A8900F7C63A /* Request.swift in Sources */,
+				1525E945291579C700F7C63A /* Endpoint.swift in Sources */,
+				1525E943291578EC00F7C63A /* Network.swift in Sources */,
+				1545C196292B91CC00A5B4E5 /* MintHelper.swift in Sources */,
+				1525E94C29157BB900F7C63A /* AnyViewModel.swift in Sources */,
+				1538F12B291D3EE000338FF4 /* SafariView.swift in Sources */,
+				1591D2AD2910EB7B0001811D /* HeaderView.swift in Sources */,
+				1591D2AF2910ECF20001811D /* NFTLocalView.swift in Sources */,
+				1538F12D291D431900338FF4 /* NFTModel.swift in Sources */,
+				1591D2AB2910EB610001811D /* NFTListPage.swift in Sources */,
+				1525E94E29157E8100F7C63A /* Response.swift in Sources */,
+				1591D29D2910CD100001811D /* Style.swift in Sources */,
+				1591D27F29109E960001811D /* MonsterMakerApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1591D28829109E970001811D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1591D28929109E970001811D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		1591D28B29109E970001811D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MonsterMaker/MonsterMaker.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MonsterMaker/Preview Content\"";
+				DEVELOPMENT_TEAM = MGCLCSUVY9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MonsterMaker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Monster;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Atlantis would use Bonjour Service to discover Proxyman app from your local network.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow “MonsterMaker“ to use voice recordings in activities.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow “MonsterMaker“ to save photo to your device.";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dapperlabs.MonsterMaker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		1591D28C29109E970001811D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MonsterMaker/MonsterMaker.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MonsterMaker/Preview Content\"";
+				DEVELOPMENT_TEAM = MGCLCSUVY9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MonsterMaker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Monster;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Atlantis would use Bonjour Service to discover Proxyman app from your local network.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow “MonsterMaker“ to use voice recordings in activities.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow “MonsterMaker“ to save photo to your device.";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dapperlabs.MonsterMaker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1591D27629109E960001811D /* Build configuration list for PBXProject "MonsterMaker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1591D28829109E970001811D /* Debug */,
+				1591D28929109E970001811D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1591D28A29109E970001811D /* Build configuration list for PBXNativeTarget "MonsterMaker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1591D28B29109E970001811D /* Debug */,
+				1591D28C29109E970001811D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1525E93E291578CF00F7C63A /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		1545703A293FBD00004A278E /* XCRemoteSwiftPackageReference "fcl-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Outblock/fcl-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1525E93F291578CF00F7C63A /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1525E93E291578CF00F7C63A /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		1545703B293FBD00004A278E /* FCL */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1545703A293FBD00004A278E /* XCRemoteSwiftPackageReference "fcl-swift" */;
+			productName = FCL;
+		};
+		15DC3DD6293F9D870071510F /* FCL */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FCL;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 1591D27329109E960001811D /* Project object */;
+}
