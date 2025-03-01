@@ -155,14 +155,19 @@ button:focus-visible {
 .app-layout {
 	min-height: 100vh;
 	display: flex;
+	width: 100%;
+	position: relative;
+	overflow-x: hidden;
 }
 
 .app-layout.drawer-open .main-container {
 	margin-left: var(--sidebar-width);
+	width: calc(100% - var(--sidebar-width));
 }
 
 .app-layout.drawer-closed .main-container {
 	margin-left: var(--sidebar-collapsed-width);
+	width: calc(100% - var(--sidebar-collapsed-width));
 }
 
 /* Side drawer */
@@ -180,6 +185,7 @@ button:focus-visible {
 	transition: width var(--transition-normal),
 		transform var(--transition-normal);
 	overflow: hidden;
+	height: 100vh;
 }
 
 .side-drawer.closed {
@@ -359,10 +365,12 @@ button:focus-visible {
 /* Main container */
 .main-container {
 	flex: 1;
-	transition: margin-left var(--transition-normal);
+	transition: margin-left var(--transition-normal), width var(--transition-normal);
 	padding: var(--spacing-xl);
 	background-color: var(--background);
 	min-height: 100vh;
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 /* Page content */

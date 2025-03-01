@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { GitHubAudit } from "./components/GitHubAudit";
 import { GitHubCallback } from "./components/GitHubCallback";
 import ReactMarkdown from "react-markdown";
-import preTrainData from './pre-train.json';
+import preTrainData from "./pre-train.json";
 import "./App.css";
 import { AnimatePresence, motion } from "framer-motion";
 import jsPDF from "jspdf";
@@ -1640,7 +1640,9 @@ function Audit({ contractInput, setContractInput }) {
 	const [fileUploadStatus, setFileUploadStatus] = useState("");
 	const [analysisType, setAnalysisType] = useState("solidity");
 	const [input, setInput] = useState(contractInput || "");
-	const [preTrainedDataText, setPreTrainedDataText] = useState(JSON.stringify(preTrainData));
+	const [preTrainedDataText, setPreTrainedDataText] = useState(
+		JSON.stringify(preTrainData)
+	);
 	const [loading, setLoading] = useState(false);
 	const [typingMessage, setTypingMessage] = useState("");
 	const [messages, setMessages] = useState([]);
@@ -1835,7 +1837,7 @@ ${vuln.lineReferences || ""}`;
 
 			// API integration with Hugging Face
 			const apiKey = process.env.REACT_APP_OPENAI_SECRET_KEY || "";
-			console.log(preTrainedDataText)
+			console.log(preTrainedDataText);
 
 			const payload = {
 				api_key: apiKey,
@@ -2033,58 +2035,60 @@ ${vuln.lineReferences || ""}`;
 		if (!file) return;
 		// Basic validation check
 		if (file.type !== "application/json") {
-		  setFileUploadStatus("Please select a valid JSON file.");
-		  return;
+			setFileUploadStatus("Please select a valid JSON file.");
+			return;
 		}
-	  
+
 		const reader = new FileReader();
 		reader.onload = (e) => {
-		  const fileText = e.target.result;
-		  setPreTrainedDataText(fileText);
-		  setFileUploadStatus(`${file.name} has been successfully uploaded for pre-training.`);
+			const fileText = e.target.result;
+			setPreTrainedDataText(fileText);
+			setFileUploadStatus(
+				`${file.name} has been successfully uploaded for pre-training.`
+			);
 		};
 		reader.readAsText(file);
-	  };
-	
+	};
+
 	/* --- Add these new state + drag handlers below handleJSONFileSelect --- */
-	
+
 	// Track drag state so we can highlight the box when hovering a file
 	const [isDragOver, setIsDragOver] = useState(false);
-	
+
 	// If a user drags a file over the drop area
 	const handleDragOver = (e) => {
 		e.preventDefault();
 		setIsDragOver(true);
 	};
-	
+
 	// If they leave the drop area
 	const handleDragLeave = (e) => {
 		e.preventDefault();
 		setIsDragOver(false);
 	};
-	
+
 	// If they actually drop the file
 	const handleDrop = (e) => {
 		e.preventDefault();
 		setIsDragOver(false);
 		const file = e.dataTransfer.files?.[0];
 		if (!file) return;
-	
+
 		// Basic validation check
 		if (file.type !== "application/json") {
-		alert("Please drop a valid JSON file.");
-		return;
+			alert("Please drop a valid JSON file.");
+			return;
 		}
-	
+
 		const reader = new FileReader();
 		reader.onload = (event) => {
-		const fileText = event.target.result;
-		setPreTrainedDataText(fileText);
-		alert("JSON loaded successfully via drag & drop!");
+			const fileText = event.target.result;
+			setPreTrainedDataText(fileText);
+			alert("JSON loaded successfully via drag & drop!");
 		};
 		reader.readAsText(file);
 	};
-  
+
 	// Helper functions to enhance mock data
 	const categorizeVulnerability = (title) => {
 		const lowerTitle = title.toLowerCase();
@@ -3085,25 +3089,34 @@ contract NFTMarketplace {
 									</div>
 								)}
 								<div
-								className={`json-dropzone ${isDragOver ? "drag-over" : ""}`}
-								onDragOver={handleDragOver}
-								onDragLeave={handleDragLeave}
-								onDrop={handleDrop}
-								onClick={() => document.getElementById("jsonFileInput").click()}
+									className={`json-dropzone ${
+										isDragOver ? "drag-over" : ""
+									}`}
+									onDragOver={handleDragOver}
+									onDragLeave={handleDragLeave}
+									onDrop={handleDrop}
+									onClick={() =>
+										document
+											.getElementById("jsonFileInput")
+											.click()
+									}
 								>
-								<p>Attach JSON file for pre-training (optional)</p>
-								<input
-									id="jsonFileInput"
-									type="file"
-									accept=".json"
-									style={{ display: "none" }}
-									onChange={handleJSONFileSelect}
-								/>
+									<p>
+										Attach JSON file for pre-training
+										(optional)
+									</p>
+									<input
+										id="jsonFileInput"
+										type="file"
+										accept=".json"
+										style={{ display: "none" }}
+										onChange={handleJSONFileSelect}
+									/>
 								</div>
 								{fileUploadStatus && (
-								<div className="file-upload-status">
-									{fileUploadStatus}
-								</div>
+									<div className="file-upload-status m-5">
+										{fileUploadStatus}
+									</div>
 								)}
 
 								<div className="code-samples">
@@ -3133,7 +3146,7 @@ contract NFTMarketplace {
 										<Icons.Send />
 										<span>Analyze Contract</span>
 									</button>
-							</div>
+								</div>
 							</form>
 						</div>
 
