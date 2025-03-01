@@ -11,7 +11,6 @@ import { Octokit } from "@octokit/core";
 import FileSelector from "./components/FileSelector";
 import { getAllFiles } from "./utils/getAllFiles";
 
-
 /* =====================
    ICONS
    ===================== */
@@ -1658,6 +1657,7 @@ function Audit({ contractInput, setContractInput }) {
 	const [auditHistory, setAuditHistory] = useState([]);
 	const [initialLoad, setInitialLoad] = useState(true);
 	const [apiError, setApiError] = useState(null);
+	const [showExportOptions, setShowExportOptions] = useState(false);
 
 	const typingIntervalRef = useRef(null);
 	const messagesEndRef = useRef(null);
@@ -3536,34 +3536,6 @@ contract NFTMarketplace {
 								<Icons.Clear />
 								<span>New Audit</span>
 							</button>
-							<button
-								className="primary-button"
-								onClick={exportText}
-							>
-								<Icons.Download />
-								<span>Export as Text</span>
-							</button>
-							<button
-								className="primary-button"
-								onClick={exportJSON}
-							>
-								<Icons.Download />
-								<span>Export as JSON</span>
-							</button>
-							<button
-								className="primary-button"
-								onClick={exportMarkdown}
-							>
-								<Icons.Download />
-								<span>Export as Markdown</span>
-							</button>
-							<button
-								className="primary-button"
-								onClick={exportPDF}
-							>
-								<Icons.Download />
-								<span>Export as PDF</span>
-							</button>
 						</div>
 					</div>
 				);
@@ -3586,10 +3558,49 @@ contract NFTMarketplace {
 				<h2>Smart Contract Audit</h2>
 				<div className="header-actions">
 					{vulnerabilities.length > 0 && (
-						<button className="primary-button" onClick={exportPDF}>
-							<Icons.Download />
-							<span>Export Report</span>
-						</button>
+						<div className="export-dropdown">
+							<button
+								className="primary-button"
+								onClick={() =>
+									setShowExportOptions((prev) => !prev)
+								}
+							>
+								<Icons.Download />
+								<span>Export Report</span>
+							</button>
+							{showExportOptions && (
+								<div className="dropdown-options">
+									<button
+										className="primary-button"
+										onClick={exportText}
+									>
+										<Icons.Download />
+										<span>Export as Text</span>
+									</button>
+									<button
+										className="primary-button"
+										onClick={exportJSON}
+									>
+										<Icons.Download />
+										<span>Export as JSON</span>
+									</button>
+									<button
+										className="primary-button"
+										onClick={exportMarkdown}
+									>
+										<Icons.Download />
+										<span>Export as Markdown</span>
+									</button>
+									<button
+										className="primary-button"
+										onClick={exportPDF}
+									>
+										<Icons.Download />
+										<span>Export as PDF</span>
+									</button>
+								</div>
+							)}
+						</div>
 					)}
 				</div>
 			</div>
