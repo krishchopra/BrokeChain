@@ -457,8 +457,8 @@ function SideDrawer({ currentPage, setCurrentPage, isOpen, toggleDrawer }) {
     <aside className={`side-drawer ${isOpen ? "open" : "closed"}`}>
       <div className="drawer-header">
         <div className="logo">
-          <span className="logo-icon">🔒</span>
-          <span className="logo-text">SecureChain</span>
+          <span className="logo-icon">⛓️💰</span>
+          <span className="logo-text">BrokeChain</span>
         </div>
         <button className="drawer-toggle-btn" onClick={toggleDrawer}>
           {isOpen ? <Icons.ChevronLeft /> : <Icons.ChevronRight />}
