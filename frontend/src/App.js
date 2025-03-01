@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { GitHubAudit } from "./components/GitHubAudit";
 import { GitHubCallback } from "./components/GitHubCallback";
 import ReactMarkdown from "react-markdown";
+import preTrainData from './pre-train.json';
 import "./App.css";
 import { AnimatePresence, motion } from "framer-motion";
 import jsPDF from "jspdf";
@@ -1627,6 +1628,8 @@ function Settings() {
 	);
 }
 
+
+
 /* =====================
    AUDIT PAGE
    ===================== */
@@ -1634,6 +1637,7 @@ function Audit({ contractInput, setContractInput }) {
 	const [activeStep, setActiveStep] = useState(0);
 	const [analysisType, setAnalysisType] = useState("solidity");
 	const [input, setInput] = useState(contractInput || "");
+	const [preTrainedDataText, setPreTrainedDataText] = useState(JSON.stringify(preTrainData));
 	const [loading, setLoading] = useState(false);
 	const [typingMessage, setTypingMessage] = useState("");
 	const [messages, setMessages] = useState([]);
@@ -1823,7 +1827,7 @@ ${vuln.lineReferences || ""}`;
 
 			// API integration with Hugging Face
 			const apiKey = process.env.REACT_APP_OPENAI_SECRET_KEY || "";
-			const preTrainedDataText = "No pre-trained data";
+			console.log(preTrainedDataText)
 
 			const payload = {
 				api_key: apiKey,
@@ -2015,6 +2019,22 @@ ${vuln.lineReferences || ""}`;
 
 		setLoading(false);
 	};
+
+	// 2) Function to handle reading a JSON file
+	const handleJSONFileSelect = (event) => {
+		const file = event.target.files?.[0];
+		if (!file) return;
+	
+		const reader = new FileReader();
+		reader.onload = (e) => {
+		// The file content (text) is in e.target.result
+		// If you want it exactly as text:
+		const fileText = e.target.result;
+		setPreTrainedDataText(fileText);
+		};
+		reader.readAsText(file);
+	};
+  
 
 	// Helper functions to enhance mock data
 	const categorizeVulnerability = (title) => {
