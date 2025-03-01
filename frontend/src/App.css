@@ -151,6 +151,16 @@ button:focus-visible {
 	outline-offset: 2px;
 }
 
+.main-content {
+	margin-left: var(--sidebar-collapsed-width); /* default margin for closed sidebar */
+	transition: margin-left var(--transition-normal);
+  }
+  
+  .main-content.drawer-open {
+	margin-left: var(--sidebar-width); /* expanded margin when sidebar is open */
+  }
+  
+
 /* App layout */
 .app-layout {
 	min-height: 100vh;

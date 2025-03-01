@@ -470,7 +470,7 @@ function SideDrawer({ currentPage, setCurrentPage, isOpen, toggleDrawer }) {
 		<aside className={`side-drawer ${isOpen ? "open" : "closed"}`}>
 			<div className="drawer-header">
 				<div className="logo">
-					<span className="logo-icon">⛓️💸</span>
+					<span className="logo-icon"></span>
 					<span className="logo-text">BrokeChain</span>
 				</div>
 				<button className="drawer-toggle-btn" onClick={toggleDrawer}>
@@ -2518,7 +2518,7 @@ contract NFTMarketplace {
 				</div>
 				<div className="stat-box">
 					<span className="stat-value">{stats.security_score}</span>
-					<span className="stat-label">Secruity Score</span>
+					<span className="stat-label">Security Score</span>
 				</div>
 				<div className="stat-box">
 					<span className="stat-value">{stats.complexity}</span>
