@@ -267,8 +267,7 @@ export const Icons = {
 			<path
 				d="M19 7L18.1327 19.1425C18.0579 
         20.1891 17.187 21 16.1378 
-        21H7.86224C6.81296 21 5.94208 
-        20.1891 5.86732 19.1425L5 7M10 
+        21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 
         11V17M14 11V17M15 7V4C15 
         3.44772 14.5523 3 14 3H10C9.44772 
         3 9 3.44772 9 4V7M4 
@@ -781,7 +780,7 @@ function SearchBar({ onSearch, placeholder }) {
 /* =====================
    DASHBOARD PAGE
    ===================== */
-function Dashboard() {
+function Dashboard({ setCurrentPage }) {
 	// Sample data for demonstration purposes
 	const recentAudits = [
 		{
@@ -819,7 +818,10 @@ function Dashboard() {
 			<div className="page-header">
 				<h2>Dashboard</h2>
 				<div className="header-actions">
-					<button className="primary-button">
+					<button
+						className="primary-button"
+						onClick={() => setCurrentPage("audit")}
+					>
 						<Icons.Audit />
 						<span>New Audit</span>
 					</button>
@@ -2223,57 +2225,63 @@ ${vuln.lineReferences || ""}`;
 	};
 
 	// Export as PDF using jsPDF
-  const exportPDF = () => {
-    const doc = new jsPDF();
-    const reportText = formatReport({ vulnerabilities });
-    // Add text with basic margin; adjust as needed for layout
-    doc.text(reportText, 10, 10);
-    doc.save("audit_report.pdf");
-    setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), 2000);
-  };
+	const exportPDF = () => {
+		const doc = new jsPDF();
+		const reportText = formatReport({ vulnerabilities });
+		// Add text with basic margin; adjust as needed for layout
+		doc.text(reportText, 10, 10);
+		doc.save("audit_report.pdf");
+		setShowSuccessMessage(true);
+		setTimeout(() => setShowSuccessMessage(false), 2000);
+	};
 
-  // Export as Markdown
-  const exportMarkdown = () => {
-    const markdownReport = formatReport({ vulnerabilities });
-    const blob = new Blob([markdownReport], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "audit_report.md";
-    a.click();
-    URL.revokeObjectURL(url);
-    setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), 2000);
-  };
+	// Export as Markdown
+	const exportMarkdown = () => {
+		const markdownReport = formatReport({ vulnerabilities });
+		const blob = new Blob([markdownReport], {
+			type: "text/markdown;charset=utf-8",
+		});
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = "audit_report.md";
+		a.click();
+		URL.revokeObjectURL(url);
+		setShowSuccessMessage(true);
+		setTimeout(() => setShowSuccessMessage(false), 2000);
+	};
 
-  // Export as plain Text
-  const exportText = () => {
-    const reportText = formatReport({ vulnerabilities });
-    const blob = new Blob([reportText], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "audit_report.txt";
-    a.click();
-    URL.revokeObjectURL(url);
-    setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), 2000);
-  };
+	// Export as plain Text
+	const exportText = () => {
+		const reportText = formatReport({ vulnerabilities });
+		const blob = new Blob([reportText], {
+			type: "text/plain;charset=utf-8",
+		});
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = "audit_report.txt";
+		a.click();
+		URL.revokeObjectURL(url);
+		setShowSuccessMessage(true);
+		setTimeout(() => setShowSuccessMessage(false), 2000);
+	};
 
-  // Export as JSON
-  const exportJSON = () => {
-    const reportJSON = JSON.stringify({ vulnerabilities }, null, 2);
-    const blob = new Blob([reportJSON], { type: "application/json;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "audit_report.json";
-    a.click();
-    URL.revokeObjectURL(url);
-    setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), 2000);
-  };
+	// Export as JSON
+	const exportJSON = () => {
+		const reportJSON = JSON.stringify({ vulnerabilities }, null, 2);
+		const blob = new Blob([reportJSON], {
+			type: "application/json;charset=utf-8",
+		});
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = "audit_report.json";
+		a.click();
+		URL.revokeObjectURL(url);
+		setShowSuccessMessage(true);
+		setTimeout(() => setShowSuccessMessage(false), 2000);
+	};
 
 	const clearChat = () => {
 		setMessages([]);
@@ -3339,22 +3347,34 @@ contract NFTMarketplace {
 								<Icons.Clear />
 								<span>New Audit</span>
 							</button>
-							<button className="primary-button" onClick={exportText}>
-                <Icons.Download />
-                <span>Export as Text</span>
-              </button>
-              <button className="primary-button" onClick={exportJSON}>
-                <Icons.Download />
-                <span>Export as JSON</span>
-              </button>
-              <button className="primary-button" onClick={exportMarkdown}>
-                <Icons.Download />
-                <span>Export as Markdown</span>
-              </button>
-              <button className="primary-button" onClick={exportPDF}>
-                <Icons.Download />
-                <span>Export as PDF</span>
-              </button>
+							<button
+								className="primary-button"
+								onClick={exportText}
+							>
+								<Icons.Download />
+								<span>Export as Text</span>
+							</button>
+							<button
+								className="primary-button"
+								onClick={exportJSON}
+							>
+								<Icons.Download />
+								<span>Export as JSON</span>
+							</button>
+							<button
+								className="primary-button"
+								onClick={exportMarkdown}
+							>
+								<Icons.Download />
+								<span>Export as Markdown</span>
+							</button>
+							<button
+								className="primary-button"
+								onClick={exportPDF}
+							>
+								<Icons.Download />
+								<span>Export as PDF</span>
+							</button>
 						</div>
 					</div>
 				);
@@ -3462,7 +3482,7 @@ export default function App() {
 	}, []);
 
 	const pages = {
-		dashboard: <Dashboard />,
+		dashboard: <Dashboard setCurrentPage={setCurrentPage} />,
 		audit: (
 			<Audit
 				contractInput={contractInput}
