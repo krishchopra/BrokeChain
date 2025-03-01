@@ -11,6 +11,7 @@ import { Octokit } from "@octokit/core";
 import FileSelector from "./components/FileSelector";
 import { getAllFiles } from "./utils/getAllFiles";
 
+
 /* =====================
    ICONS
    ===================== */
@@ -489,7 +490,7 @@ function SideDrawer({ currentPage, setCurrentPage, isOpen, toggleDrawer }) {
 					</button>
 				))}
 			</nav>
-			<div className="drawer-footer">
+			{/* <div className="drawer-footer">
 				<div className="user-info">
 					<div className="user-avatar">AS</div>
 					<div className="user-details">
@@ -497,8 +498,8 @@ function SideDrawer({ currentPage, setCurrentPage, isOpen, toggleDrawer }) {
 						<span className="user-role">Professional</span>
 					</div>
 				</div>
-				{/* <p className="version-tag">Version 2.0</p> */}
-			</div>
+				<p className="version-tag">Version 2.0</p>
+			</div> */}
 		</aside>
 	);
 }

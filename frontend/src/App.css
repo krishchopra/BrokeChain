@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
+.app-layout.drawer-open .main-container {
+	margin-left: var(--sidebar-width);
+	width: calc(100% - var(--sidebar-width));
+  }
+  
+  .page-content {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: var(--spacing-xl);
+  }
+  
 :root {
 	/* Hacken color theme */
 	/* --primary: #3EF2D0;
@@ -365,7 +376,8 @@ button:focus-visible {
 /* Main container */
 .main-container {
 	flex: 1;
-	transition: margin-left var(--transition-normal), width var(--transition-normal);
+	transition: margin-left var(--transition-normal),
+		width var(--transition-normal);
 	padding: var(--spacing-xl);
 	background-color: var(--background);
 	min-height: 100vh;
@@ -383,6 +395,7 @@ button:focus-visible {
 	max-width: 1400px;
 	margin: 0 auto;
 	animation: fadeIn 0.4s ease-out;
+	overflow-x: hidden;
 }
 
 .page-header {
@@ -3385,21 +3398,24 @@ textarea:focus {
 
 @media (max-width: 992px) {
 	.app-layout.drawer-open .main-container {
-		margin-left: var(--sidebar-collapsed-width);
+		margin-left: var(--sidebar-width);
+		width: calc(100% - var(--sidebar-width));
 	}
 
 	.side-drawer.open {
-		width: var(--sidebar-collapsed-width);
+		width: var(--sidebar-width);
+		transform: translateX(0);
 	}
 
 	.side-drawer.open .nav-label,
 	.side-drawer.open .logo-text,
 	.side-drawer.open .user-details {
-		display: none;
+		display: block;
 	}
 
 	.app-layout.drawer-closed .main-container {
 		margin-left: 0;
+		width: 100%;
 	}
 
 	.side-drawer.closed {
@@ -3412,6 +3428,7 @@ textarea:focus {
 
 	.page-content {
 		padding: var(--spacing-md);
+		min-height: calc(100vh - 2 * var(--spacing-md));
 	}
 
 	.audit-summary {
@@ -3440,7 +3457,25 @@ textarea:focus {
 
 @media (max-width: 768px) {
 	:root {
-		--header-height: 56px;
+		--spacing-xl: 16px;
+		--spacing-lg: 12px;
+		--spacing-md: 8px;
+	}
+
+	.app-layout.drawer-open .main-container {
+		margin-left: 0;
+		width: 100%;
+	}
+
+	.side-drawer.open {
+		width: var(--sidebar-width);
+		transform: translateX(0);
+		z-index: 1000;
+	}
+
+	.main-container {
+		padding: var(--spacing-md);
+		width: 100%;
 	}
 
 	.page-header {
@@ -4617,10 +4652,14 @@ a:focus-visible {
 }
 
 .main-container {
-	-webkit-transition: margin-left var(--transition-normal);
-	-moz-transition: margin-left var(--transition-normal);
-	-ms-transition: margin-left var(--transition-normal);
-	transition: margin-left var(--transition-normal);
+	-webkit-transition: margin-left var(--transition-normal),
+		width var(--transition-normal);
+	-moz-transition: margin-left var(--transition-normal),
+		width var(--transition-normal);
+	-ms-transition: margin-left var(--transition-normal),
+		width var(--transition-normal);
+	transition: margin-left var(--transition-normal),
+		width var(--transition-normal);
 }
 
 input,
@@ -5147,17 +5186,17 @@ button {
 /* Optional: Styles for the JSON file input container */
 .json-file-container {
 	margin: var(--spacing-md) 0;
-  }
-  
-  .json-file-label {
+}
+
+.json-file-label {
 	display: block;
 	font-size: 0.9rem;
 	font-weight: 500;
 	margin-bottom: var(--spacing-xs);
 	color: var(--gray-600);
-  }
-  
-  .json-dropzone {
+}
+
+.json-dropzone {
 	border: 2px dashed #ccc;
 	padding: 1rem;
 	text-align: center;
@@ -5165,18 +5204,18 @@ button {
 	border-radius: 5px;
 	transition: background-color 0.3s;
 	cursor: pointer;
-  }
-  
-  .json-dropzone.drag-over {
+}
+
+.json-dropzone.drag-over {
 	background-color: #edf4ff; /* Light highlight color */
-	border-color: #007bff;     /* Or your theme color */
-  }
-  
-  .json-file-button {
+	border-color: #007bff; /* Or your theme color */
+}
+
+.json-file-button {
 	margin: 0.5rem 0;
-  }
-  
-  .upload-json-btn {
+}
+
+.upload-json-btn {
 	background-color: #007bff; /* Adjust to your theme color */
 	padding: 8px 12px;
 	color: #fff;
@@ -5184,11 +5223,8 @@ button {
 	cursor: pointer;
 	border-radius: 4px;
 	font-size: 0.95rem;
-  }
-  
-  .upload-json-btn:hover {
+}
+
+.upload-json-btn:hover {
 	filter: brightness(0.9);
-  }
-  
-  
-  
+}
