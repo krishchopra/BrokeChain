@@ -86,9 +86,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.vaibhav0806.okto_rn'
+    namespace 'com.example.broke'
     defaultConfig {
-        applicationId 'com.vaibhav0806.okto_rn'
+        applicationId 'com.example.broke'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

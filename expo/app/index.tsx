@@ -14,6 +14,7 @@ import config from "./constants/config";
 import { Buffer } from "buffer";
 import * as WebBrowser from "expo-web-browser";
 import { useAuthRequest } from "expo-auth-session/providers/google";
+import { makeRedirectUri } from "expo-auth-session";
 import { authenticate } from "../services/authService";
 
 global.Buffer = Buffer;
@@ -31,32 +32,36 @@ export default function Index() {
 	const [userInfo, setUserInfo] = useState<any>(null);
 
 	const [request, response, promptAsync] = useAuthRequest({
-		clientId:
-			"1014198787518-8iuakd6kru20f6ismo8kviddsl72spv3.apps.googleusercontent.com",
+		clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
 		scopes: ["openid", "profile", "email"],
 		responseType: "id_token",
-		extraParams: {
-			access_type: "offline",
-		},
-		iosClientId:
-			"1014198787518-su651hjv6ssra0k974585dk2eos8fgs2.apps.googleusercontent.com",
-		// androidClientId: "YOUR_ANDROID_CLIENT_ID",
-		redirectUri: "exp://192.168.0.64:8081", // Using Expo's development server URL
+		iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
+		redirectUri: makeRedirectUri({
+			scheme: "brokechain",
+		}),
 	});
 
 	// Color animation for neon effect
 	const colorAnim = useRef(new Animated.Value(0)).current;
 
 	useEffect(() => {
+		// Reset any previous animations
+		colorAnim.setValue(0);
+
 		// Loop from 0 to 1 continuously for a seamless color cycle
 		Animated.loop(
 			Animated.timing(colorAnim, {
 				toValue: 1,
 				duration: 6000,
 				easing: Easing.linear,
-				useNativeDriver: false, // must be false to animate colors
+				useNativeDriver: true,
 			})
 		).start();
+
+		// Cleanup function to stop animation
+		return () => {
+			colorAnim.stopAnimation();
+		};
 	}, []);
 
 	useEffect(() => {
@@ -66,12 +71,11 @@ export default function Index() {
 	const handleSignInResponse = async () => {
 		if (response?.type === "success") {
 			try {
-				const { id_token } = response.params;
-				// Custom auth function
+				const { id_token } = response.params; // Google returns id_token directly
 				const user = await authenticate(id_token, oktoClient);
 				console.log("Login successful:", user);
 				setUserInfo(user);
-				router.push("/Dashboard"); // Navigate to your dashboard
+				router.push("/Dashboard");
 			} catch (error) {
 				console.error("Login failed:", error);
 			}
@@ -116,7 +120,7 @@ export default function Index() {
 				style={[
 					styles.button,
 					{
-						borderColor: neonColor,
+						borderColor: neonColor as unknown as string,
 					},
 				]}
 				onPress={() => promptAsync()}

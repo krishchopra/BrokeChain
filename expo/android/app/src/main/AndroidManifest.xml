@@ -24,8 +24,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.vaibhav0806.okto_rn"/>
-        <data android:scheme="exp+example"/>
+        <data android:scheme="com.example.broke"/>
       </intent-filter>
     </activity>
   </application>

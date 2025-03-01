@@ -5,10 +5,13 @@ import type { Hash, Hex } from "@okto_web3/core-js-sdk/dist/types";
 /**
  * Authenticate the user using Okto OAuth with Google.
  */
-export async function authenticate(idToken: string, oktoClient: OktoClient) {
+export async function authenticate(
+	accessToken: string,
+	oktoClient: OktoClient
+) {
 	try {
 		const user = await oktoClient.loginUsingOAuth({
-			idToken,
+			idToken: accessToken,
 			provider: "google",
 		});
 		console.log("Authentication successful:", user);

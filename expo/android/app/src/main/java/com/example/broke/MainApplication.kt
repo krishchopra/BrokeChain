@@ -1,4 +1,4 @@
-package com.vaibhav0806.okto_rn
+package com.example.broke
 
 import android.app.Application
 import android.content.res.Configuration
