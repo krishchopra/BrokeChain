@@ -1,2 +1,2 @@
 # BrokeChain
-No more broken promises—just blockchain-backed, shared payments.
+No more broken smart contracts—just airtight blockchain security, with AI-powered auditing.
