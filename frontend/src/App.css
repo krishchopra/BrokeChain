@@ -3,20 +3,18 @@
 .app-layout.drawer-open .main-container {
 	margin-left: var(--sidebar-width);
 	width: calc(100% - var(--sidebar-width));
-  }
+}
 
-  
-  
-  .logo-text {
+.logo-text {
 	font-size: 1.75rem; /* Increase as desired */
-	font-weight: 700;   /* Optional: makes it bolder */
-  }
-  .page-content {
+	font-weight: 700; /* Optional: makes it bolder */
+}
+.page-content {
 	max-width: 1400px;
 	margin: 0 auto;
 	padding: var(--spacing-xl);
-  }
-  
+}
+
 :root {
 	/* Hacken color theme */
 	/* --primary: #3EF2D0;
@@ -169,14 +167,17 @@ button:focus-visible {
 }
 
 .main-content {
-	margin-left: var(--sidebar-collapsed-width); /* default margin for closed sidebar */
+	margin-left: var(
+		--sidebar-collapsed-width
+	); /* default margin for closed sidebar */
 	transition: margin-left var(--transition-normal);
-  }
-  
-  .main-content.drawer-open {
-	margin-left: var(--sidebar-width); /* expanded margin when sidebar is open */
-  }
-  
+}
+
+.main-content.drawer-open {
+	margin-left: var(
+		--sidebar-width
+	); /* expanded margin when sidebar is open */
+}
 
 /* App layout */
 .app-layout {
@@ -1404,11 +1405,10 @@ input:checked + .toggle-slider:before {
 
 /* Input Container */
 
-
-.input-container {     /* or any width that fits your design */        /* center it */
-	padding: 1rem;          /* adjust as needed */
-  }
-  
+.input-container {
+	/* or any width that fits your design */ /* center it */
+	padding: 1rem; /* adjust as needed */
+}
 
 .input-form.elevated {
 	padding: var(--spacing-xl);
@@ -2107,14 +2107,14 @@ input:checked + .toggle-slider:before {
 .vulnerability-card .code-container,
 .vulnerability-card pre,
 .vulnerability-card code {
-  /* Ensure normal document flow */
-  position: static !important;
-  bottom: auto !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  /* Also remove any huge z-index if present */
-  z-index: auto !important;
+	/* Ensure normal document flow */
+	position: static !important;
+	bottom: auto !important;
+	top: auto !important;
+	left: auto !important;
+	right: auto !important;
+	/* Also remove any huge z-index if present */
+	z-index: auto !important;
 }
 
 /* Report Actions */
@@ -2614,7 +2614,7 @@ input:checked + .toggle-slider:before {
 	border-radius: var(--border-radius-lg);
 	padding: var(--spacing-xl);
 	max-height: 1500px;
-	overflow-y: auto;  
+	overflow-y: auto;
 	min-height: 1000px;
 	position: relative;
 	border: 1px solid var(--gray-200);
@@ -5270,90 +5270,90 @@ button {
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-xl); /* Enough vertical gap so sections don't collide */
-  }
-  
-  /* Give some space below the steps bar */
-  .audit-steps {
+}
+
+/* Give some space below the steps bar */
+.audit-steps {
 	margin-bottom: var(--spacing-sm);
-  }
-  
-  /* The step-content-container inside each step. 
+}
+
+/* The step-content-container inside each step. 
 	 Ensures the ContractStatistics, vulnerability report, etc. 
 	 have some breathing room. */
-  .step-content-container {
+.step-content-container {
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-md);
-  }
-  
-  /* The card that shows lines of code, functions, complexity, etc. */
-  .contract-overview {
+}
+
+/* The card that shows lines of code, functions, complexity, etc. */
+.contract-overview {
 	margin-top: var(--spacing-md);
 	margin-bottom: var(--spacing-md);
-  }
-  
-  /* The main vulnerability report (report-main + report-sidebar).
+}
+
+/* The main vulnerability report (report-main + report-sidebar).
 	 Add horizontal gap between them, plus top/bottom margin. */
-  .report-container {
+.report-container {
 	display: flex;
 	flex-direction: row; /* If you want side-by-side layout */
 	gap: var(--spacing-xl);
 	margin-top: var(--spacing-md);
 	margin-bottom: var(--spacing-md);
-  }
-  
-  /* The "Analysis Log" section if you show chat messages after the final step. */
-  .chat-section {
+}
+
+/* The "Analysis Log" section if you show chat messages after the final step. */
+.chat-section {
 	margin-top: var(--spacing-xl);
-  }
-  
+}
+
 /* 1) Constrain the max width and center the page content 
-   so things don’t look so zoomed in. Adjust 1400px or 1600px 
+   so things don't look so zoomed in. Adjust 1400px or 1600px 
    as you prefer. */
-   .page-content {
-	max-width: 1400px;      /* or 1600px, etc. */
-	margin: 0 auto;         /* center horizontally */
-	min-height: 200vh;      /* forcibly make page ~twice as tall */
-  }
-  
-  /* 2) The container that holds the big "report-main" 
-	 and the right-side boxes “report-sidebar”: 
-	 a) Use flex-wrap so it doesn’t overflow off-screen
+.page-content {
+	max-width: 1400px; /* or 1600px, etc. */
+	margin: 0 auto; /* center horizontally */
+	min-height: 200vh; /* forcibly make page ~twice as tall */
+}
+
+/* 2) The container that holds the big "report-main" 
+	 and the right-side boxes "report-sidebar": 
+	 a) Use flex-wrap so it doesn't overflow off-screen
 	 b) Provide a gap and allow them to wrap on narrow screens */
-  .report-container {
+.report-container {
 	display: flex;
-	flex-wrap: wrap;        /* wrap instead of overflow */
+	flex-wrap: wrap; /* wrap instead of overflow */
 	gap: var(--spacing-xl); /* space between main and sidebar */
 	margin-top: var(--spacing-md);
 	margin-bottom: var(--spacing-md);
-  }
-  
-  /* Make the left side ("report-main") flexible; 
-	 the right side can be a fixed max-width or a narrower column */
-  .report-main {
-	flex: 1;                /* let it shrink or grow */
-	min-width: 0;           /* allow it to shrink properly in flexbox */
-  }
-  
-  .report-sidebar {
-	width: 360px;           /* fixed or max-width for your summary column */
-	flex-shrink: 0;         /* don't let it shrink too small */
-  }
-  
-  /* 3) Make “Analysis Log” bigger and bolder, like “Vulnerabilities” */
-  .chat-section h3 {
-	font-size: 1.2rem;      /* matches typical heading size */
-	font-weight: 700;       /* bolder text */
-	margin-bottom: var(--spacing-md);
-  }
+}
 
-  /* Simple dropdown styling for the export menu */
+/* Make the left side ("report-main") flexible; 
+	 the right side can be a fixed max-width or a narrower column */
+.report-main {
+	flex: 1; /* let it shrink or grow */
+	min-width: 0; /* allow it to shrink properly in flexbox */
+}
+
+.report-sidebar {
+	width: 360px; /* fixed or max-width for your summary column */
+	flex-shrink: 0; /* don't let it shrink too small */
+}
+
+/* 3) Make "Analysis Log" bigger and bolder, like "Vulnerabilities" */
+.chat-section h3 {
+	font-size: 1.2rem; /* matches typical heading size */
+	font-weight: 700; /* bolder text */
+	margin-bottom: var(--spacing-md);
+}
+
+/* Simple dropdown styling for the export menu */
 .export-dropdown {
 	position: relative;
 	display: inline-block; /* Keep it next to the 'New Audit' button */
-  }
-  
-  .export-dropdown-menu {
+}
+
+.export-dropdown-menu {
 	position: absolute;
 	top: 110%;
 	right: 0;
@@ -5365,9 +5365,9 @@ button {
 	flex-direction: column;
 	min-width: 180px;
 	z-index: 99;
-  }
-  
-  .export-dropdown-menu button {
+}
+
+.export-dropdown-menu button {
 	background: none;
 	border: none;
 	text-align: left;
@@ -5376,9 +5376,124 @@ button {
 	font-size: 0.9rem;
 	cursor: pointer;
 	transition: background-color var(--transition-fast);
-  }
-  
-  .export-dropdown-menu button:hover {
+}
+
+.export-dropdown-menu button:hover {
 	background-color: var(--gray-100);
-  }
-  
+}
+
+/* First, add this new class for a proper loading circle */
+.stage-loader-circle {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 2px solid rgba(75, 85, 255, 0.3);
+	border-radius: 50%;
+	border-top-color: var(--primary);
+	animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Fix the info icon alignment */
+.analysis-note {
+	display: flex;
+	align-items: center;
+	margin-top: 1rem;
+	color: var(--gray-700);
+}
+
+.analysis-note svg {
+	margin-right: 8px;
+	flex-shrink: 0;
+}
+
+.analysis-note p {
+	margin: 0;
+}
+
+/* Stage styling for the analysis page */
+.analysis-stages {
+	margin: 2rem 0;
+}
+
+.stage {
+	display: flex;
+	align-items: center;
+	margin-bottom: 1rem;
+	padding: 0.75rem 1rem;
+	border-radius: var(--border-radius-md);
+	background-color: var(--surface-variant);
+}
+
+.stage.completed {
+	background-color: var(--success-light);
+}
+
+.stage.active {
+	background-color: var(--surface-variant);
+}
+
+/* Fix alignment of stage indicators while preserving appearance */
+.stage-check,
+.stage-loader-circle,
+.stage-number {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 24px;
+	width: 24px;
+	height: 24px;
+	margin-right: 1rem;
+	flex-shrink: 0;
+}
+
+/* Keep the loader circle the same but properly centered */
+.stage-loader-circle {
+	border: 2px solid rgba(75, 85, 255, 0.3);
+	border-radius: 50%;
+	border-top-color: var(--primary);
+	animation: spin 1s ease-in-out infinite;
+}
+
+.stage-number {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--gray-300);
+	color: var(--gray-700);
+	font-size: 0.875rem;
+	font-weight: 600;
+	border-radius: 50%;
+}
+
+.stage-name {
+	font-weight: 500;
+}
+
+/* Fix the info icon alignment */
+.analysis-note {
+	display: flex;
+	align-items: center;
+	margin-top: 1.5rem;
+	color: var(--gray-700);
+}
+
+.analysis-note svg {
+	margin-right: 0.75rem;
+	flex-shrink: 0;
+}
+
+.analysis-note p {
+	margin: 0;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
