@@ -2041,8 +2041,7 @@ ${vuln.lineReferences || ""}`;
 		reader.onload = (e) => {
 		  const fileText = e.target.result;
 		  setPreTrainedDataText(fileText);
-		  setFileUploadStatus("JSON loaded successfully via file selector!");
-		  setTimeout(() => setFileUploadStatus(""), 3000);
+		  setFileUploadStatus(`${file.name} has been successfully uploaded for pre-training.`);
 		};
 		reader.readAsText(file);
 	  };
