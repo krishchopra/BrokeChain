@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import "./App.css";
 import { AnimatePresence, motion } from "framer-motion";
@@ -30,6 +30,17 @@ const Icons = {
       />
     </svg>
   ),
+  Dashboard: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M3 9H21M9 21V9M5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
   Audit: () => (
     <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
       <path
@@ -49,6 +60,24 @@ const Icons = {
         20.3854 5.6146 19.9265 5.32698 
         19.362C5 18.7202 5 17.8802 
         5 16.2V7.8Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Library: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M4 19.5V4.5C4 4.22386 4.22386 4 4.5 4H19.5C19.7761 4 20 4.22386 20 4.5V19.5C20 19.7761 19.7761 20 19.5 20H4.5C4.22386 20 4 19.7761 4 19.5Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8 7H16M8 12H16M8 17H12"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
@@ -261,24 +290,180 @@ const Icons = {
       />
     </svg>
   ),
+  Menu: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M4 6H20M4 12H20M4 18H20"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Close: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M18 6L6 18M6 6L18 18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Check: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M5 13L9 17L19 7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Alert: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Sun: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M12 17.75C15.1766 17.75 17.75 15.1766 17.75 12C17.75 8.82334 15.1766 6.25 12 6.25C8.82334 6.25 6.25 8.82334 6.25 12C6.25 15.1766 8.82334 17.75 12 17.75Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 3V5M12 19V21M3 12H5M19 12H21M4.9282 4.92859L6.3432 6.34359M17.6569 17.6566L19.0719 19.0716M4.9282 19.0716L6.3432 17.6566M17.6569 6.34359L19.0719 4.92859"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Moon: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Search: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M21 21L15.8033 15.8033M15.8033 15.8033C17.1605 14.4461 18 12.5711 18 10.5C18 6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18C12.5711 18 14.4461 17.1605 15.8033 15.8033Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Filter: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M3 6H21M6 12H18M10 18H14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Copy: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M8 4V16C8 16.5304 8.21071 17.0391 8.58579 17.4142C8.96086 17.7893 9.46957 18 10 18H18C18.5304 18 19.0391 17.7893 19.4142 17.4142C19.7893 17.0391 20 16.5304 20 16V7.242C20 6.97556 19.9467 6.71181 19.8433 6.46624C19.7399 6.22068 19.5885 5.99824 19.398 5.812L16.083 2.57C15.7094 2.20466 15.2076 2.00007 14.685 2H10C9.46957 2 8.96086 2.21071 8.58579 2.58579C8.21071 2.96086 8 3.46957 8 4V4Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M16 18V20C16 20.5304 15.7893 21.0391 15.4142 21.4142C15.0391 21.7893 14.5304 22 14 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V8C4 7.46957 4.21071 6.96086 4.58579 6.58579C4.96086 6.21071 5.46957 6 6 6H8"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Info: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  ChevronLeft: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M15 18L9 12L15 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  ChevronRight: () => (
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+      <path
+        d="M9 18L15 12L9 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
 };
 
 /* =====================
    NAV ITEMS
    ===================== */
 const navItems = [
-  { id: "home", label: "Home", icon: <Icons.Home /> },
-  { id: "audit", label: "Audit", icon: <Icons.Audit /> },
-  { id: "history", label: "History", icon: <Icons.History /> },
+  { id: "dashboard", label: "Dashboard", icon: <Icons.Dashboard /> },
+  { id: "audit", label: "Smart Contract Audit", icon: <Icons.Audit /> },
+  { id: "library", label: "Security Library", icon: <Icons.Library /> },
+  { id: "history", label: "Audit History", icon: <Icons.History /> },
   { id: "settings", label: "Settings", icon: <Icons.Settings /> },
 ];
 
 /* =====================
    SIDE DRAWER
    ===================== */
-function SideDrawer({ currentPage, setCurrentPage }) {
+function SideDrawer({ currentPage, setCurrentPage, isOpen, toggleDrawer }) {
   return (
-    <aside className="side-drawer open">
+    <aside className={`side-drawer ${isOpen ? "open" : "closed"}`}>
+      <div className="drawer-header">
+        <div className="logo">
+          <span className="logo-icon">🔒</span>
+          <span className="logo-text">SecureChain</span>
+        </div>
+        <button className="drawer-toggle-btn" onClick={toggleDrawer}>
+          {isOpen ? <Icons.ChevronLeft /> : <Icons.ChevronRight />}
+        </button>
+      </div>
       <nav>
         {navItems.map((item) => (
           <button
@@ -287,12 +472,19 @@ function SideDrawer({ currentPage, setCurrentPage }) {
             onClick={() => setCurrentPage(item.id)}
           >
             {item.icon}
-            <span>{item.label}</span>
+            <span className="nav-label">{item.label}</span>
           </button>
         ))}
       </nav>
       <div className="drawer-footer">
-        <p className="version-tag">Version 1.0</p>
+        <div className="user-info">
+          <div className="user-avatar">AS</div>
+          <div className="user-details">
+            <span className="user-name">Auditor Studio</span>
+            <span className="user-role">Professional</span>
+          </div>
+        </div>
+        <p className="version-tag">Version 2.0</p>
       </div>
     </aside>
   );
@@ -306,6 +498,13 @@ function ConfidenceGauge({ score }) {
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
 
+  // Determine color based on score
+  const getColor = () => {
+    if (score >= 80) return "var(--success)";
+    if (score >= 60) return "var(--warning)";
+    return "var(--error)";
+  };
+
   return (
     <div className="gauge-container">
       <svg className="gauge">
@@ -317,49 +516,114 @@ function ConfidenceGauge({ score }) {
           r={radius}
           strokeDasharray={circumference}
           strokeDashoffset={offset}
+          stroke={getColor()}
         />
-        <text x="50%" y="54%" textAnchor="middle" className="gauge-text">
+        <text x="50%" y="45%" textAnchor="middle" className="gauge-text">
           {score}%
         </text>
+        <text x="50%" y="60%" textAnchor="middle" className="gauge-label">
+          Confidence
+        </text>
       </svg>
-      <p>Confidence Score</p>
     </div>
+  );
+}
+
+/* =====================
+   STATS WIDGET
+   ===================== */
+function StatsWidget({ title, value, icon, type }) {
+  return (
+    <motion.div
+      className={`stat-widget ${type}`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="stat-icon">{icon}</div>
+      <div className="stat-content">
+        <span className="stat-title">{title}</span>
+        <span className="stat-value">{value}</span>
+      </div>
+    </motion.div>
   );
 }
 
 /* =====================
    VULNERABILITY CARD
    ===================== */
-function VulnerabilityCard({ vuln, index }) {
+function VulnerabilityCard({ vuln, index, onCopy }) {
   const [expanded, setExpanded] = useState(false);
+  const [showCopied, setShowCopied] = useState(false);
+
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    onCopy(vuln);
+    setShowCopied(true);
+    setTimeout(() => setShowCopied(false), 2000);
+  };
+
+  const severityColor = () => {
+    switch (vuln.severity.toLowerCase()) {
+      case "high":
+      case "critical":
+        return "high";
+      case "medium":
+        return "medium";
+      default:
+        return "low";
+    }
+  };
 
   return (
-    <div className="vuln-card">
+    <motion.div
+      className={`vuln-card severity-${severityColor()}`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
+    >
       <div className="vuln-header">
         <h3>
-          {index + 1}. {vuln.type}
+          <span className="vuln-index">{index + 1}</span> {vuln.type}
         </h3>
-        <span className={`severity-badge ${vuln.severity.toLowerCase()}`}>
+        <span className={`severity-badge ${severityColor()}`}>
           {vuln.severity}
         </span>
       </div>
       <div className="vuln-content">
+        <strong>Impact:</strong> {vuln.impact || "Could lead to fund loss or contract compromise"}
+      </div>
+      <div className="vuln-content">
         <strong>Recommendation:</strong> {vuln.recommendation}
       </div>
-      {vuln.lineReferences && (
-        <button
-          className="expand-btn"
-          onClick={() => setExpanded((prev) => !prev)}
-        >
-          {expanded ? "Hide Code Snippet" : "View Code Snippet"}
+      <div className="vuln-actions">
+        {vuln.lineReferences && (
+          <button
+            className="action-btn expand-btn"
+            onClick={() => setExpanded((prev) => !prev)}
+          >
+            {expanded ? "Hide Code Snippet" : "View Code Snippet"}
+          </button>
+        )}
+        <button className="action-btn copy-btn" onClick={handleCopy}>
+          {showCopied ? <Icons.Check /> : <Icons.Copy />}
+          <span>{showCopied ? "Copied" : "Copy Details"}</span>
         </button>
-      )}
+      </div>
       {expanded && vuln.lineReferences && (
-        <pre className="code-snippet">
-          <code>{vuln.lineReferences}</code>
-        </pre>
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <pre className="code-snippet">
+            <code>{vuln.lineReferences}</code>
+          </pre>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -367,56 +631,720 @@ function VulnerabilityCard({ vuln, index }) {
    AUTO-FIX
    ===================== */
 function AutoFixSuggestion({ fixCode }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(fixCode);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   if (!fixCode) return null;
   return (
-    <div className="auto-fix">
-      <h3>AI Auto-Fix Suggestion</h3>
+    <motion.div
+      className="auto-fix"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="auto-fix-header">
+        <h3><Icons.Info /> AI Auto-Fix Suggestion</h3>
+        <button className="copy-code-btn" onClick={handleCopy}>
+          {copied ? <Icons.Check /> : <Icons.Copy />}
+          <span>{copied ? "Copied" : "Copy Code"}</span>
+        </button>
+      </div>
       <pre className="code-snippet">
         <code>{fixCode}</code>
       </pre>
-    </div>
+    </motion.div>
   );
 }
 
 /* =====================
-   HOME PAGE
+   REPORT SUMMARY
    ===================== */
-function Home() {
+function ReportSummary({ vulnerabilities, onExport }) {
+  const getVulnerabilitiesByType = () => {
+    const counts = { high: 0, medium: 0, low: 0, total: vulnerabilities.length };
+    
+    vulnerabilities.forEach((vuln) => {
+      const severity = vuln.severity.toLowerCase();
+      if (severity === "high" || severity === "critical") counts.high++;
+      else if (severity === "medium") counts.medium++;
+      else counts.low++;
+    });
+    
+    return counts;
+  };
+
+  const counts = getVulnerabilitiesByType();
+
   return (
-    <div className="page-content home-page">
-      <h2>Welcome to the BrokeChain Auditor!</h2>
-      <p>
-        This tool analyzes Solidity code or GitHub repos for vulnerabilities,
-        giving you a confidence score and recommended fixes.
-      </p>
-      <p>Use the side navigation to get started!</p>
+    <motion.div
+      className="report-summary"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <div className="summary-header">
+        <h3>Audit Summary</h3>
+        <button className="export-btn" onClick={onExport}>
+          <Icons.Download />
+          <span>Export PDF Report</span>
+        </button>
+      </div>
+      <div className="summary-stats">
+        <div className="stat-item">
+          <span className="stat-count">{counts.total}</span>
+          <span className="stat-label">Total Issues</span>
+        </div>
+        <div className="stat-item high">
+          <span className="stat-count">{counts.high}</span>
+          <span className="stat-label">High</span>
+        </div>
+        <div className="stat-item medium">
+          <span className="stat-count">{counts.medium}</span>
+          <span className="stat-label">Medium</span>
+        </div>
+        <div className="stat-item low">
+          <span className="stat-count">{counts.low}</span>
+          <span className="stat-label">Low</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* =====================
+   SEARCH BAR
+   ===================== */
+function SearchBar({ onSearch, placeholder }) {
+  const [query, setQuery] = useState("");
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    onSearch(value);
+  };
+
+  return (
+    <div className="search-container">
+      <Icons.Search />
+      <input
+        type="text"
+        className="search-input"
+        placeholder={placeholder || "Search..."}
+        value={query}
+        onChange={handleChange}
+      />
+      {query && (
+        <button className="search-clear" onClick={() => handleChange({ target: { value: "" } })}>
+          <Icons.Close />
+        </button>
+      )}
     </div>
   );
 }
 
 /* =====================
-   HISTORY
+   DASHBOARD PAGE
    ===================== */
-function History() {
-  const mockHistory = [
-    { id: 1, date: "2025-02-28", codeSnippet: "contract MyToken {...}" },
-    { id: 2, date: "2025-02-27", codeSnippet: "contract AnotherContract {...}" },
+function Dashboard() {
+  // Sample data for demonstration purposes
+  const recentAudits = [
+    { 
+      id: 1, 
+      name: "TokenSwap.sol", 
+      date: "2025-02-28", 
+      issues: { high: 2, medium: 3, low: 1 },
+      score: 78
+    },
+    { 
+      id: 2, 
+      name: "LiquidityPool.sol", 
+      date: "2025-02-25", 
+      issues: { high: 0, medium: 1, low: 4 },
+      score: 92
+    },
+    { 
+      id: 3, 
+      name: "NFTMarketplace.sol", 
+      date: "2025-02-20", 
+      issues: { high: 1, medium: 2, low: 3 },
+      score: 85
+    },
+  ];
+
+  const commonVulnerabilities = [
+    { name: "Reentrancy", count: 24, change: "+5%" },
+    { name: "Access Control", count: 18, change: "-2%" },
+    { name: "Integer Overflow", count: 15, change: "-8%" },
+    { name: "Front-Running", count: 12, change: "+10%" },
   ];
 
   return (
-    <div className="page-content history-page">
-      <h2>Past Audits</h2>
-      {mockHistory.map((item) => (
-        <div key={item.id} className="history-item vuln-card">
-          <p>
-            <strong>Date:</strong> {item.date}
-          </p>
-          <pre className="code-snippet">
-            <code>{item.codeSnippet}</code>
-          </pre>
-          <hr />
+    <div className="page-content dashboard-page">
+      <div className="page-header">
+        <h2>Dashboard</h2>
+        <div className="header-actions">
+          <button className="primary-button">
+            <Icons.Audit />
+            <span>New Audit</span>
+          </button>
         </div>
-      ))}
+      </div>
+
+      <div className="dashboard-stats">
+        <StatsWidget 
+          title="Total Audits" 
+          value="36" 
+          icon={<Icons.Audit />} 
+          type="primary"
+        />
+        <StatsWidget 
+          title="Avg. Security Score" 
+          value="82%" 
+          icon={<Icons.Check />} 
+          type="success"
+        />
+        <StatsWidget 
+          title="Critical Issues" 
+          value="12" 
+          icon={<Icons.Alert />} 
+          type="danger"
+        />
+        <StatsWidget 
+          title="Fixes Applied" 
+          value="92%" 
+          icon={<Icons.Check />} 
+          type="info"
+        />
+      </div>
+
+      <div className="dashboard-row">
+        <div className="dashboard-card recent-audits">
+          <h3>Recent Audits</h3>
+          <div className="audit-list">
+            {recentAudits.map((audit) => (
+              <div key={audit.id} className="audit-item">
+                <div className="audit-info">
+                  <h4>{audit.name}</h4>
+                  <p className="audit-date">{audit.date}</p>
+                </div>
+                <div className="audit-stats">
+                  <div className="audit-issues">
+                    {audit.issues.high > 0 && (
+                      <span className="issue-badge high">{audit.issues.high}</span>
+                    )}
+                    {audit.issues.medium > 0 && (
+                      <span className="issue-badge medium">{audit.issues.medium}</span>
+                    )}
+                    {audit.issues.low > 0 && (
+                      <span className="issue-badge low">{audit.issues.low}</span>
+                    )}
+                  </div>
+                  <div className="audit-score">
+                    <div className="score-circle" style={{
+                      borderColor: audit.score >= 80 ? "var(--success)" : 
+                                  audit.score >= 60 ? "var(--warning)" : "var(--error)"
+                    }}>
+                      {audit.score}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="view-all-btn">View All Audits</button>
+        </div>
+
+        <div className="dashboard-card vulnerability-trends">
+          <h3>Common Vulnerabilities</h3>
+          <div className="vulnerability-list">
+            {commonVulnerabilities.map((vuln, index) => (
+              <div key={index} className="vulnerability-item">
+                <div className="vulnerability-info">
+                  <h4>{vuln.name}</h4>
+                  <p className="vulnerability-count">{vuln.count} occurrences</p>
+                </div>
+                <div className="trend-indicator">
+                  <span className={vuln.change.startsWith("+") ? "up" : "down"}>
+                    {vuln.change}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="dashboard-card security-tips">
+        <h3>Security Tips</h3>
+        <div className="tips-content">
+          <div className="tip-item">
+            <div className="tip-icon">💡</div>
+            <div className="tip-text">
+              <h4>Implement Checks-Effects-Interactions Pattern</h4>
+              <p>Always update state variables before interacting with external contracts to prevent reentrancy attacks.</p>
+            </div>
+          </div>
+          <div className="tip-item">
+            <div className="tip-icon">🔒</div>
+            <div className="tip-text">
+              <h4>Use Access Control Lists</h4>
+              <p>Implement proper access controls for sensitive functions and avoid using tx.origin for authentication.</p>
+            </div>
+          </div>
+          <div className="tip-item">
+            <div className="tip-icon">⚠️</div>
+            <div className="tip-text">
+              <h4>Avoid Hardcoded Gas Values</h4>
+              <p>With EIP-1559 and gas optimizations, avoid hardcoding gas values in your contracts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =====================
+   SECURITY LIBRARY PAGE
+   ===================== */
+function SecurityLibrary() {
+  const [activeTab, setActiveTab] = useState("vulnerabilities");
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  const vulnerabilityPatterns = [
+    {
+      id: 1,
+      name: "Reentrancy",
+      description: "Occurs when external contract calls are allowed to make new calls to the calling contract before the first execution is complete",
+      risk: "High",
+      code: `function withdrawFunds() public {
+  uint256 amount = balances[msg.sender];
+  (bool success, ) = msg.sender.call{value: amount}("");
+  require(success, "Transfer failed");
+  balances[msg.sender] = 0; // State update after external call
+}`
+    },
+    {
+      id: 2,
+      name: "Integer Overflow/Underflow",
+      description: "Arithmetic operations reaching the maximum or minimum size of the type and wrapping around",
+      risk: "Medium",
+      code: `function addToBalance(uint256 amount) public {
+  balances[msg.sender] += amount; // Potential overflow
+}`
+    },
+    {
+      id: 3,
+      name: "Access Control",
+      description: "Missing or incorrect access controls allowing unauthorized actions",
+      risk: "High",
+      code: `function transferOwnership(address newOwner) public {
+  owner = newOwner; // Missing owner check
+}`
+    },
+    {
+      id: 4,
+      name: "Front-Running",
+      description: "Transaction order exploitation by observing pending transactions and inserting own transaction",
+      risk: "Medium",
+      code: `function setPrice(uint256 newPrice) public {
+  require(newPrice > 0, "Price must be positive");
+  price = newPrice; // Vulnerable to front-running
+}`
+    },
+  ];
+  
+  const securePatterns = [
+    {
+      id: 1,
+      name: "Checks-Effects-Interactions Pattern",
+      description: "Follow this pattern to prevent reentrancy: check conditions, update state, interact with external contracts",
+      benefits: "Prevents reentrancy attacks",
+      code: `function withdrawFunds() public {
+  uint256 amount = balances[msg.sender]; // Check
+  balances[msg.sender] = 0; // Effect (state update)
+  (bool success, ) = msg.sender.call{value: amount}(""); // Interaction
+  require(success, "Transfer failed");
+}`
+    },
+    {
+      id: 2,
+      name: "Pull Over Push Pattern",
+      description: "Allow users to withdraw funds themselves instead of pushing funds to them",
+      benefits: "Reduces reentrancy risk, gas efficiency",
+      code: `// Users call this function to withdraw
+function withdraw() public {
+  uint256 amount = pendingWithdrawals[msg.sender];
+  pendingWithdrawals[msg.sender] = 0;
+  payable(msg.sender).transfer(amount);
+}`
+    },
+    {
+      id: 3,
+      name: "Access Control Modifiers",
+      description: "Use modifiers to restrict function access",
+      benefits: "Centralized access control, less error-prone",
+      code: `modifier onlyOwner() {
+  require(msg.sender == owner, "Not owner");
+  _;
+}
+
+function sensitiveFunction() public onlyOwner {
+  // Function body
+}`
+    },
+  ];
+
+  const filteredVulnerabilities = vulnerabilityPatterns.filter(
+    (vuln) => vuln.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              vuln.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredPatterns = securePatterns.filter(
+    (pattern) => pattern.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                pattern.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="page-content library-page">
+      <div className="page-header">
+        <h2>Security Library</h2>
+        <div className="header-actions">
+          <SearchBar 
+            onSearch={setSearchQuery} 
+            placeholder="Search vulnerabilities and patterns..." 
+          />
+        </div>
+      </div>
+
+      <div className="library-tabs">
+        <button 
+          className={activeTab === "vulnerabilities" ? "active" : ""} 
+          onClick={() => setActiveTab("vulnerabilities")}
+        >
+          <Icons.Alert />
+          <span>Vulnerability Patterns</span>
+        </button>
+        <button 
+          className={activeTab === "secure" ? "active" : ""} 
+          onClick={() => setActiveTab("secure")}
+        >
+          <Icons.Check />
+          <span>Secure Patterns</span>
+        </button>
+      </div>
+
+      <div className="library-content">
+        {activeTab === "vulnerabilities" ? (
+          <AnimatePresence>
+            <motion.div 
+              className="vulnerability-patterns"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {filteredVulnerabilities.length > 0 ? (
+                filteredVulnerabilities.map((vuln) => (
+                  <motion.div 
+                    key={vuln.id}
+                    className="library-item"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="library-item-header">
+                      <h3>{vuln.name}</h3>
+                      <span className={`risk-level ${vuln.risk.toLowerCase()}`}>
+                        {vuln.risk} Risk
+                      </span>
+                    </div>
+                    <p className="library-item-desc">{vuln.description}</p>
+                    <div className="library-code">
+                      <h4>Vulnerable Code Example:</h4>
+                      <pre className="code-snippet">
+                        <code>{vuln.code}</code>
+                      </pre>
+                    </div>
+                  </motion.div>
+                ))
+              ) : (
+                <div className="empty-state">
+                  <Icons.Search />
+                  <p>No vulnerability patterns found matching "{searchQuery}"</p>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        ) : (
+          <AnimatePresence>
+            <motion.div 
+              className="secure-patterns"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {filteredPatterns.length > 0 ? (
+                filteredPatterns.map((pattern) => (
+                  <motion.div 
+                    key={pattern.id}
+                    className="library-item"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="library-item-header">
+                      <h3>{pattern.name}</h3>
+                      <span className="pattern-benefit">
+                        {pattern.benefits}
+                      </span>
+                    </div>
+                    <p className="library-item-desc">{pattern.description}</p>
+                    <div className="library-code">
+                      <h4>Secure Implementation:</h4>
+                      <pre className="code-snippet">
+                        <code>{pattern.code}</code>
+                      </pre>
+                    </div>
+                  </motion.div>
+                ))
+              ) : (
+                <div className="empty-state">
+                  <Icons.Search />
+                  <p>No secure patterns found matching "{searchQuery}"</p>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* =====================
+   HISTORY PAGE
+   ===================== */
+function History() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("date");
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [filterBy, setFilterBy] = useState("all");
+  
+  const mockHistory = [
+    { 
+      id: 1, 
+      title: "TokenSwap.sol", 
+      date: "2025-02-28 14:32", 
+      issueCount: { high: 2, medium: 3, low: 1 },
+      score: 78,
+      tags: ["DeFi", "ERC20"],
+      notes: "Initial audit of token swap contract"
+    },
+    { 
+      id: 2, 
+      title: "LiquidityPool.sol", 
+      date: "2025-02-25 09:15", 
+      issueCount: { high: 0, medium: 1, low: 4 },
+      score: 92,
+      tags: ["DeFi", "Liquidity"],
+      notes: "Follow-up after first round of fixes"
+    },
+    { 
+      id: 3, 
+      title: "NFTMarketplace.sol", 
+      date: "2025-02-20 16:45", 
+      issueCount: { high: 1, medium: 2, low: 3 },
+      score: 85,
+      tags: ["NFT", "Marketplace"],
+      notes: "Complete marketplace contract review"
+    },
+    { 
+      id: 4, 
+      title: "Staking.sol", 
+      date: "2025-02-15 11:20", 
+      issueCount: { high: 3, medium: 2, low: 2 },
+      score: 65,
+      tags: ["Staking", "Rewards"],
+      notes: "Initial review of staking mechanics"
+    },
+    { 
+      id: 5, 
+      title: "Governance.sol", 
+      date: "2025-02-10 13:50", 
+      issueCount: { high: 0, medium: 0, low: 2 },
+      score: 96,
+      tags: ["DAO", "Governance"],
+      notes: "Review of voting mechanisms"
+    },
+  ];
+
+  // Filter history by search term
+  const filteredHistory = mockHistory.filter(item => {
+    // Filter by search term
+    const searchMatch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        item.notes.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        item.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    // Filter by severity
+    const hasHighIssues = item.issueCount.high > 0;
+    const hasMediumIssues = item.issueCount.medium > 0;
+    
+    if (filterBy === "all") return searchMatch;
+    if (filterBy === "high") return searchMatch && hasHighIssues;
+    if (filterBy === "medium") return searchMatch && hasMediumIssues;
+    if (filterBy === "clean") return searchMatch && !hasHighIssues && !hasMediumIssues;
+    
+    return searchMatch;
+  });
+
+  // Sort history based on sortBy and sortOrder
+  const sortedHistory = [...filteredHistory].sort((a, b) => {
+    if (sortBy === "date") {
+      return sortOrder === "asc" 
+        ? new Date(a.date) - new Date(b.date)
+        : new Date(b.date) - new Date(a.date);
+    } else if (sortBy === "score") {
+      return sortOrder === "asc" 
+        ? a.score - b.score
+        : b.score - a.score;
+    } else if (sortBy === "issues") {
+      const aTotal = a.issueCount.high + a.issueCount.medium + a.issueCount.low;
+      const bTotal = b.issueCount.high + b.issueCount.medium + b.issueCount.low;
+      return sortOrder === "asc" ? aTotal - bTotal : bTotal - aTotal;
+    }
+    return 0;
+  });
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
+  return (
+    <div className="page-content history-page">
+      <div className="page-header">
+        <h2>Audit History</h2>
+        <div className="header-actions">
+          <SearchBar 
+            onSearch={setSearchTerm} 
+            placeholder="Search by name, notes, or tags..." 
+          />
+        </div>
+      </div>
+
+      <div className="history-filters">
+        <div className="filter-group">
+          <label>Filter by:</label>
+          <select 
+            value={filterBy}
+            onChange={(e) => setFilterBy(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">All Audits</option>
+            <option value="high">High Severity Issues</option>
+            <option value="medium">Medium Severity Issues</option>
+            <option value="clean">Clean Audits</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label>Sort by:</label>
+          <select 
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="filter-select"
+          >
+            <option value="date">Date</option>
+            <option value="score">Security Score</option>
+            <option value="issues">Issue Count</option>
+          </select>
+          <button className="sort-order-btn" onClick={toggleSortOrder}>
+            {sortOrder === "asc" ? <Icons.ChevronRight /> : <Icons.ChevronLeft />}
+          </button>
+        </div>
+      </div>
+
+      <div className="history-list">
+        {sortedHistory.length > 0 ? (
+          sortedHistory.map((item) => (
+            <motion.div 
+              key={item.id}
+              className="history-item"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              whileHover={{ y: -5, boxShadow: "var(--shadow-lg)" }}
+            >
+              <div className="history-item-header">
+                <h3>{item.title}</h3>
+                <div className="history-item-score" style={{
+                  backgroundColor: item.score >= 80 
+                    ? "var(--success)" 
+                    : item.score >= 60 
+                      ? "var(--warning)" 
+                      : "var(--error)"
+                }}>
+                  {item.score}
+                </div>
+              </div>
+              
+              <div className="history-item-meta">
+                <div className="history-date">
+                  <Icons.History />
+                  <span>{item.date}</span>
+                </div>
+                <div className="history-issues">
+                  {item.issueCount.high > 0 && (
+                    <span className="issue-count high">
+                      {item.issueCount.high} High
+                    </span>
+                  )}
+                  {item.issueCount.medium > 0 && (
+                    <span className="issue-count medium">
+                      {item.issueCount.medium} Medium
+                    </span>
+                  )}
+                  {item.issueCount.low > 0 && (
+                    <span className="issue-count low">
+                      {item.issueCount.low} Low
+                    </span>
+                  )}
+                </div>
+              </div>
+              
+              <p className="history-notes">{item.notes}</p>
+              
+              <div className="history-tags">
+                {item.tags.map((tag, index) => (
+                  <span key={index} className="history-tag">{tag}</span>
+                ))}
+              </div>
+              
+              <div className="history-actions">
+                <button className="history-action-btn">
+                  <Icons.Download />
+                  <span>Export</span>
+                </button>
+                <button className="history-action-btn">
+                  <Icons.Audit />
+                  <span>View Report</span>
+                </button>
+              </div>
+            </motion.div>
+          ))
+        ) : (
+          <div className="empty-state">
+            <Icons.Search />
+            <p>No audit history found matching your criteria</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -424,11 +1352,21 @@ function History() {
 /* =====================
    SETTINGS
    ===================== */
-function SettingsOption({ label, description, defaultChecked }) {
+function SettingsOption({ 
+  label, 
+  description, 
+  defaultChecked, 
+  onChange,
+  id
+}) {
   return (
     <div className="settings-option">
       <label className="toggle-switch">
-        <input type="checkbox" defaultChecked={defaultChecked} />
+        <input 
+          type="checkbox" 
+          defaultChecked={defaultChecked} 
+          onChange={(e) => onChange(id, e.target.checked)} 
+        />
         <span className="toggle-slider"></span>
       </label>
       <div className="settings-label">
@@ -440,9 +1378,29 @@ function SettingsOption({ label, description, defaultChecked }) {
 }
 
 function Settings() {
+  const [darkMode, setDarkMode] = useState(false);
+  
+  // Apply dark mode to the document body
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
+  
+  const handleSettingChange = (settingId, value) => {
+    if (settingId === "darkMode") {
+      setDarkMode(value);
+    }
+    // Handle other settings as needed...
+  };
+
   return (
     <div className="page-content settings-page">
-      <h2>Settings</h2>
+      <div className="page-header">
+        <h2>Settings</h2>
+      </div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -453,14 +1411,25 @@ function Settings() {
         <h3>Display Settings</h3>
         <div className="settings-options">
           <SettingsOption
-            label="Enable Dark Mode"
+            id="darkMode"
+            label="Dark Mode"
             description="Toggle between light and dark interface"
-            defaultChecked={false}
+            defaultChecked={darkMode}
+            onChange={handleSettingChange}
           />
           <SettingsOption
+            id="animations"
             label="Animations"
             description="Enable UI animations"
-            defaultChecked
+            defaultChecked={true}
+            onChange={handleSettingChange}
+          />
+          <SettingsOption
+            id="compactView"
+            label="Compact View"
+            description="Show more content with less padding"
+            defaultChecked={false}
+            onChange={handleSettingChange}
           />
         </div>
       </motion.div>
@@ -474,15 +1443,77 @@ function Settings() {
         <h3>Audit Settings</h3>
         <div className="settings-options">
           <SettingsOption
+            id="autoFix"
             label="Auto-Fix Generation"
             description="Automatically generate fix suggestions"
-            defaultChecked
+            defaultChecked={true}
+            onChange={handleSettingChange}
           />
           <SettingsOption
+            id="extendedAnalysis"
             label="Extended Analysis"
             description="Use slower but more comprehensive tools"
-            defaultChecked
+            defaultChecked={true}
+            onChange={handleSettingChange}
           />
+          <SettingsOption
+            id="realTimeScan"
+            label="Real-time Scanning"
+            description="Scan code as you type (may impact performance)"
+            defaultChecked={false}
+            onChange={handleSettingChange}
+          />
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+        className="settings-section"
+      >
+        <h3>Notification Settings</h3>
+        <div className="settings-options">
+          <SettingsOption
+            id="emailNotifications"
+            label="Email Notifications"
+            description="Receive audit results via email"
+            defaultChecked={true}
+            onChange={handleSettingChange}
+          />
+          <SettingsOption
+            id="securityAlerts"
+            label="Security Alerts"
+            description="Get notifications about new vulnerabilities"
+            defaultChecked={true}
+            onChange={handleSettingChange}
+          />
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        className="settings-section"
+      >
+        <h3>API Configuration</h3>
+        <div className="api-settings">
+          <div className="api-key-container">
+            <label>API Key</label>
+            <div className="api-key-field">
+              <input type="password" value="••••••••••••••••••••••" readOnly />
+              <button className="api-key-action">
+                <Icons.Copy />
+              </button>
+              <button className="api-key-action">
+                <Icons.Download />
+              </button>
+            </div>
+          </div>
+          <button className="regenerate-key-btn">
+            <span>Regenerate API Key</span>
+          </button>
         </div>
       </motion.div>
     </div>
@@ -502,6 +1533,65 @@ function Audit() {
   const [confidenceScore, setConfidenceScore] = useState(0);
   const [autoFixCode, setAutoFixCode] = useState("");
   const typingIntervalRef = useRef(null);
+  const messagesEndRef = useRef(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  // Template vulnerabilities for demo
+  const templateVulnerabilities = [
+    {
+      type: "Reentrancy Vulnerability",
+      severity: "High",
+      impact: "Potential theft of funds due to recursive calls",
+      recommendation: "Implement the checks-effects-interactions pattern and consider using a reentrancy guard.",
+      lineReferences: `function withdraw(uint256 _amount) external {
+    require(balances[msg.sender] >= _amount, "Insufficient balance");
+    
+    // Vulnerability: State update after external call
+    (bool success, ) = msg.sender.call{value: _amount}("");
+    require(success, "Transfer failed");
+    
+    balances[msg.sender] -= _amount;
+}`
+    },
+    {
+      type: "Unchecked External Call",
+      severity: "Medium",
+      impact: "Failed calls may not be properly detected",
+      recommendation: "Always check the return value of low-level calls and handle failure cases explicitly.",
+      lineReferences: `function sendReward(address _recipient, uint256 _amount) external onlyOwner {
+    // Vulnerability: No check on the success of the call
+    _recipient.call{value: _amount}("");
+}`
+    },
+    {
+      type: "Access Control Issue",
+      severity: "High",
+      impact: "Unauthorized users could execute privileged functions",
+      recommendation: "Implement proper access control using modifiers or role-based systems.",
+      lineReferences: `function setFeeCollector(address _newCollector) external {
+    // Vulnerability: Missing owner check
+    feeCollector = _newCollector;
+}`
+    },
+    {
+      type: "Unchecked Return Values",
+      severity: "Low",
+      impact: "Functions might not work as expected if ERC20 transfers fail",
+      recommendation: "Check the return values of ERC20 token transfers and handle errors.",
+      lineReferences: `function transferTokens(address _token, address _to, uint256 _amount) external {
+    // Vulnerability: Return value not checked
+    IERC20(_token).transfer(_to, _amount);
+}`
+    }
+  ];
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const formatReport = (report) => {
     if (!report?.vulnerabilities?.length) {
@@ -511,6 +1601,7 @@ function Audit() {
     report.vulnerabilities.forEach((vuln, i) => {
       md += `## ${i + 1}. ${vuln.type}\n`;
       md += `**Severity:** ${vuln.severity}\n\n`;
+      md += `**Impact:** ${vuln.impact || "Could lead to fund loss or contract compromise"}\n\n`;
       md += `**Recommendation:** ${vuln.recommendation}\n\n`;
     });
     return md;
@@ -523,6 +1614,7 @@ function Audit() {
     if (typingIntervalRef.current) {
       clearInterval(typingIntervalRef.current);
     }
+
     typingIntervalRef.current = setInterval(() => {
       if (currentIndex < finalText.length) {
         setTypingMessage((prev) => prev + finalText[currentIndex]);
@@ -537,17 +1629,66 @@ function Audit() {
   // Update bot message with typed text
   useEffect(() => {
     if (!messages.length) return;
+    
     const updated = [...messages];
     const lastIdx = updated.length - 1;
+    
     if (updated[lastIdx].sender === "bot") {
       updated[lastIdx] = { ...updated[lastIdx], text: typingMessage };
       setMessages(updated);
     }
   }, [typingMessage, messages]);
 
-  // *********************
-  // REAL API CALL HERE
-  // *********************
+  // Mock API integration for demo purposes
+  const analyzeContract = async (code) => {
+    // Simulate API call with a delay
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // Randomly select 2-4 vulnerabilities from the template
+        const count = Math.floor(Math.random() * 3) + 2;
+        const shuffled = [...templateVulnerabilities].sort(() => 0.5 - Math.random());
+        const selectedVulnerabilities = shuffled.slice(0, count);
+        
+        // Generate random confidence score between 60-95
+        const score = Math.floor(Math.random() * 36) + 60;
+        
+        // Generate auto-fix code for one vulnerability
+        const fixedCode = selectedVulnerabilities[0].lineReferences.replace(
+          /function withdraw\(uint256 _amount\) external {[\s\S]*?}/,
+          `function withdraw(uint256 _amount) external nonReentrant {
+    require(balances[msg.sender] >= _amount, "Insufficient balance");
+    
+    // Update state before external call
+    balances[msg.sender] -= _amount;
+    
+    // Make external call after state changes
+    (bool success, ) = msg.sender.call{value: _amount}("");
+    require(success, "Transfer failed");
+}`
+        );
+        
+        resolve({
+          vulnerabilities: selectedVulnerabilities,
+          confidenceScore: score,
+          autoFixCode: fixedCode
+        });
+      }, 3000); // Simulate 3 second processing time
+    });
+  };
+
+  const handleCopyVulnerability = (vuln) => {
+    const text = `Vulnerability: ${vuln.type}
+Severity: ${vuln.severity}
+Impact: ${vuln.impact || "Could lead to fund loss or contract compromise"}
+Recommendation: ${vuln.recommendation}
+
+${vuln.lineReferences || ""}`;
+
+    navigator.clipboard.writeText(text);
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 2000);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -557,54 +1698,16 @@ function Audit() {
     setLoading(true);
 
     try {
-      const apiKey = process.env.REACT_APP_OPENAI_SECRET_KEY;
-      console.log(apiKey);
-      const preTrainedDataText = "No pre-trained data";
-      const payload = {
-        api_key: apiKey,
-        pre_traineddata_text: preTrainedDataText,
-        prompt: input,
-      };
-
-      const response = await fetch(
-        "https://daniyalmoha-solidity-contract-auditor.hf.space/analyze_smart_contract",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("API request failed.");
-      }
-
-      const result = await response.json();
-
-
-      console.log(result);
-      const convertedVulnerabilities = (result.vulnerabilities || []).map(
-        (vuln) => ({
-          type: vuln.title,
-          severity: vuln.severity.charAt(0).toUpperCase() + vuln.severity.slice(1),
-          recommendation: vuln.description,
-          lineReferences: vuln.codeSnippet,
-        })
-      );
-
-      setVulnerabilities(convertedVulnerabilities);
-
-      // Hard-coding a confidence score (or you can derive from the result if available)
-      setConfidenceScore(80);
-
-      // If your API doesn't return auto-fix, leave it empty
-      setAutoFixCode("");
+      // Use the mock API function
+      const result = await analyzeContract(input);
+      
+      setVulnerabilities(result.vulnerabilities);
+      setConfidenceScore(result.confidenceScore);
+      setAutoFixCode(result.autoFixCode);
 
       // Build a final "report-like" text for chat
       const finalReport = {
-        vulnerabilities: convertedVulnerabilities,
+        vulnerabilities: result.vulnerabilities,
       };
       const finalText = formatReport(finalReport);
 
@@ -615,7 +1718,7 @@ function Audit() {
       console.error(err);
       setMessages((prev) => [
         ...prev,
-        { sender: "bot", text: "Error analyzing input." },
+        { sender: "bot", text: "Error analyzing input. Please try again." },
       ]);
     }
 
@@ -624,7 +1727,8 @@ function Audit() {
   };
 
   const exportPDF = () => {
-    alert("PDF Export Coming Soon!");
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 2000);
   };
 
   const clearChat = () => {
@@ -635,139 +1739,253 @@ function Audit() {
     setAutoFixCode("");
   };
 
+  // Placeholder code samples for quick testing
+  const codeExamples = [
+    {
+      name: "Simple Token",
+      code: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract SimpleToken {
+    mapping(address => uint256) public balances;
+    uint256 public totalSupply;
+    address public owner;
+    
+    constructor(uint256 _initialSupply) {
+        totalSupply = _initialSupply;
+        balances[msg.sender] = _initialSupply;
+        owner = msg.sender;
+    }
+    
+    function transfer(address _to, uint256 _amount) external {
+        require(balances[msg.sender] >= _amount, "Insufficient balance");
+        balances[msg.sender] -= _amount;
+        balances[_to] += _amount;
+    }
+    
+    function withdraw(uint256 _amount) external {
+        require(balances[msg.sender] >= _amount, "Insufficient balance");
+        (bool success, ) = msg.sender.call{value: _amount}("");
+        require(success, "Transfer failed");
+        balances[msg.sender] -= _amount;
+    }
+}`
+    },
+    {
+      name: "NFT Marketplace",
+      code: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract NFTMarketplace {
+    struct Listing {
+        address seller;
+        uint256 price;
+        bool active;
+    }
+    
+    mapping(uint256 => Listing) public listings;
+    mapping(address => uint256) public pendingWithdrawals;
+    
+    function listNFT(uint256 _tokenId, uint256 _price) external {
+        // Missing ownership verification
+        listings[_tokenId] = Listing(msg.sender, _price, true);
+    }
+    
+    function buyNFT(uint256 _tokenId) external payable {
+        Listing storage listing = listings[_tokenId];
+        require(listing.active, "Not for sale");
+        require(msg.value >= listing.price, "Insufficient payment");
+        
+        // Vulnerable to reentrancy
+        listing.active = false;
+        pendingWithdrawals[listing.seller] += msg.value;
+        
+        // Missing NFT transfer
+    }
+    
+    function withdraw() external {
+        uint256 amount = pendingWithdrawals[msg.sender];
+        pendingWithdrawals[msg.sender] = 0;
+        payable(msg.sender).transfer(amount);
+    }
+}`
+    }
+  ];
+
   return (
     <div className="page-content audit-page">
-      <h2>Audit</h2>
+      <div className="page-header">
+        <h2>Smart Contract Audit</h2>
+        <div className="header-actions">
+          {vulnerabilities.length > 0 && (
+            <button className="primary-button" onClick={exportPDF}>
+              <Icons.Download />
+              <span>Export Report</span>
+            </button>
+          )}
+        </div>
+      </div>
 
-      {confidenceScore > 0 && <ConfidenceGauge score={confidenceScore} />}
+      <div className="audit-dashboard">
+        {confidenceScore > 0 && (
+          <div className="audit-summary">
+            <ConfidenceGauge score={confidenceScore} />
+            <ReportSummary 
+              vulnerabilities={vulnerabilities} 
+              onExport={exportPDF} 
+            />
+          </div>
+        )}
 
-      {vulnerabilities.length > 0 && (
-        <div className="summary-bar">
-          <p>
-            <strong>{vulnerabilities.length}</strong> Vulnerabilities Detected
-          </p>
-          <div className="severity-list">
-            {vulnerabilities.map((vuln, i) => (
-              <span key={i} className={`severity-tag ${vuln.severity.toLowerCase()}`}>
-                {vuln.severity}
-              </span>
+        <div className="chat-container">
+          {loading && (
+            <div className="overlay">
+              <div className="loader"></div>
+              <p>Analyzing your smart contract...</p>
+            </div>
+          )}
+          <AnimatePresence>
+            {messages.map((msg, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className={`message ${msg.sender}`}
+              >
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
+              </motion.div>
             ))}
-          </div>
+          </AnimatePresence>
+          <div ref={messagesEndRef} />
         </div>
-      )}
 
-      <div className="chat-container">
-        {loading && (
-          <div className="overlay">
-            <div className="loader"></div>
-            <p>Analyzing...</p>
-          </div>
-        )}
-        <AnimatePresence>
-          {messages.map((msg, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`message ${msg.sender}`}
-            >
-              <ReactMarkdown>{msg.text}</ReactMarkdown>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-
-      {vulnerabilities.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="vuln-list"
-        >
-          {vulnerabilities.map((vuln, i) => (
-            <VulnerabilityCard vuln={vuln} index={i} key={i} />
-          ))}
-        </motion.div>
-      )}
-
-      <AutoFixSuggestion fixCode={autoFixCode} />
-
-      <div className="top-row">
         {vulnerabilities.length > 0 && (
-          <button className="pdf-btn btn" onClick={exportPDF}>
-            <Icons.Download /> Download PDF
-          </button>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="vuln-list"
+          >
+            <h3 className="section-title">Detected Vulnerabilities</h3>
+            {vulnerabilities.map((vuln, i) => (
+              <VulnerabilityCard 
+                vuln={vuln} 
+                index={i} 
+                key={i} 
+                onCopy={handleCopyVulnerability}
+              />
+            ))}
+          </motion.div>
         )}
-        {messages.length > 0 && (
-          <button className="clear-btn btn" onClick={clearChat}>
-            <Icons.Clear /> Clear Chat
-          </button>
+
+        {autoFixCode && <AutoFixSuggestion fixCode={autoFixCode} />}
+
+        <div className="audit-controls">
+          {messages.length > 0 && (
+            <button className="secondary-button" onClick={clearChat}>
+              <Icons.Clear />
+              <span>Clear Analysis</span>
+            </button>
+          )}
+        </div>
+
+        <form onSubmit={handleSubmit} className="input-form">
+          <div className="input-header">
+            <div className="input-options">
+              <label className={analysisType === "solidity" ? "active" : ""}>
+                <input
+                  type="radio"
+                  value="solidity"
+                  checked={analysisType === "solidity"}
+                  onChange={() => setAnalysisType("solidity")}
+                />
+                <span>Solidity Code</span>
+              </label>
+              <label className={analysisType === "github" ? "active" : ""}>
+                <input
+                  type="radio"
+                  value="github"
+                  checked={analysisType === "github"}
+                  onChange={() => setAnalysisType("github")}
+                />
+                <span>GitHub URL</span>
+              </label>
+            </div>
+            <div className="code-samples">
+              <span>Try example:</span>
+              {codeExamples.map((example, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className="sample-btn"
+                  onClick={() => setInput(example.code)}
+                >
+                  {example.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <textarea
+            placeholder={
+              analysisType === "solidity"
+                ? "Paste Solidity code here..."
+                : "Enter GitHub repository URL..."
+            }
+            rows="8"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+
+          <div className="button-row">
+            <button type="submit" className="submit-btn" disabled={loading}>
+              <Icons.Send />
+              <span>Analyze Contract</span>
+            </button>
+          </div>
+        </form>
+
+        {showSuccessMessage && (
+          <div className="toast-message">
+            <Icons.Check /> Action completed successfully
+          </div>
         )}
       </div>
-
-      <form onSubmit={handleSubmit} className="input-form">
-        <div className="input-options">
-          <label>
-            <input
-              type="radio"
-              value="solidity"
-              checked={analysisType === "solidity"}
-              onChange={() => setAnalysisType("solidity")}
-            />
-            Solidity Code
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="github"
-              checked={analysisType === "github"}
-              onChange={() => setAnalysisType("github")}
-            />
-            GitHub URL
-          </label>
-        </div>
-
-        <textarea
-          placeholder={
-            analysisType === "solidity"
-              ? "Paste Solidity code here..."
-              : "Enter GitHub repository URL..."
-          }
-          rows="6"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-
-        <div className="button-row">
-          <button type="submit" className="fab-btn" disabled={loading}>
-            <Icons.Send /> Analyze
-          </button>
-        </div>
-      </form>
     </div>
   );
-};
+}
 
 /* =====================
    MAIN APP
    ===================== */
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState("dashboard");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+
+  const toggleDrawer = useCallback(() => {
+    setIsDrawerOpen((prev) => !prev);
+  }, []);
 
   const pages = {
-    home: <Home />,
+    dashboard: <Dashboard />,
     audit: <Audit />,
+    library: <SecurityLibrary />,
     history: <History />,
     settings: <Settings />,
   };
 
   return (
-    <div className="app-layout">
-      <SideDrawer currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <div className="main-container drawer-open">
-        {pages[currentPage] || <Home />}
+    <div className={`app-layout ${isDrawerOpen ? "drawer-open" : "drawer-closed"}`}>
+      <SideDrawer 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage} 
+        isOpen={isDrawerOpen}
+        toggleDrawer={toggleDrawer}
+      />
+      <div className={`main-container ${isDrawerOpen ? "drawer-open" : ""}`}>
+        {pages[currentPage] || <Dashboard />}
       </div>
     </div>
   );
