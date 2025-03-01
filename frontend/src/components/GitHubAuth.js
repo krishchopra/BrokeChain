@@ -23,7 +23,9 @@ export function GitHubAuth() {
 		const redirectUri = encodeURIComponent(
 			window.location.origin + "/github-callback"
 		);
-		const scope = encodeURIComponent("repo:status repo:read user:read");
+		const scope = encodeURIComponent(
+			"repo:status repo:read user:read repo"
+		);
 
 		// Redirect to GitHub's OAuth authorization URL
 		window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${state}`;

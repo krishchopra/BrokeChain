@@ -4,6 +4,7 @@
 	"private": true,
 	"proxy": "http://localhost:3001",
 	"dependencies": {
+		"@octokit/core": "^6.1.4",
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.2.0",
