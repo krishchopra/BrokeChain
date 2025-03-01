@@ -2093,6 +2093,21 @@ input:checked + .toggle-slider:before {
 	font-style: italic;
 }
 
+.vulnerability-card,
+.vulnerability-card .card-footer,
+.vulnerability-card .code-container,
+.vulnerability-card pre,
+.vulnerability-card code {
+  /* Ensure normal document flow */
+  position: static !important;
+  bottom: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  /* Also remove any huge z-index if present */
+  z-index: auto !important;
+}
+
 /* Report Actions */
 .report-actions {
 	display: flex;
@@ -2589,9 +2604,9 @@ input:checked + .toggle-slider:before {
 	background: var(--surface);
 	border-radius: var(--border-radius-lg);
 	padding: var(--spacing-xl);
-	max-height: 500px;
-	min-height: 300px;
-	overflow-y: auto;
+	max-height: 1500px;
+	overflow-y: auto;  
+	min-height: 1000px;
 	position: relative;
 	border: 1px solid var(--gray-200);
 	box-shadow: var(--shadow-inner);
@@ -4067,7 +4082,7 @@ body {
 
 /* Audit helper floating hints */
 .audit-helper {
-	position: fixed;
+	/* position: fixed; */
 	bottom: var(--spacing-xl);
 	right: var(--spacing-xl);
 	width: 48px;
@@ -5238,3 +5253,123 @@ button {
 .upload-json-btn:hover {
 	filter: brightness(0.9);
 }
+
+/* === Spacing fixes for Smart Contract Audit page === */
+
+/* The main container that holds AuditSteps, Step Content, etc. */
+.audit-dashboard {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xl); /* Enough vertical gap so sections don't collide */
+  }
+  
+  /* Give some space below the steps bar */
+  .audit-steps {
+	margin-bottom: var(--spacing-lg);
+  }
+  
+  /* The step-content-container inside each step. 
+	 Ensures the ContractStatistics, vulnerability report, etc. 
+	 have some breathing room. */
+  .step-content-container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xl);
+  }
+  
+  /* The card that shows lines of code, functions, complexity, etc. */
+  .contract-overview {
+	margin-top: var(--spacing-md);
+	margin-bottom: var(--spacing-md);
+  }
+  
+  /* The main vulnerability report (report-main + report-sidebar).
+	 Add horizontal gap between them, plus top/bottom margin. */
+  .report-container {
+	display: flex;
+	flex-direction: row; /* If you want side-by-side layout */
+	gap: var(--spacing-xl);
+	margin-top: var(--spacing-md);
+	margin-bottom: var(--spacing-md);
+  }
+  
+  /* The "Analysis Log" section if you show chat messages after the final step. */
+  .chat-section {
+	margin-top: var(--spacing-xl);
+  }
+  
+/* 1) Constrain the max width and center the page content 
+   so things don’t look so zoomed in. Adjust 1400px or 1600px 
+   as you prefer. */
+   .page-content {
+	max-width: 1400px;      /* or 1600px, etc. */
+	margin: 0 auto;         /* center horizontally */
+	min-height: 200vh;      /* forcibly make page ~twice as tall */
+  }
+  
+  /* 2) The container that holds the big "report-main" 
+	 and the right-side boxes “report-sidebar”: 
+	 a) Use flex-wrap so it doesn’t overflow off-screen
+	 b) Provide a gap and allow them to wrap on narrow screens */
+  .report-container {
+	display: flex;
+	flex-wrap: wrap;        /* wrap instead of overflow */
+	gap: var(--spacing-xl); /* space between main and sidebar */
+	margin-top: var(--spacing-md);
+	margin-bottom: var(--spacing-md);
+  }
+  
+  /* Make the left side ("report-main") flexible; 
+	 the right side can be a fixed max-width or a narrower column */
+  .report-main {
+	flex: 1;                /* let it shrink or grow */
+	min-width: 0;           /* allow it to shrink properly in flexbox */
+  }
+  
+  .report-sidebar {
+	width: 360px;           /* fixed or max-width for your summary column */
+	flex-shrink: 0;         /* don't let it shrink too small */
+  }
+  
+  /* 3) Make “Analysis Log” bigger and bolder, like “Vulnerabilities” */
+  .chat-section h3 {
+	font-size: 1.2rem;      /* matches typical heading size */
+	font-weight: 700;       /* bolder text */
+	margin-bottom: var(--spacing-md);
+  }
+
+  /* Simple dropdown styling for the export menu */
+.export-dropdown {
+	position: relative;
+	display: inline-block; /* Keep it next to the 'New Audit' button */
+  }
+  
+  .export-dropdown-menu {
+	position: absolute;
+	top: 110%;
+	right: 0;
+	background-color: var(--surface);
+	border: 1px solid var(--gray-300);
+	border-radius: var(--border-radius-md);
+	box-shadow: var(--shadow-md);
+	display: flex;
+	flex-direction: column;
+	min-width: 180px;
+	z-index: 99;
+  }
+  
+  .export-dropdown-menu button {
+	background: none;
+	border: none;
+	text-align: left;
+	padding: var(--spacing-sm) var(--spacing-md);
+	width: 100%;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: background-color var(--transition-fast);
+  }
+  
+  .export-dropdown-menu button:hover {
+	background-color: var(--gray-100);
+  }
+  
