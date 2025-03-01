@@ -2,7 +2,7 @@
 const config = {
 	apiBaseUrl:
 		process.env.NODE_ENV === "production"
-			? "https://your-backend-domain.onrender.com" // Replace with your Render domain
+			? "https://brokechain.onrender.com"
 			: "http://localhost:3001",
 
 	// GitHub OAuth settings

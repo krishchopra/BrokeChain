@@ -20,7 +20,7 @@ export function GitHubAuth() {
 		localStorage.setItem("github_oauth_timestamp", Date.now());
 
 		// GitHub OAuth parameters
-		const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
+		const clientId = config.githubClientId;
 		const redirectUri = encodeURIComponent(config.githubRedirectUri);
 		const scope = encodeURIComponent(
 			"repo:status repo:read user:read repo"
