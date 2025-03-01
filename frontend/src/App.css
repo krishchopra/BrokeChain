@@ -4,7 +4,13 @@
 	margin-left: var(--sidebar-width);
 	width: calc(100% - var(--sidebar-width));
   }
+
   
+  
+  .logo-text {
+	font-size: 1.75rem; /* Increase as desired */
+	font-weight: 700;   /* Optional: makes it bolder */
+  }
   .page-content {
 	max-width: 1400px;
 	margin: 0 auto;
@@ -1393,13 +1399,16 @@ input:checked + .toggle-slider:before {
 /* Step Content Container */
 .step-content-container {
 	display: flex;
-	gap: var(--spacing-xl);
+	gap: var(--spacing-sm);
 }
 
 /* Input Container */
-.input-container {
-	flex: 1;
-}
+
+
+.input-container {     /* or any width that fits your design */        /* center it */
+	padding: 1rem;          /* adjust as needed */
+  }
+  
 
 .input-form.elevated {
 	padding: var(--spacing-xl);
@@ -1407,7 +1416,7 @@ input:checked + .toggle-slider:before {
 
 .code-input {
 	font-family: "JetBrains Mono", monospace;
-	line-height: 1.5;
+	line-height: 1.2;
 }
 
 .input-actions {
@@ -5265,7 +5274,7 @@ button {
   
   /* Give some space below the steps bar */
   .audit-steps {
-	margin-bottom: var(--spacing-lg);
+	margin-bottom: var(--spacing-sm);
   }
   
   /* The step-content-container inside each step. 
@@ -5274,7 +5283,7 @@ button {
   .step-content-container {
 	display: flex;
 	flex-direction: column;
-	gap: var(--spacing-xl);
+	gap: var(--spacing-md);
   }
   
   /* The card that shows lines of code, functions, complexity, etc. */
