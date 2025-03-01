@@ -11,7 +11,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 const corsOptions = {
 	origin: isDevelopment
 		? ["http://localhost:3000"]
-		: ["https://your-frontend-domain.vercel.app"],
+		: ["https://brokechain.vercel.app"],
 	credentials: true,
 };
 

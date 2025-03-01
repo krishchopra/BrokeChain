@@ -9,7 +9,7 @@ const config = {
 	githubClientId: process.env.REACT_APP_GITHUB_CLIENT_ID,
 	githubRedirectUri:
 		process.env.NODE_ENV === "production"
-			? "https://your-frontend-domain.vercel.app/github-callback" // Replace with your Vercel domain
+			? "https://brokechain.vercel.app/github-callback"
 			: "http://localhost:3000/github-callback",
 };
 
