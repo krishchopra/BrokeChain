@@ -3294,7 +3294,7 @@ contract NFTMarketplace {
 							<div className="analysis-note">
 								<Icons.Info />
 								<p>
-									This may take a few minutes depending on
+									This may take a few minutes, depending on
 									contract complexity.
 								</p>
 							</div>
@@ -3753,7 +3753,7 @@ contract NFTMarketplace {
 				{/* Success toast message */}
 				{showSuccessMessage && (
 					<div className="toast-message">
-						<Icons.Check /> Action completed successfully
+						<Icons.Check /> Action completed successfully!
 					</div>
 				)}
 			</div>
