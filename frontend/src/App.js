@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { GitHubAudit } from "./components/GitHubAudit";
 import { GitHubCallback } from "./components/GitHubCallback";
 import ReactMarkdown from "react-markdown";
+import preTrainData from './pre-train.json';
 import "./App.css";
 import { AnimatePresence, motion } from "framer-motion";
 import jsPDF from "jspdf";
@@ -1631,6 +1632,8 @@ function Settings() {
 	);
 }
 
+
+
 /* =====================
    AUDIT PAGE
    ===================== */
@@ -1638,6 +1641,7 @@ function Audit({ contractInput, setContractInput }) {
 	const [activeStep, setActiveStep] = useState(0);
 	const [analysisType, setAnalysisType] = useState("solidity");
 	const [input, setInput] = useState(contractInput || "");
+	const [preTrainedDataText, setPreTrainedDataText] = useState(JSON.stringify(preTrainData));
 	const [loading, setLoading] = useState(false);
 	const [typingMessage, setTypingMessage] = useState("");
 	const [messages, setMessages] = useState([]);
@@ -1832,7 +1836,7 @@ ${vuln.lineReferences || ""}`;
 
 			// API integration with Hugging Face
 			const apiKey = process.env.REACT_APP_OPENAI_SECRET_KEY || "";
-			const preTrainedDataText = "No pre-trained data";
+			console.log(preTrainedDataText)
 
 			const payload = {
 				api_key: apiKey,
@@ -2024,6 +2028,22 @@ ${vuln.lineReferences || ""}`;
 
 		setLoading(false);
 	};
+
+	// 2) Function to handle reading a JSON file
+	const handleJSONFileSelect = (event) => {
+		const file = event.target.files?.[0];
+		if (!file) return;
+	
+		const reader = new FileReader();
+		reader.onload = (e) => {
+		// The file content (text) is in e.target.result
+		// If you want it exactly as text:
+		const fileText = e.target.result;
+		setPreTrainedDataText(fileText);
+		};
+		reader.readAsText(file);
+	};
+  
 
 	// Helper functions to enhance mock data
 	const categorizeVulnerability = (title) => {
@@ -2862,206 +2882,144 @@ contract NFTMarketplace {
 		</div>
 	);
 
-	// Render the appropriate step content based on activeStep
-	const renderStepContent = () => {
-		switch (activeStep) {
-			case 0: // Contract Input
-				return (
-					<div className="step-content-container">
-						<div className="input-container">
-							<form
-								onSubmit={handleSubmit}
-								className="input-form elevated"
-							>
-								<div className="input-header">
-									<div className="input-options">
-										<label
-											className={
-												analysisType === "solidity"
-													? "active"
-													: ""
-											}
-										>
-											<input
-												type="radio"
-												value="solidity"
-												checked={
-													analysisType === "solidity"
-												}
-												onChange={() =>
-													setAnalysisType("solidity")
-												}
-											/>
-											<span>Solidity Code</span>
-										</label>
-										<label
-											className={
-												analysisType === "github"
-													? "active"
-													: ""
-											}
-										>
-											<input
-												type="radio"
-												value="github"
-												checked={
-													analysisType === "github"
-												}
-												onChange={() =>
-													setAnalysisType("github")
-												}
-											/>
-											<span>GitHub URL</span>
-										</label>
-									</div>
-									<div className="input-actions">
-										<button
-											type="button"
-											className="action-btn tooltip"
-											onClick={() => setInput("")}
-										>
-											<Icons.Clear />
-											<span className="tooltip-text">
-												Clear Code
-											</span>
-										</button>
-									</div>
-								</div>
-
-								{analysisType === "solidity" ? (
-									<textarea
-										placeholder="Paste Solidity code here..."
-										rows="16"
-										value={input}
-										onChange={(e) =>
-											setInput(e.target.value)
-										}
-										className="code-input"
-									/>
-								) : (
-									<div className="github-url-container">
-										<div className="github-url-input-group">
-											<GitHubUrlInput
-												onFetchRepository={async (
-													owner,
-													repo
-												) => {
-													try {
-														setLoadingFiles(true);
-														setRepoOwner(owner);
-														setRepoName(repo);
-														const token =
-															localStorage.getItem(
-																"github_access_token"
-															);
-														const octokit =
-															new Octokit({
-																auth: token,
-															});
-
-														// First, get the root directory contents
-														const response =
-															await octokit.request(
-																"GET /repos/{owner}/{repo}/contents",
-																{
-																	owner,
-																	repo,
-																	headers: {
-																		"X-GitHub-Api-Version":
-																			"2022-11-28",
-																	},
-																}
-															);
-
-														// Process the files recursively to get all files
-														const allFiles =
-															await getAllFiles(
-																octokit,
-																owner,
-																repo,
-																response.data
-															);
-
-														// Filter for Solidity files if needed
-														const solFiles =
-															allFiles.filter(
-																(file) =>
-																	file.path.endsWith(
-																		".sol"
-																	)
-															);
-														setRepoFiles(
-															solFiles.length > 0
-																? solFiles
-																: allFiles
-														);
-														setShowFileSelector(
-															true
-														);
-													} catch (error) {
-														console.error(
-															"Error fetching repository:",
-															error
-														);
-														// Handle error appropriately
-													} finally {
-														setLoadingFiles(false);
-													}
-												}}
-											/>
-										</div>
-
-										{/* Show textarea for code preview */}
-										<textarea
-											placeholder="Code will appear here after selecting a file from the repository..."
-											rows="12"
-											value={input}
-											onChange={(e) =>
-												setInput(e.target.value)
-											}
-											className="code-input"
-											readOnly={false}
-										/>
-									</div>
-								)}
-
-								<div className="code-samples">
-									<span>Try examples:</span>
-									<div className="samples-list">
-										{codeExamples.map((example, i) => (
-											<button
-												key={i}
-												type="button"
-												className="sample-btn pulse-animation"
-												onClick={() =>
-													setInput(example.code)
-												}
-											>
-												{example.name}
-											</button>
-										))}
-									</div>
-								</div>
-
-								<div className="button-row">
-									<button
-										type="submit"
-										className="submit-btn"
-										disabled={!input.trim()}
-									>
-										<Icons.Send />
-										<span>Analyze Contract</span>
-									</button>
-								</div>
-							</form>
-						</div>
-
-						<div className="sidebar-container">
-							<RecentAudits />
-							<AuditTips />
-						</div>
-					</div>
-				);
+// Render the appropriate step content based on activeStep
+const renderStepContent = () => {
+	switch (activeStep) {
+	  case 0: // Contract Input
+		return (
+		  <div className="step-content-container">
+			<div className="input-container">
+			  <form onSubmit={handleSubmit} className="input-form elevated">
+				<div className="input-header">
+				  <div className="input-options">
+					<label className={analysisType === "solidity" ? "active" : ""}>
+					  <input
+						type="radio"
+						value="solidity"
+						checked={analysisType === "solidity"}
+						onChange={() => setAnalysisType("solidity")}
+					  />
+					  <span>Solidity Code</span>
+					</label>
+					<label className={analysisType === "github" ? "active" : ""}>
+					  <input
+						type="radio"
+						value="github"
+						checked={analysisType === "github"}
+						onChange={() => setAnalysisType("github")}
+					  />
+					  <span>GitHub URL</span>
+					</label>
+				  </div>
+				  <div className="input-actions">
+					<button
+					  type="button"
+					  className="action-btn tooltip"
+					  onClick={() => setInput("")}
+					>
+					  <Icons.Clear />
+					  <span className="tooltip-text">Clear Code</span>
+					</button>
+				  </div>
+				</div>
+  
+				{/* Drop zone wrapping the textarea */}
+				<div
+				className="textarea-drop-zone"
+				onDragOver={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+				}}
+				onDrop={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					const file = e.dataTransfer.files?.[0];
+					// Accept if the file MIME type is application/json OR the file name ends with .json
+					if (file && (file.type === "application/json" || file.name.toLowerCase().endsWith(".json"))) {
+					const reader = new FileReader();
+					reader.onload = (ev) => {
+						setPreTrainedDataText(ev.target.result);
+					};
+					reader.readAsText(file);
+					} else {
+					console.log("Dropped file is not a valid JSON file.");
+					}
+				}}
+				>
+				<textarea
+					placeholder={
+					analysisType === "solidity"
+						? "Paste Solidity code here..."
+						: "Enter GitHub repository URL..."
+					}
+					rows="16"
+					value={input}
+					onChange={(e) => setInput(e.target.value)}
+					className="code-input"
+					// Optionally, add drop listeners here as well if needed:
+					onDragOver={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					}}
+					onDrop={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					const file = e.dataTransfer.files?.[0];
+					if (file && (file.type === "application/json" || file.name.toLowerCase().endsWith(".json"))) {
+						const reader = new FileReader();
+						reader.onload = (ev) => {
+						setPreTrainedDataText(ev.target.result);
+						};
+						reader.readAsText(file);
+					}
+					}}
+				/>
+				</div>
+  
+				<div className="json-file-container">
+				  <label htmlFor="jsonFile" className="custom-file-btn">
+					<span>Attach JSON file for pre-training (optional)</span>
+				  </label>
+				  <input
+					type="file"
+					id="jsonFile"
+					accept=".json"
+					onChange={handleJSONFileSelect}
+					style={{ display: 'none' }}
+				  />
+				</div>
+  
+				<div className="code-samples">
+				  <span>Try examples:</span>
+				  <div className="samples-list">
+					{codeExamples.map((example, i) => (
+					  <button
+						key={i}
+						type="button"
+						className="sample-btn pulse-animation"
+						onClick={() => setInput(example.code)}
+					  >
+						{example.name}
+					  </button>
+					))}
+				  </div>
+				</div>
+  
+				<div className="button-row">
+				  <button type="submit" className="submit-btn" disabled={!input.trim()}>
+					<Icons.Send />
+					<span>Analyze Contract</span>
+				  </button>
+				</div>
+			  </form>
+			</div>
+  
+			<div className="sidebar-container">
+			  <RecentAudits />
+			  <AuditTips />
+			</div>
+		  </div>
+		);
 
 			case 1: // Analysis
 				return (
