@@ -4,6 +4,7 @@ import { GitHubCallback } from "./components/GitHubCallback";
 import ReactMarkdown from "react-markdown";
 import "./App.css";
 import { AnimatePresence, motion } from "framer-motion";
+import jsPDF from "jspdf";
 
 /* =====================
    ICONS
@@ -2221,10 +2222,58 @@ ${vuln.lineReferences || ""}`;
 		setTimeout(() => setShowSuccessMessage(false), 2000);
 	};
 
-	const exportPDF = () => {
-		setShowSuccessMessage(true);
-		setTimeout(() => setShowSuccessMessage(false), 2000);
-	};
+	// Export as PDF using jsPDF
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    const reportText = formatReport({ vulnerabilities });
+    // Add text with basic margin; adjust as needed for layout
+    doc.text(reportText, 10, 10);
+    doc.save("audit_report.pdf");
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 2000);
+  };
+
+  // Export as Markdown
+  const exportMarkdown = () => {
+    const markdownReport = formatReport({ vulnerabilities });
+    const blob = new Blob([markdownReport], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "audit_report.md";
+    a.click();
+    URL.revokeObjectURL(url);
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 2000);
+  };
+
+  // Export as plain Text
+  const exportText = () => {
+    const reportText = formatReport({ vulnerabilities });
+    const blob = new Blob([reportText], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "audit_report.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 2000);
+  };
+
+  // Export as JSON
+  const exportJSON = () => {
+    const reportJSON = JSON.stringify({ vulnerabilities }, null, 2);
+    const blob = new Blob([reportJSON], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "audit_report.json";
+    a.click();
+    URL.revokeObjectURL(url);
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 2000);
+  };
 
 	const clearChat = () => {
 		setMessages([]);
@@ -3290,13 +3339,22 @@ contract NFTMarketplace {
 								<Icons.Clear />
 								<span>New Audit</span>
 							</button>
-							<button
-								className="primary-button"
-								onClick={exportPDF}
-							>
-								<Icons.Download />
-								<span>Export Report</span>
-							</button>
+							<button className="primary-button" onClick={exportText}>
+                <Icons.Download />
+                <span>Export as Text</span>
+              </button>
+              <button className="primary-button" onClick={exportJSON}>
+                <Icons.Download />
+                <span>Export as JSON</span>
+              </button>
+              <button className="primary-button" onClick={exportMarkdown}>
+                <Icons.Download />
+                <span>Export as Markdown</span>
+              </button>
+              <button className="primary-button" onClick={exportPDF}>
+                <Icons.Download />
+                <span>Export as PDF</span>
+              </button>
 						</div>
 					</div>
 				);
