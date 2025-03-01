@@ -291,9 +291,9 @@ function SideDrawer({ currentPage, setCurrentPage }) {
           </button>
         ))}
       </nav>
-      <div className="drawer-footer">
+      {/* <div className="drawer-footer">
         <p className="version-tag">Version 1.0</p>
-      </div>
+      </div> */}
     </aside>
   );
 }
@@ -383,13 +383,13 @@ function AutoFixSuggestion({ fixCode }) {
    ===================== */
 function Home() {
   return (
-    <div className="page-content home-page">
+    <div className="page-content home-page pb-5">
       <h2>Welcome to the BrokeChain Auditor!</h2>
       <p>
         This tool analyzes Solidity code or GitHub repos for vulnerabilities,
         giving you a confidence score and recommended fixes.
       </p>
-      <p>Use the side navigation to get started!</p>
+      <p className>Use the side navigation to get started!</p>
     </div>
   );
 }
