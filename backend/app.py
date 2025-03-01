@@ -1,9 +1,10 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, HTTPException
 from pydantic import BaseModel
 import requests
 import json
 import asyncio
-from flare_integration import get_flare_contract_address
+from flare_integration import get_flare_contract_address, get_contract_code
+from compile_contract import compile_contract
 
 app = FastAPI()
 
@@ -139,6 +140,21 @@ def analyze_smart_contract(req: SmartContractAnalysisRequest):
 
     # Return that JSON structure back to the client
     return result_dict
+
+@app.get("/flare_contract_details")
+def get_contract_details(contract_name: str, source: str):
+    try:
+        address = get_flare_contract_address(contract_name)
+        bytecode = asyncio.run(get_contract_code(address))
+        compiled = compile_contract(source, contract_name)
+        return {
+            "address": address,
+            "on_chain_bytecode": bytecode.hex(),
+            "compiled_bytecode": compiled["evm"]["bytecode"]["object"],
+            "abi": compiled["abi"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/flare_contract")
 def get_flare_contract(contract_name: str = Query(..., description="Contract name, e.g., 'WNat'")):

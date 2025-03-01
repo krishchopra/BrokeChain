@@ -33,3 +33,12 @@ async def query_flare_contract(contract_name: str):
 
 def get_flare_contract_address(contract_name: str) -> str:
     return asyncio.run(query_flare_contract(contract_name))
+
+async def get_contract_code(contract_address: str):
+    w3 = AsyncWeb3(
+        AsyncHTTPProvider(FLARE_RPC_URL),
+        middleware=[ExtraDataToPOAMiddleware],
+    )
+    return await w3.eth.get_code(w3.to_checksum_address(contract_address))
+
+
