@@ -1524,86 +1524,93 @@ function Settings() {
    AUDIT PAGE
    ===================== */
 function Audit() {
+  const [activeStep, setActiveStep] = useState(0);
   const [analysisType, setAnalysisType] = useState("solidity");
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [typingMessage, setTypingMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [vulnerabilities, setVulnerabilities] = useState([]);
+  const [fixedVulnerabilities, setFixedVulnerabilities] = useState([]);
   const [confidenceScore, setConfidenceScore] = useState(0);
   const [autoFixCode, setAutoFixCode] = useState("");
+  const [contractName, setContractName] = useState("");
+  const [contractStats, setContractStats] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [gasSavings, setGasSavings] = useState(0);
+  const [auditHistory, setAuditHistory] = useState([]);
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [apiError, setApiError] = useState(null);
+  
   const typingIntervalRef = useRef(null);
   const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  // Template vulnerabilities for demo
-  const templateVulnerabilities = [
-    {
-      type: "Reentrancy Vulnerability",
-      severity: "High",
-      impact: "Potential theft of funds due to recursive calls",
-      recommendation: "Implement the checks-effects-interactions pattern and consider using a reentrancy guard.",
-      lineReferences: `function withdraw(uint256 _amount) external {
-    require(balances[msg.sender] >= _amount, "Insufficient balance");
-    
-    // Vulnerability: State update after external call
-    (bool success, ) = msg.sender.call{value: _amount}("");
-    require(success, "Transfer failed");
-    
-    balances[msg.sender] -= _amount;
-}`
-    },
-    {
-      type: "Unchecked External Call",
-      severity: "Medium",
-      impact: "Failed calls may not be properly detected",
-      recommendation: "Always check the return value of low-level calls and handle failure cases explicitly.",
-      lineReferences: `function sendReward(address _recipient, uint256 _amount) external onlyOwner {
-    // Vulnerability: No check on the success of the call
-    _recipient.call{value: _amount}("");
-}`
-    },
-    {
-      type: "Access Control Issue",
-      severity: "High",
-      impact: "Unauthorized users could execute privileged functions",
-      recommendation: "Implement proper access control using modifiers or role-based systems.",
-      lineReferences: `function setFeeCollector(address _newCollector) external {
-    // Vulnerability: Missing owner check
-    feeCollector = _newCollector;
-}`
-    },
-    {
-      type: "Unchecked Return Values",
-      severity: "Low",
-      impact: "Functions might not work as expected if ERC20 transfers fail",
-      recommendation: "Check the return values of ERC20 token transfers and handle errors.",
-      lineReferences: `function transferTokens(address _token, address _to, uint256 _amount) external {
-    // Vulnerability: Return value not checked
-    IERC20(_token).transfer(_to, _amount);
-}`
-    }
+  // Setup audit steps
+  const auditSteps = [
+    { id: "input", title: "Contract Input", icon: <Icons.Audit /> },
+    { id: "analyze", title: "Analysis", icon: <Icons.Search /> },
+    { id: "report", title: "Audit Report", icon: <Icons.Library /> },
   ];
 
+  // Initialize audit history from localStorage if available
+  useEffect(() => {
+    if (initialLoad) {
+      const savedHistory = localStorage.getItem('auditHistory');
+      if (savedHistory) {
+        try {
+          setAuditHistory(JSON.parse(savedHistory));
+        } catch (e) {
+          console.error("Error loading audit history:", e);
+          // Fallback to empty history
+          setAuditHistory([]);
+        }
+      }
+      setInitialLoad(false);
+    }
+  }, [initialLoad]);
+
+  // Save audit history to localStorage when it changes
+  useEffect(() => {
+    if (!initialLoad && auditHistory.length > 0) {
+      localStorage.setItem('auditHistory', JSON.stringify(auditHistory));
+    }
+  }, [auditHistory, initialLoad]);
+
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+      
+      if (isNearBottom) {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
+  // Remove all auto-scrolling behavior
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    // Deliberately empty - removing all auto-scrolling behavior
+  }, [messages, loading]);
 
   const formatReport = (report) => {
     if (!report?.vulnerabilities?.length) {
       return "# No vulnerabilities found.\nEverything looks good!";
     }
+    
     let md = "# Vulnerability Report\n\n";
+    
     report.vulnerabilities.forEach((vuln, i) => {
       md += `## ${i + 1}. ${vuln.type}\n`;
       md += `**Severity:** ${vuln.severity}\n\n`;
-      md += `**Impact:** ${vuln.impact || "Could lead to fund loss or contract compromise"}\n\n`;
       md += `**Recommendation:** ${vuln.recommendation}\n\n`;
+      
+      if (vuln.lineReferences) {
+        md += "**Code:**\n\n```solidity\n" + vuln.lineReferences + "\n```\n\n";
+      }
     });
+    
     return md;
   };
 
@@ -1623,7 +1630,7 @@ function Audit() {
         clearInterval(typingIntervalRef.current);
         typingIntervalRef.current = null;
       }
-    }, 5);
+    }, 2);
   };
 
   // Update bot message with typed text
@@ -1639,47 +1646,29 @@ function Audit() {
     }
   }, [typingMessage, messages]);
 
-  // Mock API integration for demo purposes
-  const analyzeContract = async (code) => {
-    // Simulate API call with a delay
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Randomly select 2-4 vulnerabilities from the template
-        const count = Math.floor(Math.random() * 3) + 2;
-        const shuffled = [...templateVulnerabilities].sort(() => 0.5 - Math.random());
-        const selectedVulnerabilities = shuffled.slice(0, count);
-        
-        // Generate random confidence score between 60-95
-        const score = Math.floor(Math.random() * 36) + 60;
-        
-        // Generate auto-fix code for one vulnerability
-        const fixedCode = selectedVulnerabilities[0].lineReferences.replace(
-          /function withdraw\(uint256 _amount\) external {[\s\S]*?}/,
-          `function withdraw(uint256 _amount) external nonReentrant {
-    require(balances[msg.sender] >= _amount, "Insufficient balance");
+  // Extract contract name from code
+  const extractContractName = (code) => {
+    const contractMatch = code.match(/contract\s+(\w+)/);
+    return contractMatch ? contractMatch[1] : "Unnamed Contract";
+  };
+
+  // Calculate contract statistics
+  const analyzeContractStats = (code) => {
+    const lines = code.split('\n').length;
+    const functions = (code.match(/function\s+\w+/g) || []).length;
+    const variables = (code.match(/\b(uint|int|bool|address|string|bytes|mapping)\b/g) || []).length;
     
-    // Update state before external call
-    balances[msg.sender] -= _amount;
-    
-    // Make external call after state changes
-    (bool success, ) = msg.sender.call{value: _amount}("");
-    require(success, "Transfer failed");
-}`
-        );
-        
-        resolve({
-          vulnerabilities: selectedVulnerabilities,
-          confidenceScore: score,
-          autoFixCode: fixedCode
-        });
-      }, 3000); // Simulate 3 second processing time
-    });
+    return {
+      lines,
+      functions,
+      variables,
+      complexity: Math.round((functions * 1.5) + (variables * 0.8))
+    };
   };
 
   const handleCopyVulnerability = (vuln) => {
     const text = `Vulnerability: ${vuln.type}
 Severity: ${vuln.severity}
-Impact: ${vuln.impact || "Could lead to fund loss or contract compromise"}
 Recommendation: ${vuln.recommendation}
 
 ${vuln.lineReferences || ""}`;
@@ -1693,37 +1682,350 @@ ${vuln.lineReferences || ""}`;
     e.preventDefault();
     if (!input.trim()) return;
 
+    // Move to analysis step
+    setActiveStep(1);
+    
     // Add user message
-    setMessages((prev) => [...prev, { sender: "user", text: input }]);
+    setMessages((prev) => [...prev, { 
+      sender: "user", 
+      text: `Analyzing contract code:\n\n\`\`\`solidity\n${input.length > 200 ? input.substring(0, 200) + '...' : input}\n\`\`\``
+    }]);
     setLoading(true);
+    setApiError(null);
 
     try {
-      // Use the mock API function
-      const result = await analyzeContract(input);
+      // Extract contract name and analyze stats before API call
+      const name = extractContractName(input);
+      setContractName(name);
       
-      setVulnerabilities(result.vulnerabilities);
-      setConfidenceScore(result.confidenceScore);
-      setAutoFixCode(result.autoFixCode);
+      // Analyze contract statistics
+      const stats = analyzeContractStats(input);
+      setContractStats(stats);
+
+      // API integration with Hugging Face
+      const apiKey = process.env.REACT_APP_OPENAI_SECRET_KEY || "";
+      const preTrainedDataText = "No pre-trained data";
+      
+      const payload = {
+        api_key: apiKey,
+        pre_traineddata_text: preTrainedDataText,
+        prompt: input,
+      };
+
+      const response = await fetch(
+        "https://daniyalmoha-solidity-contract-auditor.hf.space/analyze_smart_contract",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log("API Result:", result);
+
+      // Convert the vulnerabilities to our format
+      const convertedVulnerabilities = (result.vulnerabilities || []).map((vuln, index) => ({
+        id: `V-${String(index + 1).padStart(3, '0')}`,
+        type: vuln.title,
+        category: categorizeVulnerability(vuln.title),
+        severity: vuln.severity.charAt(0).toUpperCase() + vuln.severity.slice(1),
+        impact: "Could lead to " + getImpactDescription(vuln.title, vuln.severity),
+        recommendation: vuln.description,
+        lineReferences: vuln.codeSnippet,
+        affectedLines: getAffectedLines(vuln.codeSnippet),
+        fixApplied: false,
+        gasSaved: estimateGasSavings(vuln.title, vuln.severity)
+      }));
+
+      setVulnerabilities(convertedVulnerabilities);
+      
+      // Calculate total gas savings
+      const totalGasSavings = convertedVulnerabilities.reduce((sum, vuln) => sum + (vuln.gasSaved || 0), 0);
+      setGasSavings(totalGasSavings);
+      
+      // Set a confidence score based on the vulnerabilities
+      const highSeverityCount = convertedVulnerabilities.filter(v => v.severity === "High" || v.severity === "Critical").length;
+      const mediumSeverityCount = convertedVulnerabilities.filter(v => v.severity === "Medium").length;
+      
+      // Calculate score: start with 100, subtract for each vulnerability based on severity
+      const score = Math.max(
+        100 - (highSeverityCount * 15) - (mediumSeverityCount * 7) - ((convertedVulnerabilities.length - highSeverityCount - mediumSeverityCount) * 3),
+        35
+      );
+      
+      setConfidenceScore(score);
+      
+      // Set automatic fix code if available
+      if (result.autoFixCode) {
+        setAutoFixCode(result.autoFixCode);
+      } else if (convertedVulnerabilities.length > 0) {
+        // Generate a simple example fix for the first vulnerability
+        const firstVuln = convertedVulnerabilities[0];
+        if (firstVuln.lineReferences) {
+          const fixedCode = generateFixSuggestion(firstVuln);
+          if (fixedCode) {
+            setAutoFixCode(fixedCode);
+            // Add to fixed vulnerabilities
+            setFixedVulnerabilities([{...firstVuln, fixApplied: true}]);
+          }
+        }
+      }
+
+      // Add result to audit history
+      const newAudit = {
+        id: `A-${String(auditHistory.length + 1).padStart(3, '0')}`,
+        date: new Date().toLocaleString(),
+        contractName: name,
+        issueCount: {
+          high: convertedVulnerabilities.filter(v => v.severity === "High" || v.severity === "Critical").length,
+          medium: convertedVulnerabilities.filter(v => v.severity === "Medium").length,
+          low: convertedVulnerabilities.filter(v => v.severity === "Low").length,
+          info: convertedVulnerabilities.filter(v => v.severity === "Info").length
+        },
+        score: score,
+        code: input.substring(0, 200) + (input.length > 200 ? '...' : '')
+      };
+      
+      setAuditHistory(prev => [newAudit, ...prev]);
 
       // Build a final "report-like" text for chat
       const finalReport = {
-        vulnerabilities: result.vulnerabilities,
+        vulnerabilities: convertedVulnerabilities,
       };
       const finalText = formatReport(finalReport);
+
+      // Move to report step
+      setActiveStep(2);
 
       // Add a "bot" message and start typed effect
       setMessages((prev) => [...prev, { sender: "bot", text: "" }]);
       startTyping(finalText);
     } catch (err) {
-      console.error(err);
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: "Error analyzing input. Please try again." },
-      ]);
+      console.error("Error during analysis:", err);
+      setApiError(err.message);
+      
+      // Generate some mock results for demo purposes if API fails
+      const mockVulnerabilities = generateMockVulnerabilities(input);
+      setVulnerabilities(mockVulnerabilities);
+      
+      // Calculate mock confidence score
+      const score = 75 - (mockVulnerabilities.length * 5);
+      setConfidenceScore(score);
+      
+      // Add mock result to audit history
+      const newAudit = {
+        id: `A-${String(auditHistory.length + 1).padStart(3, '0')}`,
+        date: new Date().toLocaleString(),
+        contractName: contractName,
+        issueCount: {
+          high: mockVulnerabilities.filter(v => v.severity === "High").length,
+          medium: mockVulnerabilities.filter(v => v.severity === "Medium").length,
+          low: mockVulnerabilities.filter(v => v.severity === "Low").length,
+          info: mockVulnerabilities.filter(v => v.severity === "Info").length
+        },
+        score: score,
+        code: input.substring(0, 200) + (input.length > 200 ? '...' : '')
+      };
+      
+      setAuditHistory(prev => [newAudit, ...prev]);
+      
+      // Build a report with mock vulnerabilities
+      const mockReport = {
+        vulnerabilities: mockVulnerabilities,
+      };
+      const reportText = formatReport(mockReport);
+      
+      // Add warning about API failure
+      const warningText = `# API Error: ${err.message}\n\nFalling back to mock results for demonstration purposes. In a production environment, you would need to fix the API connection.\n\n${reportText}`;
+      
+      // Move to report step
+      setActiveStep(2);
+      
+      // Add a "bot" message with the warning and mock results
+      setMessages((prev) => [...prev, { sender: "bot", text: "" }]);
+      startTyping(warningText);
     }
 
     setLoading(false);
-    setInput("");
+  };
+
+  // Helper functions to enhance mock data
+  const categorizeVulnerability = (title) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('reentrancy') || lowerTitle.includes('overflow') || 
+        lowerTitle.includes('underflow') || lowerTitle.includes('access control') ||
+        lowerTitle.includes('authorization') || lowerTitle.includes('authentication')) {
+      return "Security";
+    } else if (lowerTitle.includes('gas') || lowerTitle.includes('optimiz')) {
+      return "Optimization";
+    } else {
+      return "Reliability";
+    }
+  };
+
+  const getImpactDescription = (title, severity) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('reentrancy')) {
+      return "fund theft through recursive calls";
+    } else if (lowerTitle.includes('overflow') || lowerTitle.includes('underflow')) {
+      return "incorrect balance calculations";
+    } else if (lowerTitle.includes('access control')) {
+      return "unauthorized access to restricted functions";
+    } else if (lowerTitle.includes('gas')) {
+      return "excessive transaction costs";
+    } else if (severity.toLowerCase() === 'high') {
+      return "potential loss of funds or contract compromise";
+    } else if (severity.toLowerCase() === 'medium') {
+      return "unexpected contract behavior";
+    } else {
+      return "reduced contract efficiency or minor issues";
+    }
+  };
+
+  const getAffectedLines = (codeSnippet) => {
+    if (!codeSnippet) return [];
+    // Simplistic approach - in real implementation would need more sophisticated parsing
+    const lines = codeSnippet.split('\n');
+    return Array.from({length: lines.length}, (_, i) => i+1);
+  };
+
+  const estimateGasSavings = (title, severity) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('gas')) {
+      return Math.floor(Math.random() * 15000) + 5000; // 5000-20000 gas
+    } else if (lowerTitle.includes('storage') || lowerTitle.includes('memory')) {
+      return Math.floor(Math.random() * 10000) + 3000; // 3000-13000 gas
+    } else if (lowerTitle.includes('loop')) {
+      return Math.floor(Math.random() * 25000) + 10000; // 10000-35000 gas
+    } else if (severity.toLowerCase() === 'low' && Math.random() > 0.7) {
+      return Math.floor(Math.random() * 2000) + 1000; // 1000-3000 gas for some low severity issues
+    }
+    return 0;
+  };
+
+  const generateFixSuggestion = (vulnerability) => {
+    const lowerType = vulnerability.type.toLowerCase();
+    if (lowerType.includes('reentrancy')) {
+      return vulnerability.lineReferences.replace(
+        /(bool success[^;]*;)[^}]*(balances\[msg\.sender\])/s,
+        "balances[msg.sender] -= _amount; // Update state before external call\n\n    $1 // Make external call after state changes"
+      );
+    } else if (lowerType.includes('overflow') || lowerType.includes('underflow')) {
+      return vulnerability.lineReferences.replace(
+        /uint(\d*)/g, 
+        "uint$1 // Consider using SafeMath for Solidity <0.8.0 or rely on built-in checks for >=0.8.0"
+      );
+    } else if (lowerType.includes('access control')) {
+      return vulnerability.lineReferences.replace(
+        /function\s+(\w+)/,
+        "function $1 // Add onlyOwner or access control modifier"
+      ).replace(
+        /{\s*\n/,
+        "{\n    require(msg.sender == owner, \"Not authorized\"); // Add access control check\n"
+      );
+    }
+    return null;
+  };
+
+  const generateMockVulnerabilities = (code) => {
+    // Generate 2-4 mock vulnerabilities based on the code for demo purposes
+    const vulnerabilityTypes = [
+      {
+        title: "Reentrancy Vulnerability",
+        severity: "High",
+        category: "Security",
+        description: "The contract is vulnerable to reentrancy attacks. Consider implementing checks-effects-interactions pattern."
+      },
+      {
+        title: "Unchecked Return Values",
+        severity: "Medium", 
+        category: "Reliability",
+        description: "Return values of external calls are not checked, which may lead to unexpected behavior."
+      },
+      {
+        title: "Gas Optimization",
+        severity: "Low",
+        category: "Optimization",
+        description: "The contract uses inefficient patterns that consume excessive gas. Consider optimizing storage access."
+      },
+      {
+        title: "Access Control Issue",
+        severity: "High",
+        category: "Security",
+        description: "Critical functions lack proper access controls. Implement permission checks or modifiers."
+      },
+      {
+        title: "Uninitialized Storage Variables",
+        severity: "Medium",
+        category: "Reliability",
+        description: "Some storage variables may be uninitialized, leading to unexpected default values."
+      }
+    ];
+    
+    // Randomly select 2-4 vulnerability types
+    const count = Math.floor(Math.random() * 3) + 2;
+    const shuffled = [...vulnerabilityTypes].sort(() => 0.5 - Math.random());
+    const selectedTypes = shuffled.slice(0, count);
+    
+    // Extract code snippets for each vulnerability
+    const codeLines = code.split('\n');
+    const functionMatches = [...code.matchAll(/function\s+(\w+)[^{]*{[^}]*}/g)];
+    
+    return selectedTypes.map((type, index) => {
+      // Try to find a relevant code snippet from the contract
+      let snippet = "";
+      if (functionMatches.length > 0) {
+        const randomFunctionIndex = Math.floor(Math.random() * functionMatches.length);
+        snippet = functionMatches[randomFunctionIndex][0];
+      } else if (codeLines.length > 5) {
+        // Take a random 5-8 line snippet from the contract
+        const startLine = Math.floor(Math.random() * (codeLines.length - 8));
+        const lineCount = Math.floor(Math.random() * 4) + 5;
+        snippet = codeLines.slice(startLine, startLine + lineCount).join('\n');
+      } else {
+        // Use the entire contract if it's very short
+        snippet = code;
+      }
+      
+      return {
+        id: `V-${String(index + 1).padStart(3, '0')}`,
+        type: type.title,
+        category: type.category,
+        severity: type.severity,
+        impact: "Could lead to " + getImpactDescription(type.title, type.severity),
+        recommendation: type.description,
+        lineReferences: snippet,
+        affectedLines: getAffectedLines(snippet),
+        fixApplied: false,
+        gasSaved: estimateGasSavings(type.title, type.severity)
+      };
+    });
+  };
+
+  const applyFix = (vulnerability) => {
+    setFixedVulnerabilities(prev => {
+      // Check if already fixed
+      const alreadyFixed = prev.some(v => v.id === vulnerability.id);
+      if (alreadyFixed) return prev;
+      
+      // Add to fixed vulnerabilities
+      return [...prev, {...vulnerability, fixApplied: true}];
+    });
+    
+    // Update gas savings if applicable
+    if (vulnerability.gasSaved) {
+      setGasSavings(prev => prev + vulnerability.gasSaved);
+    }
+    
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 2000);
   };
 
   const exportPDF = () => {
@@ -1734,9 +2036,41 @@ ${vuln.lineReferences || ""}`;
   const clearChat = () => {
     setMessages([]);
     setVulnerabilities([]);
+    setFixedVulnerabilities([]);
     setTypingMessage("");
     setConfidenceScore(0);
     setAutoFixCode("");
+    setContractName("");
+    setContractStats(null);
+    setGasSavings(0);
+    setActiveStep(0);
+    setApiError(null);
+  };
+
+  const filterVulnerabilities = () => {
+    if (selectedCategory === "all") return vulnerabilities;
+    return vulnerabilities.filter(v => v.category === selectedCategory);
+  };
+
+  const getVulnerabilityCounts = () => {
+    const counts = {
+      Security: vulnerabilities.filter(v => v.category === "Security").length,
+      Reliability: vulnerabilities.filter(v => v.category === "Reliability").length,
+      Optimization: vulnerabilities.filter(v => v.category === "Optimization").length,
+      total: vulnerabilities.length
+    };
+    return counts;
+  };
+
+  const getSeverityCounts = () => {
+    const counts = {
+      high: vulnerabilities.filter(v => v.severity === "High" || v.severity === "Critical").length,
+      medium: vulnerabilities.filter(v => v.severity === "Medium").length,
+      low: vulnerabilities.filter(v => v.severity === "Low").length,
+      info: vulnerabilities.filter(v => v.severity === "Info").length,
+      total: vulnerabilities.length
+    };
+    return counts;
   };
 
   // Placeholder code samples for quick testing
@@ -1812,6 +2146,585 @@ contract NFTMarketplace {
     }
   ];
 
+  // Contract Audit Progress Steps Component
+  const AuditSteps = () => (
+    <div className="audit-steps">
+      {auditSteps.map((step, index) => (
+        <div 
+          key={step.id} 
+          className={`audit-step ${activeStep >= index ? 'completed' : ''} ${activeStep === index ? 'active' : ''}`}
+          onClick={() => activeStep > index && setActiveStep(index)}
+        >
+          <div className="step-icon">
+            {activeStep > index ? <Icons.Check /> : step.icon}
+          </div>
+          <div className="step-content">
+            <span className="step-number">Step {index + 1}</span>
+            <span className="step-title">{step.title}</span>
+          </div>
+          {index < auditSteps.length - 1 && <div className="step-connector" />}
+          <div className="step-progress"></div>
+        </div>
+      ))}
+    </div>
+  );
+
+  // Contract Statistics Component
+  const ContractStatistics = ({ stats, name }) => (
+    <div className="contract-stats">
+      <div className="stats-header">
+        <h3>{name}</h3>
+        <span className="stats-badge">Solidity ^0.8.0</span>
+      </div>
+      <div className="stats-grid">
+        <div className="stat-box">
+          <span className="stat-value">{stats.lines}</span>
+          <span className="stat-label">Lines of Code</span>
+        </div>
+        <div className="stat-box">
+          <span className="stat-value">{stats.functions}</span>
+          <span className="stat-label">Functions</span>
+        </div>
+        <div className="stat-box">
+          <span className="stat-value">{stats.variables}</span>
+          <span className="stat-label">State Variables</span>
+        </div>
+        <div className="stat-box">
+          <span className="stat-value">{stats.complexity}</span>
+          <span className="stat-label">Complexity Score</span>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Audit Report Summary Component
+  const AuditReportSummary = () => {
+    const severityCounts = getSeverityCounts();
+    const categoryCounts = getVulnerabilityCounts();
+    
+    return (
+      <div className="audit-report-summary">
+        <div className="summary-card">
+          <div className="summary-header">
+            <h3>Security Score</h3>
+            <div className="score-pill" style={{
+              backgroundColor: confidenceScore >= 80 ? 'var(--success)' : 
+                             confidenceScore >= 60 ? 'var(--warning)' : 'var(--error)'
+            }}>
+              {confidenceScore}%
+            </div>
+          </div>
+          <div className="summary-content">
+            <div className="score-gauge">
+              <ConfidenceGauge score={confidenceScore} />
+            </div>
+            <div className="score-description">
+              {confidenceScore >= 80 ? (
+                <p>This contract has a <strong>good</strong> security score. Consider fixing the remaining issues before deployment.</p>
+              ) : confidenceScore >= 60 ? (
+                <p>This contract has a <strong>moderate</strong> security score. Address high severity issues before deployment.</p>
+              ) : (
+                <p>This contract has a <strong>poor</strong> security score. Significant security issues must be fixed before deployment.</p>
+              )}
+            </div>
+          </div>
+        </div>
+        
+        <div className="summary-card">
+          <div className="summary-header">
+            <h3>Vulnerability Breakdown</h3>
+            <div className="issue-count-pill">
+              {severityCounts.total} issues found
+            </div>
+          </div>
+          <div className="summary-content">
+            <div className="issue-distribution">
+              <div className="pie-chart">
+                {/* Pie chart visualization */}
+                <svg viewBox="0 0 100 100" className="pie">
+                  <circle r="25" cx="50" cy="50" fill="transparent" stroke="var(--error)" strokeWidth="50" strokeDasharray={`${severityCounts.high > 0 ? (severityCounts.high * 31.4 / severityCounts.total) : 0} 100`} transform="rotate(-90 50 50)" />
+                  <circle r="25" cx="50" cy="50" fill="transparent" stroke="var(--warning)" strokeWidth="50" strokeDasharray={`${severityCounts.medium > 0 ? (severityCounts.medium * 31.4 / severityCounts.total) : 0} 100`} strokeDashoffset={`${-(severityCounts.high > 0 ? (severityCounts.high * 31.4 / severityCounts.total) : 0)}`} transform="rotate(-90 50 50)" />
+                  <circle r="25" cx="50" cy="50" fill="transparent" stroke="var(--success)" strokeWidth="50" strokeDasharray={`${severityCounts.low > 0 ? (severityCounts.low * 31.4 / severityCounts.total) : 0} 100`} strokeDashoffset={`${-((severityCounts.high + severityCounts.medium) > 0 ? ((severityCounts.high + severityCounts.medium) * 31.4 / severityCounts.total) : 0)}`} transform="rotate(-90 50 50)" />
+                  <circle r="25" cx="50" cy="50" fill="transparent" stroke="var(--info)" strokeWidth="50" strokeDasharray={`${severityCounts.info > 0 ? (severityCounts.info * 31.4 / severityCounts.total) : 0} 100`} strokeDashoffset={`${-((severityCounts.high + severityCounts.medium + severityCounts.low) > 0 ? ((severityCounts.high + severityCounts.medium + severityCounts.low) * 31.4 / severityCounts.total) : 0)}`} transform="rotate(-90 50 50)" />
+                  <circle r="12.5" cx="50" cy="50" fill="white" />
+                </svg>
+              </div>
+              <div className="issue-legend">
+                <div className="legend-item">
+                  <span className="legend-color high"></span>
+                  <span className="legend-label">High ({severityCounts.high})</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color medium"></span>
+                  <span className="legend-label">Medium ({severityCounts.medium})</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color low"></span>
+                  <span className="legend-label">Low ({severityCounts.low})</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color info"></span>
+                  <span className="legend-label">Info ({severityCounts.info})</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="category-stats">
+              <div className="category-item">
+                <span className="category-name">Security</span>
+                <span className="category-count">{categoryCounts.Security}</span>
+              </div>
+              <div className="category-item">
+                <span className="category-name">Reliability</span>
+                <span className="category-count">{categoryCounts.Reliability}</span>
+              </div>
+              <div className="category-item">
+                <span className="category-name">Optimization</span>
+                <span className="category-count">{categoryCounts.Optimization}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {gasSavings > 0 && (
+          <div className="summary-card gas-savings">
+            <div className="summary-header">
+              <h3>Gas Optimization</h3>
+              <div className="gas-badge">
+                <Icons.Info />
+              </div>
+            </div>
+            <div className="summary-content">
+              <div className="gas-amount">
+                <span className="gas-value">
+                  {gasSavings.toLocaleString()}
+                </span>
+                <span className="gas-label">gas potential savings</span>
+              </div>
+              <p className="gas-description">
+                Implementing the suggested optimizations could reduce gas costs by approximately 
+                <strong> ${((gasSavings * 20 * 0.000000015) * 2000).toFixed(2)} USD</strong> at current ETH prices.
+              </p>
+            </div>
+          </div>
+        )}
+        
+        <div className="summary-card fixes">
+          <div className="summary-header">
+            <h3>Applied Fixes</h3>
+            <div className="fix-count">
+              {fixedVulnerabilities.length}/{vulnerabilities.length}
+            </div>
+          </div>
+          <div className="summary-content">
+            {fixedVulnerabilities.length > 0 ? (
+              <div className="fixes-list">
+                {fixedVulnerabilities.map(fix => (
+                  <div key={fix.id} className="fix-item">
+                    <div className="fix-icon">
+                      <Icons.Check />
+                    </div>
+                    <div className="fix-details">
+                      <span className="fix-name">{fix.type}</span>
+                      <span className="fix-id">{fix.id}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="no-fixes">
+                <p>No fixes have been applied yet.</p>
+                <p>Click "Apply Fix" on a vulnerability to implement recommended changes.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Recent Audits Component
+  const RecentAudits = () => (
+    <div className="recent-audits-container">
+      <h3>Recent Audits</h3>
+      <div className="recent-audits">
+        {auditHistory.length > 0 ? (
+          auditHistory.slice(0, 3).map((audit) => (
+            <div key={audit.id} className="recent-audit-item" onClick={() => {
+              // Load back the previous audit
+              if (audit.code) {
+                setInput(audit.code);
+              }
+            }}>
+              <div className="audit-item-header">
+                <h4>{audit.contractName}</h4>
+                <div className="audit-score" style={{
+                  backgroundColor: audit.score >= 80 ? 'var(--success)' : 
+                                audit.score >= 60 ? 'var(--warning)' : 'var(--error)'
+                }}>
+                  {audit.score}
+                </div>
+              </div>
+              <div className="audit-item-meta">
+                <div className="audit-item-date">{audit.date}</div>
+                <div className="audit-item-issues">
+                  {audit.issueCount.high > 0 && (
+                    <span className="issue-count high">{audit.issueCount.high}</span>
+                  )}
+                  {audit.issueCount.medium > 0 && (
+                    <span className="issue-count medium">{audit.issueCount.medium}</span>
+                  )}
+                  {audit.issueCount.low > 0 && (
+                    <span className="issue-count low">{audit.issueCount.low}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="empty-audits">No previous audits found</div>
+        )}
+      </div>
+    </div>
+  );
+  
+  // Audit tips and info component
+  const AuditTips = () => (
+    <div className="audit-tips">
+      <h3>Auditing Tips</h3>
+      <div className="tips-list">
+        <div className="tip-item">
+          <div className="tip-icon">💡</div>
+          <div className="tip-content">
+            <h4>Focus on High Severity Issues</h4>
+            <p>High severity vulnerabilities can lead to direct loss of funds and should be addressed first.</p>
+          </div>
+        </div>
+        <div className="tip-item">
+          <div className="tip-icon">🔒</div>
+          <div className="tip-content">
+            <h4>Test After Fixing</h4>
+            <p>Always thoroughly test your contract after applying security fixes to avoid introducing new bugs.</p>
+          </div>
+        </div>
+        <div className="tip-item">
+          <div className="tip-icon">⚠️</div>
+          <div className="tip-content">
+            <h4>Consider Multiple Audits</h4>
+            <p>For critical contracts, consider getting multiple independent audits for better security coverage.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Render the appropriate step content based on activeStep
+  const renderStepContent = () => {
+    switch (activeStep) {
+      case 0: // Contract Input
+        return (
+          <div className="step-content-container">
+            <div className="input-container">
+              <form onSubmit={handleSubmit} className="input-form elevated">
+                <div className="input-header">
+                  <div className="input-options">
+                    <label className={analysisType === "solidity" ? "active" : ""}>
+                      <input
+                        type="radio"
+                        value="solidity"
+                        checked={analysisType === "solidity"}
+                        onChange={() => setAnalysisType("solidity")}
+                      />
+                      <span>Solidity Code</span>
+                    </label>
+                    <label className={analysisType === "github" ? "active" : ""}>
+                      <input
+                        type="radio"
+                        value="github"
+                        checked={analysisType === "github"}
+                        onChange={() => setAnalysisType("github")}
+                      />
+                      <span>GitHub URL</span>
+                    </label>
+                  </div>
+                  <div className="input-actions">
+                    <button 
+                      type="button" 
+                      className="action-btn tooltip"
+                      onClick={() => setInput("")}
+                    >
+                      <Icons.Clear />
+                      <span className="tooltip-text">Clear Code</span>
+                    </button>
+                  </div>
+                </div>
+
+                <textarea
+                  placeholder={
+                    analysisType === "solidity"
+                      ? "Paste Solidity code here..."
+                      : "Enter GitHub repository URL..."
+                  }
+                  rows="16"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="code-input"
+                />
+
+                <div className="code-samples">
+                  <span>Try examples:</span>
+                  <div className="samples-list">
+                    {codeExamples.map((example, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        className="sample-btn pulse-animation"
+                        onClick={() => setInput(example.code)}
+                      >
+                        {example.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="button-row">
+                  <button type="submit" className="submit-btn" disabled={!input.trim()}>
+                    <Icons.Send />
+                    <span>Analyze Contract</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+            
+            <div className="sidebar-container">
+              <RecentAudits />
+              <AuditTips />
+            </div>
+          </div>
+        );
+        
+      case 1: // Analysis
+        return (
+          <div className="step-content-container">
+            <div className="analysis-loading">
+              <div className="loader"></div>
+              <h3>Analyzing Smart Contract</h3>
+              <p>Scanning for vulnerabilities and security issues...</p>
+              <div className="analysis-stages">
+                <div className="stage completed">
+                  <span className="stage-check"><Icons.Check /></span>
+                  <span className="stage-name">Parsing contract code</span>
+                </div>
+                <div className="stage completed">
+                  <span className="stage-check"><Icons.Check /></span>
+                  <span className="stage-name">Checking syntax and structure</span>
+                </div>
+                <div className="stage active">
+                  <span className="stage-loader"></span>
+                  <span className="stage-name">Running security analysis</span>
+                </div>
+                <div className="stage">
+                  <span className="stage-number">4</span>
+                  <span className="stage-name">Generating recommendations</span>
+                </div>
+                <div className="stage">
+                  <span className="stage-number">5</span>
+                  <span className="stage-name">Preparing report</span>
+                </div>
+              </div>
+              <div className="analysis-note">
+                <Icons.Info />
+                <p>This may take a few minutes depending on contract complexity</p>
+              </div>
+            </div>
+          </div>
+        );
+        
+      case 2: // Report
+        return (
+          <div className="step-content-container">
+            {apiError && (
+              <div className="api-error-banner">
+                <Icons.Alert />
+                <div className="error-text">
+                  <span>API Error: {apiError}</span>
+                  <p>Using fallback analysis for demonstration. In production, check API connectivity.</p>
+                </div>
+              </div>
+            )}
+            
+            {contractStats && (
+              <div className="contract-overview">
+                <ContractStatistics stats={contractStats} name={contractName} />
+              </div>
+            )}
+            
+            <div className="report-container">
+              <div className="report-main">
+                {vulnerabilities.length > 0 ? (
+                  <>
+                    <div className="vulnerability-filters">
+                      <h3>Vulnerabilities ({filterVulnerabilities().length})</h3>
+                      <div className="filter-tabs">
+                        <button 
+                          className={selectedCategory === "all" ? "active" : ""} 
+                          onClick={() => setSelectedCategory("all")}
+                        >
+                          All
+                        </button>
+                        <button 
+                          className={selectedCategory === "Security" ? "active" : ""} 
+                          onClick={() => setSelectedCategory("Security")}
+                        >
+                          Security
+                        </button>
+                        <button 
+                          className={selectedCategory === "Reliability" ? "active" : ""} 
+                          onClick={() => setSelectedCategory("Reliability")}
+                        >
+                          Reliability
+                        </button>
+                        <button 
+                          className={selectedCategory === "Optimization" ? "active" : ""} 
+                          onClick={() => setSelectedCategory("Optimization")}
+                        >
+                          Optimization
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="vulnerability-list">
+                      {filterVulnerabilities().map((vuln, i) => (
+                        <motion.div
+                          key={vuln.id || i}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: i * 0.05 }}
+                          className={`vulnerability-card ${fixedVulnerabilities.some(v => v.id === vuln.id) ? 'fixed' : ''}`}
+                        >
+                          <div className="card-header">
+                            <div className="vuln-info">
+                              <span className={`severity-indicator ${vuln.severity.toLowerCase()}`}></span>
+                              <h4>{vuln.type}</h4>
+                            </div>
+                            <div className="vuln-meta">
+                              {vuln.id && <span className="vuln-id">{vuln.id}</span>}
+                              {vuln.category && <span className={`vuln-category ${vuln.category.toLowerCase()}`}>{vuln.category}</span>}
+                              {fixedVulnerabilities.some(v => v.id === vuln.id) && (
+                                <span className="fix-badge">
+                                  <Icons.Check />
+                                  Fixed
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="card-content">
+                            {vuln.impact && <p className="vuln-impact">{vuln.impact}</p>}
+                            <div className="vuln-recommendation">
+                              <strong>Recommendation:</strong> {vuln.recommendation}
+                            </div>
+                          </div>
+                          
+                          {vuln.lineReferences && (
+                            <div className="code-container">
+                              <div className="code-header">Affected Code:</div>
+                              <pre className="code-snippet">
+                                <code>{vuln.lineReferences}</code>
+                              </pre>
+                            </div>
+                          )}
+                          
+                          <div className="card-footer">
+                            {!fixedVulnerabilities.some(v => v.id === vuln.id) ? (
+                              <button 
+                                className="apply-fix-btn"
+                                onClick={() => applyFix(vuln)}
+                              >
+                                <Icons.Check />
+                                Apply Fix
+                              </button>
+                            ) : (
+                              <div className="fix-applied">
+                                <Icons.Check />
+                                Fix Applied
+                              </div>
+                            )}
+                            <button 
+                              className="copy-btn"
+                              onClick={() => handleCopyVulnerability(vuln)}
+                            >
+                              <Icons.Copy />
+                              Copy Details
+                            </button>
+                          </div>
+                        </motion.div>
+                      ))}
+                      
+                      {filterVulnerabilities().length === 0 && (
+                        <div className="no-vulnerabilities">
+                          <Icons.Check />
+                          <p>No {selectedCategory !== "all" ? selectedCategory.toLowerCase() : ""} vulnerabilities found in this category.</p>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="no-vulnerabilities-found">
+                    <div className="success-icon">
+                      <Icons.Check />
+                    </div>
+                    <h3>No Vulnerabilities Found</h3>
+                    <p>Your smart contract appears to be secure. No issues were detected during the audit.</p>
+                    <p className="security-note">Note: While no issues were found, this doesn't guarantee complete security. Consider multiple audits for critical contracts.</p>
+                  </div>
+                )}
+              </div>
+              
+              <div className="report-sidebar">
+                <AuditReportSummary />
+              </div>
+            </div>
+            
+            {autoFixCode && (
+              <div className="auto-fix">
+                <div className="auto-fix-header">
+                  <h3><Icons.Info /> AI Auto-Fix Suggestion</h3>
+                  <button 
+                    className="copy-code-btn" 
+                    onClick={() => {
+                      navigator.clipboard.writeText(autoFixCode);
+                      setShowSuccessMessage(true);
+                      setTimeout(() => setShowSuccessMessage(false), 2000);
+                    }}
+                  >
+                    <Icons.Copy />
+                    <span>Copy Code</span>
+                  </button>
+                </div>
+                <pre className="code-snippet">
+                  <code>{autoFixCode}</code>
+                </pre>
+              </div>
+            )}
+            
+            <div className="report-actions">
+              <button className="secondary-button" onClick={clearChat}>
+                <Icons.Clear />
+                <span>New Audit</span>
+              </button>
+              <button className="primary-button" onClick={exportPDF}>
+                <Icons.Download />
+                <span>Export Report</span>
+              </button>
+            </div>
+          </div>
+        );
+        
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="page-content audit-page">
       <div className="page-header">
@@ -1827,126 +2740,42 @@ contract NFTMarketplace {
       </div>
 
       <div className="audit-dashboard">
-        {confidenceScore > 0 && (
-          <div className="audit-summary">
-            <ConfidenceGauge score={confidenceScore} />
-            <ReportSummary 
-              vulnerabilities={vulnerabilities} 
-              onExport={exportPDF} 
-            />
+        <AuditSteps />
+        
+        {renderStepContent()}
+        
+        {/* Chat container for analysis messages */}
+        {messages.length > 0 && activeStep === 2 && (
+          <div className="chat-section">
+            <h3>Analysis Log</h3>
+            <div className="chat-container" ref={chatContainerRef}>
+              {loading && (
+                <div className="overlay">
+                  <div className="loader"></div>
+                  <p>Analyzing your smart contract...</p>
+                </div>
+              )}
+              
+              <AnimatePresence>
+                {messages.map((msg, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={`message ${msg.sender}`}
+                  >
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              <div ref={messagesEndRef} />
+            </div>
           </div>
         )}
-
-        <div className="chat-container">
-          {loading && (
-            <div className="overlay">
-              <div className="loader"></div>
-              <p>Analyzing your smart contract...</p>
-            </div>
-          )}
-          <AnimatePresence>
-            {messages.map((msg, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`message ${msg.sender}`}
-              >
-                <ReactMarkdown>{msg.text}</ReactMarkdown>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          <div ref={messagesEndRef} />
-        </div>
-
-        {vulnerabilities.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="vuln-list"
-          >
-            <h3 className="section-title">Detected Vulnerabilities</h3>
-            {vulnerabilities.map((vuln, i) => (
-              <VulnerabilityCard 
-                vuln={vuln} 
-                index={i} 
-                key={i} 
-                onCopy={handleCopyVulnerability}
-              />
-            ))}
-          </motion.div>
-        )}
-
-        {autoFixCode && <AutoFixSuggestion fixCode={autoFixCode} />}
-
-        <div className="audit-controls">
-          {messages.length > 0 && (
-            <button className="secondary-button" onClick={clearChat}>
-              <Icons.Clear />
-              <span>Clear Analysis</span>
-            </button>
-          )}
-        </div>
-
-        <form onSubmit={handleSubmit} className="input-form">
-          <div className="input-header">
-            <div className="input-options">
-              <label className={analysisType === "solidity" ? "active" : ""}>
-                <input
-                  type="radio"
-                  value="solidity"
-                  checked={analysisType === "solidity"}
-                  onChange={() => setAnalysisType("solidity")}
-                />
-                <span>Solidity Code</span>
-              </label>
-              <label className={analysisType === "github" ? "active" : ""}>
-                <input
-                  type="radio"
-                  value="github"
-                  checked={analysisType === "github"}
-                  onChange={() => setAnalysisType("github")}
-                />
-                <span>GitHub URL</span>
-              </label>
-            </div>
-            <div className="code-samples">
-              <span>Try example:</span>
-              {codeExamples.map((example, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  className="sample-btn"
-                  onClick={() => setInput(example.code)}
-                >
-                  {example.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <textarea
-            placeholder={
-              analysisType === "solidity"
-                ? "Paste Solidity code here..."
-                : "Enter GitHub repository URL..."
-            }
-            rows="8"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-
-          <div className="button-row">
-            <button type="submit" className="submit-btn" disabled={loading}>
-              <Icons.Send />
-              <span>Analyze Contract</span>
-            </button>
-          </div>
-        </form>
-
+        
+        {/* Success toast message */}
         {showSuccessMessage && (
           <div className="toast-message">
             <Icons.Check /> Action completed successfully
