@@ -2,7 +2,6 @@
 	"name": "smart-contract-auditor",
 	"version": "0.1.0",
 	"private": true,
-	"proxy": "http://localhost:3001",
 	"dependencies": {
 		"@octokit/core": "^6.1.4",
 		"@testing-library/dom": "^10.4.0",

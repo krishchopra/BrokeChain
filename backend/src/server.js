@@ -5,14 +5,18 @@ require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const isDevelopment = process.env.NODE_ENV !== "production";
 
-// Enable CORS
-app.use(
-	cors({
-		origin: "http://localhost:3000",
-		credentials: true,
-	})
-);
+// Determine allowed origins based on environment
+const corsOptions = {
+	origin: isDevelopment
+		? ["http://localhost:3000"]
+		: ["https://your-frontend-domain.vercel.app"],
+	credentials: true,
+};
+
+// Enable CORS with appropriate options
+app.use(cors(corsOptions));
 
 // Parse JSON request bodies
 app.use(express.json());
@@ -63,7 +67,13 @@ app.post("/api/github-auth", async (req, res) => {
 	}
 });
 
+// Health check endpoint
+app.get("/health", (req, res) => {
+	res.status(200).json({ status: "ok" });
+});
+
 // Start the server
 app.listen(PORT, () => {
 	console.log(`Backend server running on http://localhost:${PORT}`);
+	console.log(`Environment: ${isDevelopment ? "development" : "production"}`);
 });

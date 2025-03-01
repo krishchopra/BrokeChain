@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Icons } from "../App";
 import { useState } from "react";
+import config from "../config";
 
 export function GitHubAuth() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -20,9 +21,7 @@ export function GitHubAuth() {
 
 		// GitHub OAuth parameters
 		const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
-		const redirectUri = encodeURIComponent(
-			window.location.origin + "/github-callback"
-		);
+		const redirectUri = encodeURIComponent(config.githubRedirectUri);
 		const scope = encodeURIComponent(
 			"repo:status repo:read user:read repo"
 		);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import config from "../config";
 
 export function GitHubCallback({ onSuccess }) {
 	const [status, setStatus] = useState("Authenticating with GitHub...");
@@ -29,7 +30,6 @@ export function GitHubCallback({ onSuccess }) {
 					console.warn(
 						"State mismatch, but will attempt token exchange anyway"
 					);
-					// Still continue with the code exchange instead of throwing an error
 				}
 
 				// Clear the state from localStorage
@@ -42,8 +42,8 @@ export function GitHubCallback({ onSuccess }) {
 					);
 				}
 
-				// Use the backend endpoint
-				const apiUrl = "http://localhost:3001/api/github-auth";
+				// Use the configured backend endpoint
+				const apiUrl = `${config.apiBaseUrl}/api/github-auth`;
 				console.log("Using API URL:", apiUrl);
 
 				// Exchange code for token using our backend API
