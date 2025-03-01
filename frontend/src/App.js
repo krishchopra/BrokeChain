@@ -1706,9 +1706,9 @@ ${vuln.lineReferences || ""}`;
 			const name = extractContractName(input);
 			setContractName(name);
 
-			// Analyze contract statistics
-			const stats = analyzeContractStats(input);
-			setContractStats(stats);
+			// // Analyze contract statistics
+			// const stats = analyzeContractStats(input);
+			// setContractStats(stats);
 
 			// API integration with Hugging Face
 			const apiKey = process.env.REACT_APP_OPENAI_SECRET_KEY || "";
@@ -1754,21 +1754,23 @@ ${vuln.lineReferences || ""}`;
 
 			setVulnerabilities(convertedVulnerabilities);
 
+			setContractStats({
+				lines: result.number_of_lines,
+				functions: result.number_of_functions,
+				complexity: result.complexity_score,
+				security_score: result.security_score
+			  });
+
+			setConfidenceScore(result.security_score);
+
 			// Calculate total gas savings
 			const totalGasSavings = convertedVulnerabilities.reduce((sum, vuln) => sum + (vuln.gasSaved || 0), 0);
 			setGasSavings(totalGasSavings);
+			const shortSummary = result.analysis_text;
 
 			// Set a confidence score based on the vulnerabilities
 			const highSeverityCount = convertedVulnerabilities.filter(v => v.severity === "High" || v.severity === "Critical").length;
 			const mediumSeverityCount = convertedVulnerabilities.filter(v => v.severity === "Medium").length;
-
-			// Calculate score: start with 100, subtract for each vulnerability based on severity
-			const score = Math.max(
-				100 - (highSeverityCount * 15) - (mediumSeverityCount * 7) - ((convertedVulnerabilities.length - highSeverityCount - mediumSeverityCount) * 3),
-				35
-			);
-
-			setConfidenceScore(score);
 
 			// Set automatic fix code if available
 			if (result.autoFixCode) {
@@ -1797,7 +1799,7 @@ ${vuln.lineReferences || ""}`;
 					low: convertedVulnerabilities.filter(v => v.severity === "Low").length,
 					info: convertedVulnerabilities.filter(v => v.severity === "Info").length
 				},
-				score: score,
+				score: result.security_score,
 				code: input.substring(0, 200) + (input.length > 200 ? '...' : '')
 			};
 
@@ -1811,6 +1813,7 @@ ${vuln.lineReferences || ""}`;
 
 			// Move to report step
 			setActiveStep(2);
+			setMessages((prev) => [...prev, { sender: "bot", text: shortSummary }]);
 
 			// Add a "bot" message and start typed effect
 			setMessages((prev) => [...prev, { sender: "bot", text: "" }]);
@@ -2194,8 +2197,8 @@ contract NFTMarketplace {
 					<span className="stat-label">Functions</span>
 				</div>
 				<div className="stat-box">
-					<span className="stat-value">{stats.variables}</span>
-					<span className="stat-label">State Variables</span>
+					<span className="stat-value">{stats.security_score}</span>
+					<span className="stat-label">Secruity Score</span>
 				</div>
 				<div className="stat-box">
 					<span className="stat-value">{stats.complexity}</span>
