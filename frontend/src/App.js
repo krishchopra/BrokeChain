@@ -5,6 +5,10 @@ import ReactMarkdown from "react-markdown";
 import "./App.css";
 import { AnimatePresence, motion } from "framer-motion";
 import jsPDF from "jspdf";
+import GitHubUrlInput from "./components/GitHubUrlInput";
+import { Octokit } from "@octokit/core";
+import FileSelector from "./components/FileSelector";
+import { getAllFiles } from "./utils/getAllFiles";
 
 /* =====================
    ICONS
@@ -1653,6 +1657,11 @@ function Audit({ contractInput, setContractInput }) {
 	const messagesEndRef = useRef(null);
 	const chatContainerRef = useRef(null);
 	const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+	const [repoFiles, setRepoFiles] = useState([]);
+	const [showFileSelector, setShowFileSelector] = useState(false);
+	const [loadingFiles, setLoadingFiles] = useState(false);
+	const [repoOwner, setRepoOwner] = useState(null);
+	const [repoName, setRepoName] = useState(null);
 
 	// Setup audit steps
 	const auditSteps = [
@@ -2919,17 +2928,102 @@ contract NFTMarketplace {
 									</div>
 								</div>
 
-								<textarea
-									placeholder={
-										analysisType === "solidity"
-											? "Paste Solidity code here..."
-											: "Enter GitHub repository URL..."
-									}
-									rows="16"
-									value={input}
-									onChange={(e) => setInput(e.target.value)}
-									className="code-input"
-								/>
+								{analysisType === "solidity" ? (
+									<textarea
+										placeholder="Paste Solidity code here..."
+										rows="16"
+										value={input}
+										onChange={(e) =>
+											setInput(e.target.value)
+										}
+										className="code-input"
+									/>
+								) : (
+									<div className="github-url-container">
+										<div className="github-url-input-group">
+											<GitHubUrlInput
+												onFetchRepository={async (
+													owner,
+													repo
+												) => {
+													try {
+														setLoadingFiles(true);
+														setRepoOwner(owner);
+														setRepoName(repo);
+														const token =
+															localStorage.getItem(
+																"github_access_token"
+															);
+														const octokit =
+															new Octokit({
+																auth: token,
+															});
+
+														// First, get the root directory contents
+														const response =
+															await octokit.request(
+																"GET /repos/{owner}/{repo}/contents",
+																{
+																	owner,
+																	repo,
+																	headers: {
+																		"X-GitHub-Api-Version":
+																			"2022-11-28",
+																	},
+																}
+															);
+
+														// Process the files recursively to get all files
+														const allFiles =
+															await getAllFiles(
+																octokit,
+																owner,
+																repo,
+																response.data
+															);
+
+														// Filter for Solidity files if needed
+														const solFiles =
+															allFiles.filter(
+																(file) =>
+																	file.path.endsWith(
+																		".sol"
+																	)
+															);
+														setRepoFiles(
+															solFiles.length > 0
+																? solFiles
+																: allFiles
+														);
+														setShowFileSelector(
+															true
+														);
+													} catch (error) {
+														console.error(
+															"Error fetching repository:",
+															error
+														);
+														// Handle error appropriately
+													} finally {
+														setLoadingFiles(false);
+													}
+												}}
+											/>
+										</div>
+
+										{/* Show textarea for code preview */}
+										<textarea
+											placeholder="Code will appear here after selecting a file from the repository..."
+											rows="12"
+											value={input}
+											onChange={(e) =>
+												setInput(e.target.value)
+											}
+											className="code-input"
+											readOnly={false}
+										/>
+									</div>
+								)}
 
 								<div className="code-samples">
 									<span>Try examples:</span>
@@ -3450,6 +3544,49 @@ contract NFTMarketplace {
 					</div>
 				)}
 			</div>
+
+			{showFileSelector && (
+				<FileSelector
+					files={repoFiles}
+					onSelectFile={async (file) => {
+						try {
+							const token = localStorage.getItem(
+								"github_access_token"
+							);
+							const octokit = new Octokit({ auth: token });
+
+							const contentResponse = await octokit.request(
+								"GET /repos/{owner}/{repo}/contents/{path}",
+								{
+									owner: repoOwner,
+									repo: repoName,
+									path: file.path,
+									headers: {
+										"X-GitHub-Api-Version": "2022-11-28",
+									},
+								}
+							);
+
+							const fileContent = atob(
+								contentResponse.data.content
+							);
+							setInput(fileContent);
+							setShowFileSelector(false);
+						} catch (error) {
+							console.error(
+								"Error fetching file content:",
+								error
+							);
+							alert(`Failed to load file: ${error.message}`);
+						}
+					}}
+					onCancel={() => {
+						setShowFileSelector(false);
+						setRepoFiles([]);
+					}}
+					singleFileMode={true}
+				/>
+			)}
 		</div>
 	);
 }

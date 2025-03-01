@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export function FileSelector({
+export default function FileSelector({
 	files,
 	onSelectFile,
 	onCancel,

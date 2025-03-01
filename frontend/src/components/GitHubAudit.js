@@ -2,8 +2,10 @@ import { useState, useEffect, useCallback } from "react";
 import { GitHubAuth } from "./GitHubAuth";
 import { RepoList } from "./RepoList";
 import { Icons } from "../App";
-import { FileSelector } from "./FileSelector";
+import FileSelector from "./FileSelector";
 import { Octokit } from "@octokit/core";
+import { getAllFiles } from "../utils/getAllFiles";
+import GitHubUrlInput from "./GitHubUrlInput";
 
 export function GitHubAudit({ setCurrentPage, setContractInput }) {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,6 +16,7 @@ export function GitHubAudit({ setCurrentPage, setContractInput }) {
 	const [repoFiles, setRepoFiles] = useState([]);
 	const [showFileSelector, setShowFileSelector] = useState(false);
 	const [loadingFiles, setLoadingFiles] = useState(false);
+	const [repoFetched, setRepoFetched] = useState(false);
 
 	// Wrap fetchRepositories with useCallback to prevent infinite loops
 	const fetchRepositories = useCallback(async (token) => {
@@ -60,39 +63,6 @@ export function GitHubAudit({ setCurrentPage, setContractInput }) {
 			setLoading(false);
 		}
 	}, []);
-
-	// Recursive function to get all files in a repository
-	const getAllFiles = async (octokit, owner, repo, contents, path = "") => {
-		let allFiles = [];
-
-		for (const item of contents) {
-			if (item.type === "file") {
-				allFiles.push(item);
-			} else if (item.type === "dir") {
-				const dirContents = await octokit.request(
-					"GET /repos/{owner}/{repo}/contents/{path}",
-					{
-						owner,
-						repo,
-						path: item.path,
-						headers: {
-							"X-GitHub-Api-Version": "2022-11-28",
-						},
-					}
-				);
-				const filesInDir = await getAllFiles(
-					octokit,
-					owner,
-					repo,
-					dirContents.data,
-					item.path
-				);
-				allFiles = [...allFiles, ...filesInDir];
-			}
-		}
-
-		return allFiles;
-	};
 
 	// Check for token on component mount
 	useEffect(() => {
@@ -149,6 +119,7 @@ export function GitHubAudit({ setCurrentPage, setContractInput }) {
 				solFiles.length
 			);
 			setRepoFiles(solFiles.length > 0 ? solFiles : allFiles);
+			setRepoFetched(true);
 			setShowFileSelector(true);
 		} catch (error) {
 			console.error("Error fetching repository files:", error);
@@ -280,6 +251,11 @@ export function GitHubAudit({ setCurrentPage, setContractInput }) {
 							singleFileMode={true}
 						/>
 					)}
+
+					<GitHubUrlInput
+						onFetchRepository={handleSelectRepo}
+						repoFetched={repoFetched}
+					/>
 				</>
 			)}
 		</div>
