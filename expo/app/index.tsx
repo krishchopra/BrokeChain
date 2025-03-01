@@ -36,9 +36,6 @@ export default function Index() {
 		scopes: ["openid", "profile", "email"],
 		responseType: "id_token",
 		iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
-		redirectUri: makeRedirectUri({
-			scheme: "brokechain",
-		}),
 	});
 
 	// Color animation for neon effect
@@ -69,9 +66,11 @@ export default function Index() {
 	}, [response]);
 
 	const handleSignInResponse = async () => {
+		console.log("Response received:", response);
 		if (response?.type === "success") {
 			try {
-				const { id_token } = response.params; // Google returns id_token directly
+				const { id_token } = response.params;
+				console.log("ID Token received:", id_token);
 				const user = await authenticate(id_token, oktoClient);
 				console.log("Login successful:", user);
 				setUserInfo(user);
