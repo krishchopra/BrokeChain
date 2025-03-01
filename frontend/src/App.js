@@ -2299,8 +2299,26 @@ ${vuln.lineReferences || ""}`;
 	const exportPDF = () => {
 		const doc = new jsPDF();
 		const reportText = formatReport({ vulnerabilities });
-		// Add text with basic margin; adjust as needed for layout
-		doc.text(reportText, 10, 10);
+		const pageWidth = doc.internal.pageSize.getWidth();
+		const pageHeight = doc.internal.pageSize.getHeight();
+		const margin = 10;
+		const maxLineWidth = pageWidth - margin * 2;
+		const lineHeight = 10;
+		
+		// Split text into lines that fit within the max width.
+		const lines = doc.splitTextToSize(reportText, maxLineWidth);
+		
+		let cursorY = margin;
+		lines.forEach((line) => {
+			// If adding the next line exceeds page height, add a new page.
+			if (cursorY + lineHeight > pageHeight - margin) {
+			doc.addPage();
+			cursorY = margin;
+			}
+			doc.text(line, margin, cursorY);
+			cursorY += lineHeight;
+		});
+		
 		doc.save("audit_report.pdf");
 		setShowSuccessMessage(true);
 		setTimeout(() => setShowSuccessMessage(false), 2000);
