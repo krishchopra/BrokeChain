@@ -1,4 +1,5 @@
 {
+  "originHash" : "d262af755fbb6472f1550f7b79c3a42e4a8b25388c5e6de65f1be32ad1ac4716",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -131,10 +132,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/WalletConnect/Web3.swift",
       "state" : {
-        "revision" : "bdaaed96eee3a9bf7f341165f89a94288961d14c",
+        "revision" : "a628f094f8088ec72a95792de18eeea24b997462",
         "version" : "1.0.0"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
