@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from pydantic import BaseModel
 import requests
 import json
+import asyncio
+from flare_integration import get_flare_contract_address
 
 app = FastAPI()
 
@@ -137,6 +139,11 @@ def analyze_smart_contract(req: SmartContractAnalysisRequest):
 
     # Return that JSON structure back to the client
     return result_dict
+
+@app.get("/flare_contract")
+def get_flare_contract(contract_name: str = Query(..., description="Contract name, e.g., 'WNat'")):
+    address = get_flare_contract_address(contract_name)
+    return {"contract_name": contract_name, "address": address}
 
 @app.get("/")
 def greet_json():
