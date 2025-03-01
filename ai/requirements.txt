@@ -3,3 +3,6 @@ uvicorn
 pydantic
 openai
 requests
+web3
+aiohttp
+py-solc-x
